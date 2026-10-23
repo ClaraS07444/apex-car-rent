@@ -57,5 +57,33 @@
     "de": "Konzeptprojekt: Apex Rent ist ein fiktives Unternehmen.",
     "en": "Concept project: Apex Rent is a fictional company.",
     "nl": "Conceptproject: Apex Rent is een fictief bedrijf."
+  },
+  "cta": {
+    "rent": { "de": "Jetzt mieten", "en": "Rent now", "nl": "Nu huren" },
+    "viewCars": {
+      "de": "Fahrzeuge ansehen",
+      "en": "View the cars",
+      "nl": "Bekijk de auto's"
+    },
+    "details": { "de": "Details", "en": "Details", "nl": "Details" },
+    "request": { "de": "Anfragen", "en": "Request", "nl": "Aanvragen" },
+    "contact": {
+      "de": "Kontakt aufnehmen",
+      "en": "Get in touch",
+      "nl": "Neem contact op"
+    }
+  },
+  "vehicle": {
+    "powerUnit": { "de": "PS", "en": "hp", "nl": "pk" },
+    "priceFromPerDay": {
+      "de": "ab {price} / Tag",
+      "en": "from {price} / day",
+      "nl": "vanaf {price} / dag"
+    },
+    "allBooked": {
+      "de": "Derzeit sind alle Fahrzeuge vergeben.",
+      "en": "All cars are currently booked.",
+      "nl": "Momenteel zijn alle auto's verhuurd."
+    }
   }
 }

@@ -1,4 +1,10 @@
 @layer layout {
+  /* Einfliegende Elemente und das randlose Hero-Fahrzeug erzeugen keinen
+     horizontalen Scroll; clip legt im Gegensatz zu hidden keinen Scrollbereich an. */
+  main {
+    overflow-x: clip;
+  }
+
   /* Inhaltsbreite max. 1280px mit Seitenrändern je Breakpoint (PRD 9.3) */
   .container {
     width: min(100% - 2 * var(--page-margin), var(--content-max));

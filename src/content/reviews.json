@@ -1,0 +1,41 @@
+[
+  {
+    "id": "lukas",
+    "active": true,
+    "order": 1,
+    "name": "Lukas M.",
+    "stars": 5,
+    "date": "2026-06",
+    "text": {
+      "de": "Einen Tag mit dem roten GT3 RS durch die Eifel. Die Übergabe in Aachen war entspannt und gründlich, und die Preise standen vorher genau so auf der Seite. Genau so muss das laufen.",
+      "en": "A day in the red GT3 RS through the Eifel. The handover in Aachen was relaxed and thorough, and the prices were exactly as listed on the site beforehand. That is how it should be.",
+      "nl": "Een dag met de rode GT3 RS door de Eifel. De overdracht in Aken was ontspannen en grondig, en de prijzen stonden vooraf precies zo op de site. Zo hoort het."
+    }
+  },
+  {
+    "id": "sophie",
+    "active": true,
+    "order": 2,
+    "name": "Sophie V.",
+    "stars": 5,
+    "date": "2026-05",
+    "text": {
+      "de": "Der silberne GT3 RS stand pünktlich vor der Kirche, geliefert bis vor die Tür. Unsere Hochzeitsfotos sind dadurch etwas ganz Besonderes geworden.",
+      "en": "The silver GT3 RS was waiting outside the church right on time, delivered to the door. It made our wedding photos something truly special.",
+      "nl": "De zilveren GT3 RS stond precies op tijd voor de kerk, tot aan de deur bezorgd. Daardoor zijn onze trouwfoto's echt bijzonder geworden."
+    }
+  },
+  {
+    "id": "jan",
+    "active": true,
+    "order": 3,
+    "name": "Jan K.",
+    "stars": 4,
+    "date": "2026-08",
+    "text": {
+      "de": "Als Geburtstagsgeschenk einen Gutschein bestellt. Die Anfrage wurde am selben Tag beantwortet, das Wochenende mit dem schwarzen Wagen war unvergesslich. Ein Stern Abzug nur, weil es so schnell vorbei war.",
+      "en": "Ordered a voucher as a birthday present. The request was answered the same day, and the weekend with the black car was unforgettable. One star off only because it was over so quickly.",
+      "nl": "Een cadeaubon besteld als verjaardagscadeau. De aanvraag werd dezelfde dag beantwoord en het weekend met de zwarte auto was onvergetelijk. Eén ster minder, alleen omdat het zo snel voorbij was."
+    }
+  }
+]

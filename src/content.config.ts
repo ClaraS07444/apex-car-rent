@@ -137,7 +137,94 @@ const ui = defineCollection({
       instagram: localized,
     }),
     conceptNote: localized,
+    cta: z.strictObject({
+      rent: localized,
+      viewCars: localized,
+      details: localized,
+      request: localized,
+      contact: localized,
+    }),
+    vehicle: z.strictObject({
+      powerUnit: localized,
+      priceFromPerDay: localized,
+      allBooked: localized,
+    }),
   }),
 });
 
-export const collections = { business, pricing, vehicles, ui };
+// E-04: fiktive Beispielbewertungen, max. 280 Zeichen (PRD 8.1 S7)
+const reviewText = z.strictObject({
+  de: text.max(280),
+  en: text.max(280),
+  nl: text.max(280),
+});
+
+const reviews = defineCollection({
+  loader: file("src/content/reviews.json"),
+  schema: z.strictObject({
+    id: z.string(),
+    active: z.boolean(),
+    order: z.number().int().nonnegative(),
+    name: z.string().regex(/^\p{Lu}\p{Ll}+ \p{Lu}\.$/u, "Vorname und Initial"),
+    stars: z.number().int().min(1).max(5),
+    date: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, "Format JJJJ-MM"),
+    text: reviewText,
+  }),
+});
+
+const titled = z.strictObject({ title: localized, text: localized });
+
+// Texte der Startseite (PRD 8.1); Zahlen und Preise kommen aus den Daten.
+const home = defineCollection({
+  loader: singleton("src/content/home.json", "home"),
+  schema: z.strictObject({
+    id: z.literal("home"),
+    hero: z.strictObject({
+      title: localized,
+      claimLine1: localized,
+      claimLine2: localized,
+    }),
+    steps: z.strictObject({
+      heading: localized,
+      items: z.array(titled).length(3),
+    }),
+    benefits: z.strictObject({
+      heading: localized,
+      // Titel "510 PS" entsteht aus den Fahrzeugdaten (T-02)
+      power: z.strictObject({ text: localized }),
+      items: z.array(titled).length(3),
+    }),
+    fleet: z.strictObject({ heading: localized, subline: localized }),
+    services: z.strictObject({
+      heading: localized,
+      event: z.strictObject({
+        title: localized,
+        price: localized,
+        cta: localized,
+      }),
+      delivery: z.strictObject({ title: localized, price: localized }),
+      voucher: z.strictObject({
+        title: localized,
+        price: localized,
+        cta: localized,
+      }),
+      longTerm: z.strictObject({
+        title: localized,
+        price: localized,
+        cta: localized,
+      }),
+    }),
+    about: z.strictObject({
+      heading: localized,
+      text: localized,
+      facts: z.strictObject({
+        vehicles: localized,
+        location: localized,
+      }),
+    }),
+    reviews: z.strictObject({ heading: localized, rating: localized }),
+    closing: z.strictObject({ heading: localized, text: localized }),
+  }),
+});
+
+export const collections = { business, pricing, vehicles, ui, reviews, home };

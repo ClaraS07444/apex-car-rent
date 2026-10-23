@@ -1,0 +1,376 @@
+---
+import CtaBand from "../components/CtaBand.astro";
+import Hero from "../components/Hero.astro";
+import Icon from "../components/Icon.astro";
+import InfoCard from "../components/InfoCard.astro";
+import Section from "../components/Section.astro";
+import Button from "../components/Button.astro";
+import VehicleCard from "../components/VehicleCard.astro";
+import { locales, type Locale } from "../i18n/locales";
+import { pagePath } from "../i18n/routes";
+import {
+  fill,
+  getActiveReviews,
+  getActiveVehicles,
+  getHome,
+  getPricing,
+  getUi,
+  t,
+} from "../lib/content";
+import { formatMonth, formatPower, formatPrice } from "../lib/format";
+
+/** Startseite (PRD 8.1): Hero weiß, danach Schwarz und Weiß im Wechsel. */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const [home, ui, pricing, vehicles, reviews] = await Promise.all([
+  getHome(),
+  getUi(),
+  getPricing(),
+  getActiveVehicles(),
+  getActiveReviews(),
+]);
+
+const price = (amount: number) => formatPrice(amount, locale);
+// Leistung aus den Fahrzeugdaten, damit "510 PS" nur an einer Stelle gepflegt wird
+const power = vehicles[0]
+  ? formatPower(
+      vehicles[0].data.powerPs,
+      t(ui.vehicle.powerUnit, locale),
+      locale,
+    )
+  : "";
+
+// Farbwechsel fortlaufend über die sichtbaren Sections (Hero = Index 0, weiß)
+type SectionKey =
+  "steps" | "benefits" | "fleet" | "services" | "about" | "reviews" | "closing";
+const visible: SectionKey[] = [
+  "steps",
+  "benefits",
+  "fleet",
+  "services",
+  "about",
+  ...(reviews.length > 0 ? (["reviews"] as const) : []),
+  "closing",
+];
+const tone = (section: SectionKey) =>
+  visible.indexOf(section) % 2 === 0 ? "dark" : "light";
+const boxTone = (section: SectionKey) =>
+  tone(section) === "dark" ? "light" : "dark";
+
+const services = home.services;
+---
+
+<Hero locale={locale} />
+
+<Section tone={tone("steps")} aria-labelledby="steps-title">
+  <h2 id="steps-title" data-reveal="left">
+    {t(home.steps.heading, locale)}
+  </h2>
+  <div class="home-grid home-grid--steps" data-reveal="stagger">
+    {home.steps.items.map((item, index) => (
+      <InfoCard
+        tone={boxTone("steps")}
+        number={index + 1}
+        icon={(["steering-wheel", "calendar-blank", "key"] as const)[index]}
+        title={t(item.title, locale)}
+      >
+        <p>{t(item.text, locale)}</p>
+      </InfoCard>
+    ))}
+  </div>
+  <div class="home-actions" data-reveal="left">
+    <Button href={pagePath("vehicles", locale)}>
+      {t(ui.cta.viewCars, locale)}
+    </Button>
+  </div>
+</Section>
+
+<Section tone={tone("benefits")} aria-labelledby="benefits-title">
+  <h2 id="benefits-title" data-reveal="left">
+    {t(home.benefits.heading, locale)}
+  </h2>
+  <div class="home-grid home-grid--four" data-reveal="stagger">
+    <InfoCard
+      tone={boxTone("benefits")}
+      icon="speedometer"
+      title={power}
+      accent
+    >
+      <p>{t(home.benefits.power.text, locale)}</p>
+    </InfoCard>
+    {home.benefits.items.map((item, index) => (
+      <InfoCard
+        tone={boxTone("benefits")}
+        icon={(["currency-eur", "shield-check", "key"] as const)[index]}
+        title={t(item.title, locale)}
+        accent
+      >
+        <p>{t(item.text, locale)}</p>
+      </InfoCard>
+    ))}
+  </div>
+</Section>
+
+<Section tone={tone("fleet")} aria-labelledby="fleet-title">
+  <div data-reveal="left">
+    <h2 id="fleet-title">{t(home.fleet.heading, locale)}</h2>
+    <p class="home-subline">{t(home.fleet.subline, locale)}</p>
+  </div>
+  {vehicles.length > 0 ? (
+    <div class="home-grid home-grid--three" data-reveal="stagger">
+      {vehicles.map((vehicle) => (
+        <VehicleCard vehicle={vehicle} locale={locale} />
+      ))}
+    </div>
+  ) : (
+    <div class="home-empty" data-reveal="left">
+      <p>{t(ui.vehicle.allBooked, locale)}</p>
+      <Button href={pagePath("contact", locale)}>
+        {t(ui.cta.contact, locale)}
+      </Button>
+    </div>
+  )}
+</Section>
+
+<Section tone={tone("services")} aria-labelledby="services-title">
+  <h2 id="services-title" data-reveal="left">
+    {t(services.heading, locale)}
+  </h2>
+  <div class="home-grid home-grid--four" data-reveal="stagger">
+    <InfoCard
+      tone={boxTone("services")}
+      icon="heart"
+      title={t(services.event.title, locale)}
+    >
+      <p>{t(services.event.price, locale)}</p>
+      <Button href={pagePath("contact", locale, { anlass: "event" })}>
+        {t(services.event.cta, locale)}
+      </Button>
+    </InfoCard>
+    <InfoCard
+      tone={boxTone("services")}
+      icon="truck"
+      title={t(services.delivery.title, locale)}
+    >
+      <p>
+        {fill(t(services.delivery.price, locale), {
+          price: price(pricing.delivery),
+        })}
+      </p>
+    </InfoCard>
+    <InfoCard
+      tone={boxTone("services")}
+      icon="gift"
+      title={t(services.voucher.title, locale)}
+    >
+      <p>
+        {fill(t(services.voucher.price, locale), {
+          price: price(pricing.voucherMinimum),
+        })}
+      </p>
+      <Button href={pagePath("contact", locale, { anlass: "gutschein" })}>
+        {t(services.voucher.cta, locale)}
+      </Button>
+    </InfoCard>
+    <InfoCard
+      tone={boxTone("services")}
+      icon="calendar-blank"
+      title={t(services.longTerm.title, locale)}
+    >
+      <p>
+        {fill(t(services.longTerm.price, locale), {
+          price: price(pricing.packages.langzeit.pricePerMonth),
+        })}
+      </p>
+      <Button href={pagePath("contact", locale, { paket: "langzeit" })}>
+        {t(services.longTerm.cta, locale)}
+      </Button>
+    </InfoCard>
+  </div>
+</Section>
+
+<Section tone={tone("about")} aria-labelledby="about-title">
+  <div class="home-about">
+    <div data-reveal="left">
+      <h2 id="about-title">{t(home.about.heading, locale)}</h2>
+      <p class="home-about__text">{t(home.about.text, locale)}</p>
+    </div>
+    <ul class="home-facts" data-reveal="stagger">
+      {[
+        fill(t(home.about.facts.vehicles, locale), { count: vehicles.length }),
+        power,
+        t(home.about.facts.location, locale),
+        locales.map((code) => code.toUpperCase()).join(" · "),
+      ].map((fact) => (
+        <li class="home-facts__item" data-tone={boxTone("about")}>
+          {fact}
+        </li>
+      ))}
+    </ul>
+  </div>
+</Section>
+
+{reviews.length > 0 && (
+  <Section tone={tone("reviews")} aria-labelledby="reviews-title">
+    <h2 id="reviews-title" data-reveal="left">
+      {t(home.reviews.heading, locale)}
+    </h2>
+    <ul class="home-grid home-grid--three home-reviews" data-reveal="stagger">
+      {reviews.map(({ data }) => (
+        <li class="home-review" data-tone={boxTone("reviews")}>
+          <p
+            class="home-review__stars"
+            role="img"
+            aria-label={fill(t(home.reviews.rating, locale), {
+              stars: data.stars,
+            })}
+          >
+            {Array.from({ length: 5 }, (_, i) => (
+              <Icon name="star" class={i < data.stars ? "is-on" : "is-off"} />
+            ))}
+          </p>
+          <blockquote>
+            <p>{t(data.text, locale)}</p>
+          </blockquote>
+          <p class="home-review__meta">
+            {data.name}, {formatMonth(data.date, locale)}
+          </p>
+        </li>
+      ))}
+    </ul>
+  </Section>
+)}
+
+<CtaBand
+  locale={locale}
+  tone={tone("closing")}
+  heading={fill(t(home.closing.heading, locale), { power })}
+  text={t(home.closing.text, locale)}
+/>
+
+<style>
+  @layer pages {
+    h2 {
+      margin-block-end: var(--space-48);
+    }
+
+    .home-subline {
+      margin-block: calc(-1 * var(--space-32)) var(--space-48);
+      color: var(--tone-muted);
+    }
+
+    .home-grid {
+      display: grid;
+      gap: var(--space-32);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    /* S2: ab 768px drei Spalten (PRD 8.1) */
+    @media (min-width: 768px) {
+      .home-grid--steps {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    /* S3, S5: 2 x 2 ab 600px, 4 Spalten ab 1024px */
+    @media (min-width: 600px) {
+      .home-grid--four {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .home-grid--four {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .home-grid--three {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .home-actions {
+      margin-block-start: var(--space-48);
+    }
+
+    .home-empty {
+      display: grid;
+      justify-items: start;
+      gap: var(--space-24);
+    }
+
+    /* S6: Text 7/12, Fakten 5/12 als 2 x 2-Raster */
+    .home-about {
+      display: grid;
+      gap: var(--space-48);
+    }
+
+    .home-about h2 {
+      margin-block-end: var(--space-24);
+    }
+
+    .home-facts {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--grid-gap);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .home-facts__item {
+      display: flex;
+      align-items: center;
+      min-height: 7rem;
+      padding: var(--space-24);
+      background: var(--tone-bg);
+      color: var(--tone-fg);
+      font-size: var(--font-size-h3);
+      line-height: var(--line-height-h3);
+    }
+
+    @media (min-width: 1024px) {
+      .home-about {
+        grid-template-columns: 7fr 5fr;
+        gap: var(--grid-gap);
+        align-items: start;
+      }
+    }
+
+    /* S7: Kästen in Gegenfarbe, rote Sterne */
+    .home-review {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-16);
+      padding: var(--space-32);
+      background: var(--tone-bg);
+      color: var(--tone-fg);
+    }
+
+    .home-review__stars {
+      display: flex;
+      gap: var(--space-4);
+      color: var(--color-red);
+    }
+
+    .home-review__stars :global(.is-off) {
+      opacity: 0.35;
+    }
+
+    .home-review blockquote {
+      margin: 0;
+    }
+
+    .home-review__meta {
+      margin-block-start: auto;
+      color: var(--tone-muted);
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+    }
+  }
+</style>

@@ -1,0 +1,62 @@
+---
+import type { Locale } from "../i18n/locales";
+import { pagePath } from "../i18n/routes";
+import { getUi, t } from "../lib/content";
+import Button from "./Button.astro";
+import Section from "./Section.astro";
+
+/**
+ * Abschluss-CTA (PRD 8.1 S8, 8.2 F6): zentriert, zwei Buttons nebeneinander
+ * ab 600px, darunter untereinander in voller Breite.
+ */
+interface Props {
+  locale: Locale;
+  tone: "light" | "dark";
+  heading: string;
+  text: string;
+}
+
+const { locale, tone, heading, text } = Astro.props;
+const ui = await getUi();
+---
+
+<Section tone={tone} class="cta-band" aria-labelledby="cta-band-title">
+  <div class="cta-band__inner" data-reveal="left">
+    <h2 id="cta-band-title">{heading}</h2>
+    <p>{text}</p>
+    <div class="cta-band__actions">
+      <Button href={pagePath("contact", locale)}>
+        {t(ui.cta.rent, locale)}
+      </Button>
+      <Button variant="secondary" href={pagePath("vehicles", locale)}>
+        {t(ui.cta.viewCars, locale)}
+      </Button>
+    </div>
+  </div>
+</Section>
+
+<style>
+  @layer components {
+    .cta-band__inner {
+      display: grid;
+      justify-items: center;
+      gap: var(--space-24);
+      text-align: center;
+    }
+
+    .cta-band__actions {
+      display: grid;
+      gap: var(--space-16);
+      width: 100%;
+      margin-block-start: var(--space-16);
+    }
+
+    @media (min-width: 600px) {
+      .cta-band__actions {
+        display: flex;
+        justify-content: center;
+        width: auto;
+      }
+    }
+  }
+</style>

@@ -63,7 +63,16 @@ test.describe("Barrierefreiheit (axe, WCAG 2.2 AA)", () => {
 
   for (const path of allPaths) {
     test(`${path}: keine kritischen oder schweren Fehler`, async ({ page }) => {
+      // Geprüft wird der Endzustand: alle Inhalte freigegeben, keine laufende
+      // Einblendung, die den Kontrast vorübergehend verringert.
+      await page.emulateMedia({ reducedMotion: "reduce" });
       await page.goto(path);
+      await page.evaluate(() => {
+        for (const el of document.querySelectorAll("[data-reveal]")) {
+          el.setAttribute("data-revealed", "");
+        }
+        for (const animation of document.getAnimations()) animation.finish();
+      });
       const results = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
         .analyze();

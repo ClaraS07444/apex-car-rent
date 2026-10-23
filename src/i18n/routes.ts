@@ -19,6 +19,16 @@ export const routes = {
 
 export type PageKey = keyof typeof routes;
 
+/** Pfad einer Seite, optional mit Vorbelegung, z. B. /kontakt?auto=rot (PRD 7). */
+export function pagePath(
+  page: PageKey,
+  locale: Locale,
+  query: Record<string, string> = {},
+): string {
+  const search = new URLSearchParams(query).toString();
+  return search ? `${routes[page][locale]}?${search}` : routes[page][locale];
+}
+
 /** Wandelt einen Pfad in den Parameter der Route [...path] um ("/" wird undefined). */
 export function toRouteParam(path: string): string | undefined {
   const trimmed = path.replace(/^\/+|\/+$/g, "");

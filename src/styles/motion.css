@@ -1,16 +1,78 @@
 @layer motion {
   /*
+   * Scroll-Animationen (PRD 9.7, T-06), gesteuert über data-reveal:
+   *   left     Überschriften und Text: -48px, 600ms
+   *   right    Fahrzeugbilder: +80px, 900ms, ease-drive
+   *   stagger  Kartengruppen: Kinder von links, je 80ms versetzt (max. 6)
+   * Der versteckte Ausgangszustand gilt nur mit JavaScript (html.js) und nur,
+   * bis motion.ts das Element freigibt (data-revealed). Startet motion.ts
+   * nicht, gibt html.motion-fallback nach 2,5s alles frei.
+   */
+  [data-reveal="left"],
+  [data-reveal="stagger"] > * {
+    transition:
+      opacity var(--dur-reveal) var(--ease-out),
+      transform var(--dur-reveal) var(--ease-out);
+  }
+
+  [data-reveal="right"] {
+    transition:
+      opacity 900ms var(--ease-drive),
+      transform 900ms var(--ease-drive);
+  }
+
+  .js [data-reveal="left"]:not([data-revealed]),
+  .js [data-reveal="stagger"]:not([data-revealed]) > * {
+    opacity: 0;
+    transform: translateX(-3rem);
+  }
+
+  .js [data-reveal="right"]:not([data-revealed]) {
+    opacity: 0;
+    transform: translateX(5rem);
+  }
+
+  [data-reveal="stagger"] > :nth-child(2) {
+    transition-delay: 80ms;
+  }
+  [data-reveal="stagger"] > :nth-child(3) {
+    transition-delay: 160ms;
+  }
+  [data-reveal="stagger"] > :nth-child(4) {
+    transition-delay: 240ms;
+  }
+  [data-reveal="stagger"] > :nth-child(5) {
+    transition-delay: 320ms;
+  }
+  [data-reveal="stagger"] > :nth-child(n + 6) {
+    transition-delay: 400ms;
+  }
+
+  .js.motion-fallback:not(.motion-ready) [data-reveal],
+  .js.motion-fallback:not(.motion-ready) [data-reveal="stagger"] > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  /*
    * Reduzierte Bewegung (PRD 9.7, A-09): keine Verschiebungen,
-   * Übergänge höchstens als kurze Einblendung.
+   * Inhalte erscheinen sofort.
    */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
     *::after {
       animation-duration: 1ms;
+      animation-delay: 0ms;
       animation-iteration-count: 1;
       transition-duration: 1ms;
+      transition-delay: 0ms;
       scroll-behavior: auto;
+    }
+
+    .js [data-reveal]:not([data-revealed]),
+    .js [data-reveal="stagger"]:not([data-revealed]) > * {
+      transform: none;
     }
   }
 }

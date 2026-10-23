@@ -1,0 +1,238 @@
+{
+  "hero": {
+    "title": {
+      "de": "Porsche GT3 RS mieten in Aachen",
+      "en": "Rent a Porsche GT3 RS in Aachen",
+      "nl": "Porsche GT3 RS huren in Aken"
+    },
+    "claimLine1": {
+      "de": "Dein Herzschlag.",
+      "en": "Your heartbeat.",
+      "nl": "Jouw hartslag."
+    },
+    "claimLine2": {
+      "de": "Unsere PS.",
+      "en": "Our horsepower.",
+      "nl": "Onze pk's."
+    }
+  },
+  "steps": {
+    "heading": {
+      "de": "In drei Schritten auf die Straße",
+      "en": "On the road in three steps",
+      "nl": "In drie stappen de weg op"
+    },
+    "items": [
+      {
+        "title": {
+          "de": "Fahrzeug wählen",
+          "en": "Choose your car",
+          "nl": "Kies je auto"
+        },
+        "text": {
+          "de": "Silber, Rot oder Schwarz, dazu das passende Paket.",
+          "en": "Silver, red or black, plus the package that suits you.",
+          "nl": "Zilver, rood of zwart, met het pakket dat bij je past."
+        }
+      },
+      {
+        "title": {
+          "de": "Anfrage senden",
+          "en": "Send a request",
+          "nl": "Aanvraag versturen"
+        },
+        "text": {
+          "de": "Wunschtermin angeben, wir bestätigen persönlich innerhalb von 24 Stunden.",
+          "en": "Give us your preferred date and we will confirm personally within 24 hours.",
+          "nl": "Geef je gewenste datum door, wij bevestigen persoonlijk binnen 24 uur."
+        }
+      },
+      {
+        "title": {
+          "de": "Schlüssel übernehmen",
+          "en": "Take the keys",
+          "nl": "Sleutels ophalen"
+        },
+        "text": {
+          "de": "Abholung in Aachen oder Lieferung zu dir, kurze Einweisung, los geht's.",
+          "en": "Pick-up in Aachen or delivery to you, a short briefing, and off you go.",
+          "nl": "Ophalen in Aken of levering bij jou, korte uitleg en je kunt gaan."
+        }
+      }
+    ]
+  },
+  "benefits": {
+    "heading": { "de": "Warum Apex", "en": "Why Apex", "nl": "Waarom Apex" },
+    "power": {
+      "text": {
+        "de": "Rennsport-Gene mit Straßenzulassung, in jedem der drei Fahrzeuge.",
+        "en": "Racing DNA with road approval, in each of the three cars.",
+        "nl": "Racegenen met straatgoedkeuring, in elk van de drie auto's."
+      }
+    },
+    "items": [
+      {
+        "title": {
+          "de": "Klare Preise ohne Kleingedrucktes",
+          "en": "Clear prices, no small print",
+          "nl": "Heldere prijzen zonder kleine lettertjes"
+        },
+        "text": {
+          "de": "Alle Preise, die Kaution und die Bedingungen stehen offen auf der Seite.",
+          "en": "All prices, the deposit and the conditions are listed openly on the site.",
+          "nl": "Alle prijzen, de borg en de voorwaarden staan gewoon op de site."
+        }
+      },
+      {
+        "title": {
+          "de": "Vollkasko inklusive",
+          "en": "Fully comprehensive cover included",
+          "nl": "Allriskverzekering inbegrepen"
+        },
+        "text": {
+          "de": "Jede Miete ist vollkaskoversichert, deine Haftung endet bei der Kaution.",
+          "en": "Every rental is fully insured, and your liability ends at the deposit.",
+          "nl": "Elke huur is allrisk verzekerd en je aansprakelijkheid stopt bij de borg."
+        }
+      },
+      {
+        "title": {
+          "de": "Persönliche Übergabe",
+          "en": "Personal handover",
+          "nl": "Persoonlijke overdracht"
+        },
+        "text": {
+          "de": "Wir übergeben jedes Fahrzeug selbst und erklären dir alles Wichtige.",
+          "en": "We hand over every car in person and walk you through everything that matters.",
+          "nl": "We dragen elke auto persoonlijk over en leggen je alles uit wat belangrijk is."
+        }
+      }
+    ]
+  },
+  "fleet": {
+    "heading": { "de": "Die Flotte", "en": "The fleet", "nl": "De vloot" },
+    "subline": {
+      "de": "Ein Modell. Drei Charaktere.",
+      "en": "One model. Three characters.",
+      "nl": "Eén model. Drie karakters."
+    }
+  },
+  "services": {
+    "heading": {
+      "de": "Anlässe und Services",
+      "en": "Occasions and services",
+      "nl": "Gelegenheden en services"
+    },
+    "event": {
+      "title": {
+        "de": "Hochzeit und Events",
+        "en": "Weddings and events",
+        "nl": "Bruiloften en events"
+      },
+      "price": {
+        "de": "Preis individuell",
+        "en": "Price on request",
+        "nl": "Prijs op aanvraag"
+      },
+      "cta": {
+        "de": "Anlass anfragen",
+        "en": "Enquire about an event",
+        "nl": "Gelegenheid aanvragen"
+      }
+    },
+    "delivery": {
+      "title": {
+        "de": "Lieferung und Abholung",
+        "en": "Delivery and collection",
+        "nl": "Levering en ophalen"
+      },
+      "price": {
+        "de": "je {price}",
+        "en": "{price} each",
+        "nl": "elk {price}"
+      }
+    },
+    "voucher": {
+      "title": {
+        "de": "Gutscheine",
+        "en": "Gift vouchers",
+        "nl": "Cadeaubonnen"
+      },
+      "price": {
+        "de": "ab {price}",
+        "en": "from {price}",
+        "nl": "vanaf {price}"
+      },
+      "cta": {
+        "de": "Gutschein anfragen",
+        "en": "Request a voucher",
+        "nl": "Cadeaubon aanvragen"
+      }
+    },
+    "longTerm": {
+      "title": {
+        "de": "Langzeitmiete",
+        "en": "Long-term rental",
+        "nl": "Langdurige huur"
+      },
+      "price": {
+        "de": "ab {price} pro Monat",
+        "en": "from {price} per month",
+        "nl": "vanaf {price} per maand"
+      },
+      "cta": {
+        "de": "Langzeit anfragen",
+        "en": "Request long-term",
+        "nl": "Langdurig aanvragen"
+      }
+    }
+  },
+  "about": {
+    "heading": {
+      "de": "Über Apex Rent",
+      "en": "About Apex Rent",
+      "nl": "Over Apex Rent"
+    },
+    "text": {
+      "de": "Apex Rent ist in Aachen zu Hause und hat sich bewusst auf ein Fahrzeug spezialisiert, den 911 GT3 RS. Jede Übergabe erfolgt persönlich, jede Anfrage wird vom Team selbst beantwortet, ohne versteckte Kosten.",
+      "en": "Apex Rent is at home in Aachen and has deliberately specialised in a single car, the 911 GT3 RS. Every handover is personal, every request is answered by the team itself, with no hidden costs.",
+      "nl": "Apex Rent is thuis in Aken en heeft zich bewust gespecialiseerd in één auto, de 911 GT3 RS. Elke overdracht gebeurt persoonlijk, elke aanvraag wordt door het team zelf beantwoord, zonder verborgen kosten."
+    },
+    "facts": {
+      "vehicles": {
+        "de": "{count} Fahrzeuge",
+        "en": "{count} cars",
+        "nl": "{count} auto's"
+      },
+      "location": {
+        "de": "Standort Aachen",
+        "en": "Based in Aachen",
+        "nl": "Gevestigd in Aken"
+      }
+    }
+  },
+  "reviews": {
+    "heading": {
+      "de": "Beispielbewertungen",
+      "en": "Sample reviews",
+      "nl": "Voorbeeldbeoordelingen"
+    },
+    "rating": {
+      "de": "{stars} von 5 Sternen",
+      "en": "{stars} out of 5 stars",
+      "nl": "{stars} van de 5 sterren"
+    }
+  },
+  "closing": {
+    "heading": {
+      "de": "Bereit für {power}?",
+      "en": "Ready for {power}?",
+      "nl": "Klaar voor {power}?"
+    },
+    "text": {
+      "de": "Wähle Fahrzeug und Wunschtermin, wir melden uns innerhalb von 24 Stunden.",
+      "en": "Choose your car and preferred date, and we will get back to you within 24 hours.",
+      "nl": "Kies je auto en gewenste datum, wij reageren binnen 24 uur."
+    }
+  }
+}

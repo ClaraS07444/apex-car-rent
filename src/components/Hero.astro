@@ -1,0 +1,264 @@
+---
+import wordmarkUrl from "../assets/logo/apex-wordmark-black.svg?url";
+import type { Locale } from "../i18n/locales";
+import { pagePath } from "../i18n/routes";
+import { getActiveVehicles, getHome, getUi, t } from "../lib/content";
+import Button from "./Button.astro";
+import VehicleImage from "./VehicleImage.astro";
+
+/**
+ * Hero der Startseite (PRD 8.1 S1, 9.7). Wortmarke, Claim und Button fliegen
+ * per CSS von links ein; das Fahrzeug fährt per motion.ts von rechts herein.
+ */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const [home, ui, vehicles] = await Promise.all([
+  getHome(),
+  getUi(),
+  getActiveVehicles(),
+]);
+// Im Hero steht immer das silberne Fahrzeug (PRD 8.1), sonst das erste aktive.
+const car = vehicles.find((v) => v.id === "silber") ?? vehicles[0];
+---
+
+<section class="hero" data-tone="light" aria-labelledby="hero-title">
+  <div class="hero__text">
+    <h1 id="hero-title" class="hero__title">
+      <img
+        class="hero__wordmark"
+        src={wordmarkUrl}
+        alt="Apex Rent"
+        width="1482"
+        height="372"
+      />
+      <span class="visually-hidden"> – {t(home.hero.title, locale)}</span>
+    </h1>
+    <p class="hero__claim">
+      {t(home.hero.claimLine1, locale)}
+      <br />
+      {t(home.hero.claimLine2, locale)}
+    </p>
+    <Button class="hero__cta" href={pagePath("contact", locale)}>
+      {t(ui.cta.rent, locale)}
+    </Button>
+  </div>
+
+  {car && (
+    <div class="hero__car" data-hero-car>
+      <div class="hero__car-body">
+        <VehicleImage
+          image={car.data.image}
+          alt={t(car.data.alt, locale)}
+          sizes="(min-width: 1024px) 85vw, (min-width: 600px) 70vw, 75vw"
+          priority
+        />
+      </div>
+    </div>
+  )}
+</section>
+
+<style>
+  @layer components {
+    /* Mobile und Tablet (< 1024px): Wortmarke, Fahrzeug, Claim, Button */
+    .hero {
+      --hero-offset: -3.75rem; /* Einflug von links, Mobile 60px */
+      --drive-from: 87.5vw; /* Fahrzeug startet rechts außerhalb */
+
+      display: flex;
+      flex-direction: column;
+      padding: var(--space-32) var(--page-margin) var(--space-48);
+      background: var(--tone-bg);
+      color: var(--tone-fg);
+      overflow-x: clip;
+    }
+
+    .hero__text {
+      display: contents;
+    }
+
+    .hero__title {
+      order: 1;
+      margin: 0;
+      font-size: inherit;
+    }
+
+    .hero__wordmark {
+      width: 100%;
+      max-width: 40rem; /* Tablet max. 640px */
+      margin-inline: auto;
+    }
+
+    /* PRD: 75 % der Bildschirmbreite, zentriert, komplett sichtbar */
+    .hero__car {
+      order: 2;
+      width: 75vw;
+      margin: var(--space-32) auto 0;
+    }
+
+    .hero__car :global(img) {
+      width: 100%;
+    }
+
+    .hero__claim {
+      order: 3;
+      margin-block-start: var(--space-24);
+      font-size: var(--font-size-hero-claim-mobile);
+      line-height: var(--line-height-hero-claim);
+    }
+
+    .hero .hero__cta {
+      order: 4;
+      align-self: flex-end;
+      width: 50%;
+      margin-block-start: var(--space-24);
+      padding-inline: var(--space-16);
+    }
+
+    @media (min-width: 600px) {
+      .hero__car {
+        width: 70vw;
+      }
+    }
+
+    /* Desktop (ab 1024px, Referenz 1440 x 830) */
+    @media (min-width: 1024px) {
+      .hero {
+        --hero-offset: -7.5rem; /* 120px */
+        --drive-from: 60vw; /* linke Kante 40vw + 60vw = rechter Rand */
+
+        position: relative;
+        display: block;
+        height: clamp(680px, calc(100svh - var(--header-height)), 920px);
+        padding: 0;
+      }
+
+      .hero__text {
+        display: block;
+        position: relative;
+        z-index: 1;
+        padding: 5.875rem 0 0 3rem; /* 94px oben, 48px links */
+      }
+
+      .hero__wordmark {
+        width: 55vw;
+        max-width: none;
+        margin: 0;
+      }
+
+      .hero__claim {
+        margin-block-start: 4.5rem;
+        font-size: var(--font-size-hero-claim);
+      }
+
+      .hero .hero__cta {
+        width: 28vw;
+        min-width: 20rem;
+        margin-block-start: 5rem;
+      }
+
+      /* Linke Kante bei 40vw, Breite 85vw; das Heck ragt über den Rand */
+      .hero__car {
+        position: absolute;
+        left: 40vw;
+        bottom: 4.5rem;
+        width: 85vw;
+        margin: 0;
+      }
+    }
+
+    /* Einflug-Sequenz (PRD 9.7): Wortmarke 150ms, Claim 300ms, Button 450ms */
+    .hero__title,
+    .hero__claim,
+    .hero__cta {
+      animation: hero-text-in var(--dur-hero-text) var(--ease-out) both;
+    }
+
+    .hero__title {
+      animation-delay: 150ms;
+    }
+
+    .hero__claim {
+      animation-delay: 300ms;
+    }
+
+    .hero__cta {
+      animation-delay: 450ms;
+    }
+
+    /*
+     * Fahrzeug: wartet rechts außerhalb, bis motion.ts data-state="drive"
+     * setzt (Bild dekodiert, spätestens 1,5s). Einfedern beginnt 200ms vor
+     * Ankunft, damit die Sequenz bei 1,9s endet.
+     */
+    :global(.js) .hero__car {
+      animation: hero-drive var(--dur-drive) var(--ease-drive) 200ms both;
+      animation-play-state: paused;
+    }
+
+    :global(.js) .hero__car-body {
+      transform-origin: 50% 100%;
+      animation: hero-settle 300ms var(--ease-out) 1600ms both;
+      animation-play-state: paused;
+    }
+
+    .hero__car[data-state="drive"],
+    .hero__car[data-state="drive"] .hero__car-body,
+    :global(.motion-fallback:not(.motion-ready)) .hero__car,
+    :global(.motion-fallback:not(.motion-ready)) .hero__car-body {
+      animation-play-state: running;
+    }
+
+    .hero__car[data-state="wait"] {
+      animation: none;
+      opacity: 0;
+    }
+
+    .hero__car[data-state="fade"] {
+      animation: hero-fade 300ms var(--ease-out) both;
+    }
+
+    .hero__car[data-state="wait"] .hero__car-body,
+    .hero__car[data-state="fade"] .hero__car-body {
+      animation: none;
+    }
+
+    @keyframes hero-text-in {
+      from {
+        opacity: 0;
+        transform: translateX(var(--hero-offset));
+      }
+    }
+
+    @keyframes hero-drive {
+      from {
+        transform: translateX(var(--drive-from));
+      }
+    }
+
+    @keyframes hero-settle {
+      from {
+        transform: rotate(-0.6deg);
+      }
+    }
+
+    @keyframes hero-fade {
+      from {
+        opacity: 0;
+      }
+    }
+
+    /* Reduzierte Bewegung: alles steht sofort an der Endposition */
+    @media (prefers-reduced-motion: reduce) {
+      .hero__title,
+      .hero__claim,
+      .hero__cta,
+      :global(.js) .hero__car,
+      :global(.js) .hero__car-body {
+        animation: none;
+      }
+    }
+  }
+</style>

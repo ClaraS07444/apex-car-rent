@@ -37,9 +37,16 @@ const ui = await getUi();
     <style is:inline>
       @layer tokens, base, layout, components, pages, utilities, motion;
     </style>
-    <!-- Markiert aktives JavaScript vor dem ersten Rendern (progressive Enhancement) -->
+    <!--
+      Markiert aktives JavaScript vor dem ersten Rendern (progressive Enhancement).
+      Startet motion.ts nicht innerhalb von 2,5 s, gibt motion-fallback alle
+      animierten Inhalte frei (siehe styles/motion.css).
+    -->
     <script is:inline>
       document.documentElement.classList.add("js");
+      setTimeout(function () {
+        document.documentElement.classList.add("motion-fallback");
+      }, 2500);
     </script>
   </head>
   <body>
@@ -54,6 +61,10 @@ const ui = await getUi();
     <SiteFooter page={page} locale={locale} />
   </body>
 </html>
+
+<script>
+  import "../scripts/motion";
+</script>
 
 <style>
   @layer components {

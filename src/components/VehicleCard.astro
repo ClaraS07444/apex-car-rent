@@ -1,0 +1,130 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { Locale } from "../i18n/locales";
+import { pagePath } from "../i18n/routes";
+import { fill, getPricing, getUi, t } from "../lib/content";
+import { formatPower, formatPrice } from "../lib/format";
+import Button from "./Button.astro";
+import VehicleImage from "./VehicleImage.astro";
+
+/**
+ * Fahrzeugkarte des Flotten-Teasers (PRD 8.1 S4): weißer Kasten, Bild im
+ * Format 3:1, Name, Leistung, Preis ab Tag, CTAs "Details" und "Anfragen".
+ */
+interface Props {
+  vehicle: CollectionEntry<"vehicles">;
+  locale: Locale;
+}
+
+const { vehicle, locale } = Astro.props;
+const [ui, pricing] = await Promise.all([getUi(), getPricing()]);
+const { data } = vehicle;
+const name = t(data.name, locale);
+const query = { auto: vehicle.id };
+---
+
+<article class="vehicle-card" data-tone="light">
+  <div class="vehicle-card__media">
+    <VehicleImage
+      image={data.image}
+      alt={t(data.alt, locale)}
+      sizes="(min-width: 1024px) 30vw, 90vw"
+    />
+  </div>
+  <div class="vehicle-card__body">
+    <h3>{name}</h3>
+    <p class="vehicle-card__facts">
+      {formatPower(data.powerPs, t(ui.vehicle.powerUnit, locale), locale)}
+    </p>
+    <p class="vehicle-card__price">
+      {fill(t(ui.vehicle.priceFromPerDay, locale), {
+        price: formatPrice(pricing.packages.tag.price, locale),
+      })}
+    </p>
+    <div class="vehicle-card__actions">
+      <Button variant="secondary" href={pagePath("vehicles", locale, query)}>
+        {t(ui.cta.details, locale)}
+        <span class="visually-hidden">{name}</span>
+      </Button>
+      <Button href={pagePath("contact", locale, query)}>
+        {t(ui.cta.request, locale)}
+        <span class="visually-hidden">{name}</span>
+      </Button>
+    </div>
+  </div>
+</article>
+
+<style>
+  @layer components {
+    .vehicle-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: var(--tone-bg);
+      color: var(--tone-fg);
+    }
+
+    /* Bild füllt die Kartenbreite im Format 3:1 */
+    .vehicle-card__media {
+      display: grid;
+      place-items: center;
+      aspect-ratio: 3 / 1;
+      padding: var(--space-16) var(--space-24) 0;
+      overflow: hidden;
+    }
+
+    .vehicle-card__media :global(img) {
+      width: 100%;
+      transition: transform var(--dur-hover) var(--ease-out);
+    }
+
+    .vehicle-card__body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      gap: var(--space-8);
+      padding: var(--space-24) var(--space-32) var(--space-32);
+    }
+
+    .vehicle-card__facts {
+      color: var(--tone-muted);
+    }
+
+    .vehicle-card__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-12);
+      margin-block-start: auto;
+      padding-block-start: var(--space-16);
+    }
+
+    .vehicle-card__actions > :global(.button) {
+      flex: 1 1 8rem;
+      padding-inline: var(--space-16);
+    }
+
+    /* Hover nur auf Zeigegeräten: Fahrzeug 12px nach links, rote Linie unten */
+    .vehicle-card::after {
+      content: "";
+      position: absolute;
+      inset-inline: 0;
+      bottom: 0;
+      height: 2px;
+      background: var(--color-red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--dur-hover) var(--ease-out);
+    }
+
+    @media (hover: hover) {
+      .vehicle-card:hover .vehicle-card__media :global(img) {
+        transform: translateX(-0.75rem);
+      }
+
+      .vehicle-card:hover::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+</style>
