@@ -3,7 +3,7 @@
   "order": 2,
   "name": { "de": "GT3 RS Rot", "en": "GT3 RS Red", "nl": "GT3 RS Rood" },
   "colorName": { "de": "Rot", "en": "Red", "nl": "Rood" },
-  "image": "../../../assets/images/porsche-red.png",
+  "image": "../../assets/vehicles/gt3rs-red.png",
   "alt": {
     "de": "Porsche 911 GT3 RS in Rot, Seitenansicht",
     "en": "Porsche 911 GT3 RS in red, side view",

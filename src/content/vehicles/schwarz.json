@@ -7,7 +7,7 @@
     "nl": "GT3 RS Zwart"
   },
   "colorName": { "de": "Schwarz", "en": "Black", "nl": "Zwart" },
-  "image": "../../../assets/images/porsche-black.png",
+  "image": "../../assets/vehicles/gt3rs-black.png",
   "alt": {
     "de": "Porsche 911 GT3 RS in Schwarz, Seitenansicht",
     "en": "Porsche 911 GT3 RS in black, side view",

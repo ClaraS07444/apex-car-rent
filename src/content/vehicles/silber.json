@@ -7,7 +7,7 @@
     "nl": "GT3 RS Zilver"
   },
   "colorName": { "de": "Silber", "en": "Silver", "nl": "Zilver" },
-  "image": "../../../assets/images/porsche-silver.png",
+  "image": "../../assets/vehicles/gt3rs-silver.png",
   "alt": {
     "de": "Porsche 911 GT3 RS in Silber, Seitenansicht",
     "en": "Porsche 911 GT3 RS in silver, side view",
