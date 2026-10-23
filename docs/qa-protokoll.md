@@ -168,4 +168,4 @@ Lokale Messung ohne CDN; auf Cloudflare sind die Werte nicht schlechter zu erwar
 | Google Rich-Results-Test | BLOCKED | Externer Dienst, Anleitung oben |
 | Apple-Touch-Icon (PNG) | Offen | Es gibt nur die SVG-Bildmarke; Safari und Startbildschirm-Symbole nutzen kein SVG. Braucht eine PNG-Fassung der Bildmarke. |
 
-Nicht Teil von PRD 17, aber vor einem echten Start nötig (PRD 20): Freigabe der EN/NL-Texte, zwei Cloudflare-Platzhalter je Sprache in der Datenschutzerklärung (`npm run check:launch` schlägt deshalb absichtlich fehl), Umgebungswert für den Formularmodus.
+Nicht Teil von PRD 17, aber vor einem echten Start nötig (PRD 20): Freigabe der EN/NL-Texte, Umgebungswert für den Formularmodus. Die Cloudflare-Angaben in der Datenschutzerklärung sind seit 23.10.2026 mit Mustertext gefüllt; `npm run check:launch` meldet keine offenen Platzhalter mehr.

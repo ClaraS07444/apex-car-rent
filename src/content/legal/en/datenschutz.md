@@ -18,7 +18,7 @@ Apex Rent is a fictional company. This website is a portfolio piece. No cars are
 
 This website is delivered via Cloudflare Pages, a service of Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA. When you visit the site, Cloudflare processes technically necessary data, in particular your IP address, the date and time, the requested address and information about your browser. The legal basis is Art. 6(1)(f) GDPR; the legitimate interest lies in delivering the website securely and reliably.
 
-Retention period of server logs: <mark class="placeholder">[add according to the contract with Cloudflare]</mark>. Basis for the transfer to the USA: <mark class="placeholder">[add adequacy decision or standard contractual clauses according to the contract with Cloudflare]</mark>.
+Cloudflare stores this data only for as long as is necessary to deliver the website and protect it against attacks; we as the operator do not receive any server logs. Cloudflare is certified under the EU-US Data Privacy Framework. The transfer to the USA is based on the European Commission's adequacy decision of 10 July 2023 (Art. 45 GDPR) and, in addition, on the standard contractual clauses in the data processing agreement with Cloudflare (Art. 46(2)(c) GDPR).
 
 ## No cookies, no analytics, no tracking
 

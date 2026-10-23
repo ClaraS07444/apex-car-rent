@@ -18,7 +18,7 @@ Apex Rent is een fictief bedrijf. Deze website is een werkvoorbeeld. Er worden g
 
 Deze website wordt geleverd via Cloudflare Pages, een dienst van Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, VS. Bij een bezoek verwerkt Cloudflare technisch noodzakelijke gegevens, met name je IP-adres, datum en tijd, het opgevraagde adres en gegevens over je browser. De rechtsgrond is art. 6 lid 1 sub f AVG; het gerechtvaardigde belang is het veilig en betrouwbaar leveren van de website.
 
-Bewaartermijn van de serverlogs: <mark class="placeholder">[aanvullen volgens het contract met Cloudflare]</mark>. Grondslag voor de doorgifte naar de VS: <mark class="placeholder">[adequaatheidsbesluit of modelcontractbepalingen aanvullen volgens het contract met Cloudflare]</mark>.
+Cloudflare bewaart deze gegevens alleen zo lang als nodig is om de website te leveren en te beschermen tegen aanvallen; wij als beheerder ontvangen geen serverlogs. Cloudflare is gecertificeerd onder het EU-US Data Privacy Framework. De doorgifte naar de VS is gebaseerd op het adequaatheidsbesluit van de Europese Commissie van 10 juli 2023 (art. 45 AVG) en aanvullend op de modelcontractbepalingen in de verwerkersovereenkomst met Cloudflare (art. 46 lid 2 sub c AVG).
 
 ## Geen cookies, geen analyse, geen tracking
 

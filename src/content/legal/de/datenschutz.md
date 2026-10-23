@@ -18,7 +18,7 @@ Apex Rent ist ein fiktives Unternehmen. Diese Website ist eine Arbeitsprobe. Es 
 
 Die Website wird über Cloudflare Pages ausgeliefert, einen Dienst der Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA. Beim Aufruf verarbeitet Cloudflare technisch notwendige Daten, insbesondere die IP-Adresse, Datum und Uhrzeit, die aufgerufene Adresse und Angaben zum Browser. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; das berechtigte Interesse liegt in der sicheren und stabilen Auslieferung der Website.
 
-Speicherdauer der Server-Protokolle: <mark class="placeholder">[laut Vertrag mit Cloudflare ergänzen]</mark>. Grundlage der Übermittlung in die USA: <mark class="placeholder">[Angemessenheitsbeschluss oder Standardvertragsklauseln laut Vertrag mit Cloudflare ergänzen]</mark>.
+Cloudflare speichert diese Daten nur so lange, wie es für die Auslieferung der Website und den Schutz vor Angriffen erforderlich ist; wir als Betreiber erhalten keine Server-Protokolle. Cloudflare ist unter dem EU-US Data Privacy Framework zertifiziert. Die Übermittlung in die USA stützt sich auf den Angemessenheitsbeschluss der Europäischen Kommission vom 10. Juli 2023 (Art. 45 DSGVO), ergänzend auf die Standardvertragsklauseln im Auftragsverarbeitungsvertrag mit Cloudflare (Art. 46 Abs. 2 lit. c DSGVO).
 
 ## Keine Cookies, keine Analyse, kein Tracking
 

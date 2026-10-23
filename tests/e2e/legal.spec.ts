@@ -39,14 +39,18 @@ test.describe("Rechtsseiten (PRD S-02)", () => {
     await expect(body).toContainText("keine Verbindung zu Google Fonts");
   });
 
-  test("offene Angaben sind sichtbar als Platzhalter markiert", async ({
-    page,
-  }) => {
-    // Offen sind noch die Cloudflare-Angaben in der Datenschutzerklärung
-    await page.goto("/datenschutz");
-    const placeholders = page.locator("mark.placeholder");
-    await expect(placeholders.first()).toBeVisible();
-    await expect(placeholders.first()).toHaveText(/^\[.+\]$/);
+  test("keine offenen Platzhalter in den Rechtstexten", async ({ page }) => {
+    for (const path of [
+      "/impressum",
+      "/datenschutz",
+      "/en/legal-notice",
+      "/en/privacy",
+      "/nl/colofon",
+      "/nl/privacy",
+    ]) {
+      await page.goto(path);
+      await expect(page.locator("mark.placeholder"), path).toHaveCount(0);
+    }
   });
 
   test("Datenschutz-Link im Formular führt zur Datenschutzseite", async ({
