@@ -1,0 +1,18 @@
+# Abhängigkeiten und Build-Ausgabe
+node_modules/
+dist/
+.astro/
+
+# Lokale Umgebungswerte, niemals committen
+.env
+.env.*
+!.env.example
+
+# Cloudflare und Werkzeuge
+.wrangler/
+test-results/
+playwright-report/
+
+# Betriebssystem und Editor
+.DS_Store
+*.log
