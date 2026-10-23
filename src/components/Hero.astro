@@ -52,7 +52,7 @@ const car = vehicles.find((v) => v.id === "silber") ?? vehicles[0];
         <VehicleImage
           image={car.data.image}
           alt={t(car.data.alt, locale)}
-          sizes="(min-width: 1024px) 85vw, (min-width: 600px) 70vw, 75vw"
+          sizes="(min-width: 1024px) 79vw, (min-width: 600px) 70vw, 75vw"
           priority
         />
       </div>
@@ -123,11 +123,14 @@ const car = vehicles.find((v) => v.id === "silber") ?? vehicles[0];
       }
     }
 
-    /* Desktop (ab 1024px, Referenz 1440 x 830) */
+    /*
+     * Desktop (ab 1024px). Werte am Desktop-Entwurf 1440 x 830 gemessen
+     * (Entscheidung 23.10.2026: Entwurf vor PRD-Zahlen).
+     */
     @media (min-width: 1024px) {
       .hero {
         --hero-offset: -7.5rem; /* 120px */
-        --drive-from: 60vw; /* linke Kante 40vw + 60vw = rechter Rand */
+        --drive-from: 59.5vw; /* linke Kante 40.5vw + 59.5vw = rechter Rand */
 
         position: relative;
         display: block;
@@ -139,11 +142,11 @@ const car = vehicles.find((v) => v.id === "silber") ?? vehicles[0];
         display: block;
         position: relative;
         z-index: 1;
-        padding: 5.875rem 0 0 3rem; /* 94px oben, 48px links */
+        padding: 5.875rem 0 0 2.5rem; /* 94px oben, 40px links */
       }
 
       .hero__wordmark {
-        width: 55vw;
+        width: 54vw;
         max-width: none;
         margin: 0;
       }
@@ -159,12 +162,12 @@ const car = vehicles.find((v) => v.id === "silber") ?? vehicles[0];
         margin-block-start: 5rem;
       }
 
-      /* Linke Kante bei 40vw, Breite 85vw; das Heck ragt über den Rand */
+      /* Linke Kante bei 40.5vw, Breite 79vw; das Heck ragt über den Rand */
       .hero__car {
         position: absolute;
-        left: 40vw;
-        bottom: 4.5rem;
-        width: 85vw;
+        left: 40.5vw;
+        bottom: 4.75rem;
+        width: 79vw;
         margin: 0;
       }
     }

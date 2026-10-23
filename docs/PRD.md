@@ -116,10 +116,10 @@ S1 Hero (weiß)
 •	Inhalt: Wortmarke „APEX rent“ als Bild (H1 als visuell verborgener Text: „Apex Rent – Porsche GT3 RS mieten in Aachen“), Claim „Dein Herzschlag. Unsere PS.“ in 2 Zeilen, Button „JETZT MIETEN“, Fahrzeug Silber.
 •	Layout Desktop (≥ 1024 px, Referenz 1440 × 830):
 o	Höhe: 100 svh minus Navigation, min. 680 px, max. 920 px.
-o	Wortmarke oben links, linker Rand = Seitenrand (48 px), Breite 55 % des Viewports, Abstand nach oben 94 px (gemessen am Desktop-Entwurf, 23.10.2026).
+o	Wortmarke oben links, linker Rand 40 px, Breite 54 % des Viewports, Abstand nach oben 94 px. Wortmarke, Claim und Button stehen auf derselben linken Kante (gemessen am Desktop-Entwurf; Entscheidung 23.10.2026: Entwurf vor PRD-Zahlen).
 o	Claim links unter der Wortmarke, Schriftgröße clamp(32 px, 3 vw, 52 px), Zeilenhöhe 1,15.
 o	Button unter dem Claim, Breite 28 % des Viewports (min. 320 px), Höhe 56 px, schwarzer Kasten, weiße Versalien.
-o	Fahrzeug unten rechts, linke Kante bei 40 % des Viewports, Breite 85 vw. Das Heck mit Flügel ragt über den rechten Rand hinaus und wird abgeschnitten, wie im Entwurf. Keine horizontale Scrollleiste.
+o	Fahrzeug unten rechts, linke Kante bei 40,5 % des Viewports, Breite 79 vw, Bodenlinie 76 px über der Unterkante des Hero (gemessen am Desktop-Entwurf, 23.10.2026). Das Heck mit Flügel ragt über den rechten Rand hinaus und wird abgeschnitten, wie im Entwurf. Keine horizontale Scrollleiste.
 o	Wortmarke und Fahrzeug überlappen sich nicht.
 •	Layout Mobile (< 600 px, Referenz 390 × 844):
 o	Reihenfolge von oben: Wortmarke zentriert (volle Breite minus 2 × 20 px), Fahrzeug komplett sichtbar inkl. Flügel (75 % Breite, zentriert), Claim linksbündig (26–30 px), Button rechtsbündig (Breite 50 %, Höhe 48 px).
