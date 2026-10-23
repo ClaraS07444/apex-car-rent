@@ -1,0 +1,25 @@
+---
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { locales, type Locale } from "../../i18n/locales";
+import { routes, toRouteParam } from "../../i18n/routes";
+
+// Eigene Index-Route, damit der Build /en/index.html statt /en.html schreibt
+// und Cloudflare die Startseiten unter /en/ und /nl/ ausliefert.
+export const getStaticPaths = (() =>
+  locales.map((locale) => ({
+    params: { lang: toRouteParam(routes.home[locale]) },
+    props: { locale },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<BaseLayout locale={locale}>
+  <!-- Inhalte folgen in späteren Inkrementen (View Startseite). -->
+  <div data-page="home"></div>
+</BaseLayout>

@@ -1,0 +1,25 @@
+---
+import { INDEXIERUNG } from "astro:env/server";
+import type { Locale } from "../i18n/locales";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Apex Rent</title>
+    {!INDEXIERUNG && <meta name="robots" content="noindex, nofollow" />}
+  </head>
+  <body>
+    <main id="main">
+      <slot />
+    </main>
+  </body>
+</html>
