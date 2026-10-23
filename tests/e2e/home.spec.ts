@@ -132,16 +132,9 @@ test.describe("Fällt das Motion-Skript aus", () => {
   test("gibt die Notfall-Freigabe nach 2,5 s alle Inhalte frei", async ({
     page,
   }) => {
-    // Astro bettet die kleinen Module direkt ein; sie werden hier aus dem HTML
-    // entfernt. Das Inline-Skript im head (js-Klasse, Freigabe-Timer) bleibt.
-    await page.route("**/", async (route) => {
-      const response = await route.fetch();
-      const html = (await response.text()).replace(
-        /<script type="module">[\s\S]*?<\/script>/g,
-        "",
-      );
-      await route.fulfill({ response, body: html });
-    });
+    // Alle Skript-Dateien sperren; das Inline-Skript im head (js-Klasse,
+    // Freigabe-Timer) bleibt und muss allein für Sichtbarkeit sorgen.
+    await page.route("**/_astro/*.js", (route) => route.abort());
     await page.goto("/");
     expect(
       await page.evaluate(() =>

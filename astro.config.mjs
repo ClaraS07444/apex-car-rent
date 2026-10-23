@@ -11,6 +11,14 @@ export default defineConfig({
     format: "preserve",
   },
   integrations: [cloudflareHeaders()],
+  // Nichts automatisch einbetten: Skripte und kleine Bilder werden Dateien.
+  // So kommt die Content-Security-Policy mit 'self' aus; nur die zwei
+  // bewusst eingebetteten Blöcke im head brauchen einen Hash (PRD 15.2).
+  vite: {
+    build: {
+      assetsInlineLimit: 0,
+    },
+  },
   env: {
     schema: {
       // PRD T-08 / E-01: Indexierung ist standardmäßig aus.

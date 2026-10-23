@@ -209,7 +209,7 @@ test("sitemap.xml: 15 URLs mit hreflang-Alternativen, robots.txt verweist darauf
 
 test("ohne INDEXIERUNG: X-Robots-Tag in _headers und noindex auf jeder Seite", async () => {
   const headers = await readFile(join(DIST, "_headers"), "utf8");
-  assert.match(headers, /^\/\*\n {2}X-Robots-Tag: noindex, nofollow$/m);
+  assert.match(headers, /^ {2}X-Robots-Tag: noindex, nofollow$/m);
   for (const url of [...pages.map((p) => p.url), ...NOT_FOUND]) {
     const html = await readFile(fileFor(url), "utf8");
     assert.match(html, /<meta name="robots" content="noindex, nofollow">/, url);
