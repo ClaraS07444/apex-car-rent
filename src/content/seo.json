@@ -1,0 +1,74 @@
+{
+  "home": {
+    "title": {
+      "de": "Apex Rent | Porsche GT3 RS mieten in Aachen",
+      "en": "Apex Rent | Rent a Porsche GT3 RS in Aachen",
+      "nl": "Apex Rent | Porsche GT3 RS huren in Aken"
+    },
+    "description": {
+      "de": "Drei Porsche 911 GT3 RS mit {power} in Aachen mieten. Tag {day}, Wochenende {weekend}, Woche {week}. Lieferung möglich. Jetzt unverbindlich anfragen.",
+      "en": "Rent one of three Porsche 911 GT3 RS with {power} in Aachen. Day {day}, weekend {weekend}, week {week}. Delivery available. Send your request now.",
+      "nl": "Huur een van drie Porsche 911 GT3 RS met {power} in Aken. Dag {day}, weekend {weekend}, week {week}. Levering mogelijk. Vraag nu vrijblijvend aan."
+    }
+  },
+  "vehicles": {
+    "title": {
+      "de": "Porsche 911 GT3 RS mieten Aachen | Preise",
+      "en": "Rent a Porsche 911 GT3 RS in Aachen | Prices",
+      "nl": "Porsche 911 GT3 RS huren in Aken | Prijzen"
+    },
+    "description": {
+      "de": "GT3 RS in Silber, Rot oder Schwarz: alle Preise, Inklusiv-Kilometer, Kaution und Mietbedingungen auf einen Blick. Persönliche Übergabe in Aachen.",
+      "en": "GT3 RS in silver, red or black: all prices, included mileage, deposit and rental conditions at a glance. Personal handover in Aachen, delivery possible.",
+      "nl": "GT3 RS in zilver, rood of zwart: alle prijzen, inbegrepen kilometers, borg en huurvoorwaarden in één oogopslag. Persoonlijke overdracht in Aken."
+    }
+  },
+  "contact": {
+    "title": {
+      "de": "Mietanfrage und Kontakt | Apex Rent Aachen",
+      "en": "Rental enquiry and contact | Apex Rent Aachen",
+      "nl": "Huuraanvraag en contact | Apex Rent Aken"
+    },
+    "description": {
+      "de": "Wunschtermin, Paket und Fahrzeug wählen und Anfrage senden. Bestätigung innerhalb von 24 Stunden. Abholung in Aachen oder Lieferung an deinen Wunschort.",
+      "en": "Choose your date, package and car and send your request. Confirmation within 24 hours. Pick-up in Aachen or delivery to your preferred location.",
+      "nl": "Kies je datum, pakket en auto en verstuur je aanvraag. Bevestiging binnen 24 uur. Ophalen in Aken of levering op een locatie naar jouw keuze."
+    }
+  },
+  "legalNotice": {
+    "title": {
+      "de": "Impressum | Apex Rent",
+      "en": "Legal notice | Apex Rent",
+      "nl": "Colofon | Apex Rent"
+    },
+    "description": {
+      "de": "Impressum von Apex Rent: Angaben zum Betreiber dieser Website. Apex Rent ist ein Konzeptprojekt und ein fiktives Unternehmen ohne echte Vermietung.",
+      "en": "Legal notice of Apex Rent: information about the operator of this website. Apex Rent is a concept project and a fictional company with no real rentals.",
+      "nl": "Colofon van Apex Rent: gegevens over de beheerder van deze website. Apex Rent is een conceptproject en een fictief bedrijf zonder echte verhuur."
+    }
+  },
+  "privacy": {
+    "title": {
+      "de": "Datenschutz | Apex Rent",
+      "en": "Privacy policy | Apex Rent",
+      "nl": "Privacy | Apex Rent"
+    },
+    "description": {
+      "de": "Datenschutz bei Apex Rent: keine Cookies, kein Tracking, ein Demo-Formular ohne Übertragung und eine Karte, die erst nach deinem Klick geladen wird.",
+      "en": "Privacy at Apex Rent: no cookies, no tracking, a demo form that sends nothing and a map that only loads after you click. Read how your data is handled.",
+      "nl": "Privacy bij Apex Rent: geen cookies, geen tracking, een demoformulier zonder verzending en een kaart die pas na jouw klik wordt geladen. Lees meer."
+    }
+  },
+  "notFound": {
+    "title": {
+      "de": "Seite nicht gefunden | Apex Rent",
+      "en": "Page not found | Apex Rent",
+      "nl": "Pagina niet gevonden | Apex Rent"
+    },
+    "description": {
+      "de": "Diese Seite ist von der Strecke abgekommen. Zurück zur Startseite von Apex Rent oder direkt zu den drei Porsche 911 GT3 RS mit allen Preisen.",
+      "en": "This page has gone off track. Head back to the Apex Rent home page or straight to the three Porsche 911 GT3 RS with all prices and conditions.",
+      "nl": "Deze pagina is uit de bocht gevlogen. Ga terug naar de homepage van Apex Rent of direct naar de drie Porsche 911 GT3 RS met alle prijzen en voorwaarden."
+    }
+  }
+}

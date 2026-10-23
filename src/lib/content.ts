@@ -1,5 +1,6 @@
 import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 import type { Locale } from "../i18n/locales";
+import { formatPrice } from "./format";
 
 type Localized = Record<Locale, string>;
 
@@ -20,7 +21,13 @@ export function fill(
 
 // Einzeldateien: Collection-Name = Eintrags-ID
 type Singleton =
-  "business" | "pricing" | "ui" | "home" | "vehiclesPage" | "contactPage";
+  | "business"
+  | "pricing"
+  | "ui"
+  | "home"
+  | "vehiclesPage"
+  | "contactPage"
+  | "seo";
 
 async function getSingleton<C extends Singleton>(
   collection: C,
@@ -36,6 +43,7 @@ export const getUi = () => getSingleton("ui");
 export const getHome = () => getSingleton("home");
 export const getVehiclesPage = () => getSingleton("vehiclesPage");
 export const getContactPage = () => getSingleton("contactPage");
+export const getSeo = () => getSingleton("seo");
 
 /** Aktive Fahrzeuge in der festgelegten Reihenfolge (PRD 12.2). */
 export async function getActiveVehicles(): Promise<
@@ -53,8 +61,30 @@ export async function getActiveReviews(): Promise<
   return all.sort((a, b) => a.data.order - b.data.order);
 }
 
-/** FAQ in der festgelegten Reihenfolge. */
-export async function getFaq(): Promise<CollectionEntry<"faq">[]> {
-  const all = await getCollection("faq");
-  return all.sort((a, b) => a.data.order - b.data.order);
+/**
+ * FAQ in der festgelegten Reihenfolge, mit eingesetzten Werten aus den
+ * Datenquellen (T-02); genutzt vom Accordion und vom FAQPage-Markup.
+ */
+export async function getFaq(
+  locale: Locale,
+): Promise<{ id: string; question: string; answer: string }[]> {
+  const [entries, pricing, business] = await Promise.all([
+    getCollection("faq"),
+    getPricing(),
+    getBusiness(),
+  ]);
+  const values = {
+    delivery: formatPrice(pricing.delivery, locale),
+    deposit: formatPrice(pricing.deposit, locale),
+    voucher: formatPrice(pricing.voucherMinimum, locale),
+    age: business.requirements.minimumAge,
+    years: business.requirements.licenseYears,
+  };
+  return entries
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(({ id, data }) => ({
+      id,
+      question: t(data.question, locale),
+      answer: fill(t(data.answer, locale), values),
+    }));
 }

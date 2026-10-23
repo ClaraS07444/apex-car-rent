@@ -1,12 +1,18 @@
 {
   "active": true,
   "order": 3,
+  "brand": "Porsche",
+  "model": "911 GT3 RS",
   "name": {
     "de": "GT3 RS Schwarz",
     "en": "GT3 RS Black",
     "nl": "GT3 RS Zwart"
   },
-  "colorName": { "de": "Schwarz", "en": "Black", "nl": "Zwart" },
+  "colorName": {
+    "de": "Schwarz",
+    "en": "Black",
+    "nl": "Zwart"
+  },
   "image": "../../assets/vehicles/gt3rs-black.png",
   "alt": {
     "de": "Porsche 911 GT3 RS in Schwarz, Seitenansicht",

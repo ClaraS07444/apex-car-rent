@@ -1,12 +1,18 @@
 {
   "active": true,
   "order": 1,
+  "brand": "Porsche",
+  "model": "911 GT3 RS",
   "name": {
     "de": "GT3 RS Silber",
     "en": "GT3 RS Silver",
     "nl": "GT3 RS Zilver"
   },
-  "colorName": { "de": "Silber", "en": "Silver", "nl": "Zilver" },
+  "colorName": {
+    "de": "Silber",
+    "en": "Silver",
+    "nl": "Zilver"
+  },
   "image": "../../assets/vehicles/gt3rs-silver.png",
   "alt": {
     "de": "Porsche 911 GT3 RS in Silber, Seitenansicht",

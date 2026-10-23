@@ -3,6 +3,8 @@ import { INDEXIERUNG } from "astro:env/server";
 import type { Locale } from "../i18n/locales";
 import type { PageKey } from "../i18n/routes";
 import { getUi, t } from "../lib/content";
+import { getPageSeo } from "../lib/seo";
+import { getStructuredData, serializeJsonLd } from "../lib/structured-data";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import "../styles/global.css";
@@ -13,7 +15,15 @@ interface Props {
 }
 
 const { page, locale } = Astro.props;
-const ui = await getUi();
+// site ist in astro.config.mjs gesetzt; ohne Basis-URL wären Canonical und
+// hreflang falsch, daher hart abbrechen.
+const site = Astro.site;
+if (!site) throw new Error("astro.config.mjs: site fehlt");
+const [ui, seo, structuredData] = await Promise.all([
+  getUi(),
+  getPageSeo(page, locale, site),
+  getStructuredData(page, locale, site),
+]);
 ---
 
 <!doctype html>
@@ -21,8 +31,39 @@ const ui = await getUi();
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Apex Rent</title>
+    <title>{seo.title}</title>
+    <meta name="description" content={seo.description} />
     {!INDEXIERUNG && <meta name="robots" content="noindex, nofollow" />}
+    {seo.canonical && <link rel="canonical" href={seo.canonical} />}
+    {seo.alternates.map((alternate) => (
+      <link
+        rel="alternate"
+        hreflang={alternate.hreflang}
+        href={alternate.href}
+      />
+    ))}
+    <!-- Open Graph und Twitter Card (PRD 13.1) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Apex Rent" />
+    <meta property="og:title" content={seo.title} />
+    <meta property="og:description" content={seo.description} />
+    {seo.canonical && <meta property="og:url" content={seo.canonical} />}
+    <meta property="og:image" content={seo.og.image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={seo.og.imageAlt} />
+    <meta property="og:locale" content={seo.og.locale} />
+    {seo.og.localeAlternates.map((code) => (
+      <meta property="og:locale:alternate" content={code} />
+    ))}
+    <meta name="twitter:card" content="summary_large_image" />
+    {structuredData.map((data) => (
+      <script
+        type="application/ld+json"
+        is:inline
+        set:html={serializeJsonLd(data)}
+      />
+    ))}
     <link
       rel="preload"
       href="/fonts/manrope-300-latin.woff2"

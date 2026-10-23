@@ -1,43 +1,30 @@
 ---
 import type { Locale } from "../i18n/locales";
-import { fill, getBusiness, getFaq, getPricing, t } from "../lib/content";
-import { formatPrice } from "../lib/format";
+import { getFaq } from "../lib/content";
 import Icon from "./Icon.astro";
 
 /**
  * FAQ-Accordion (PRD 8.2 F5) aus nativen <details>: ohne JavaScript bedienbar,
  * Zustand für Screenreader eingebaut, mehrere Einträge gleichzeitig offen.
- * Platzhalter in den Antworten kommen aus den Datenquellen (T-02).
+ * Platzhalter in den Antworten füllt getFaq aus den Datenquellen (T-02).
  */
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const [entries, pricing, business] = await Promise.all([
-  getFaq(),
-  getPricing(),
-  getBusiness(),
-]);
-
-const values = {
-  delivery: formatPrice(pricing.delivery, locale),
-  deposit: formatPrice(pricing.deposit, locale),
-  voucher: formatPrice(pricing.voucherMinimum, locale),
-  age: business.requirements.minimumAge,
-  years: business.requirements.licenseYears,
-};
+const entries = await getFaq(locale);
 ---
 
 <div class="faq">
-  {entries.map(({ data }) => (
+  {entries.map((entry) => (
     <details class="faq__item">
       <summary class="faq__question">
-        <span>{t(data.question, locale)}</span>
+        <span>{entry.question}</span>
         <Icon name="plus" class="faq__icon" />
       </summary>
       <div class="faq__answer">
-        <p>{fill(t(data.answer, locale), values)}</p>
+        <p>{entry.answer}</p>
       </div>
     </details>
   ))}

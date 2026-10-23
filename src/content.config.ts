@@ -116,6 +116,8 @@ const vehicles = defineCollection({
     z.strictObject({
       active: z.boolean(),
       order: z.number().int().nonnegative(),
+      brand: text,
+      model: text,
       name: localized,
       colorName: localized,
       image: image(),
@@ -461,6 +463,31 @@ const contactPage = defineCollection({
   }),
 });
 
+// Meta-Titel und -Beschreibungen je Seite (PRD 13.1, 13.2). Titel max. 60
+// Zeichen; die Länge der Beschreibung (140 bis 160) prüft lib/seo.ts nach dem
+// Einsetzen der Preise.
+const pageMeta = z.strictObject({
+  title: z.strictObject({
+    de: text.max(60),
+    en: text.max(60),
+    nl: text.max(60),
+  }),
+  description: localized,
+});
+
+const seo = defineCollection({
+  loader: singleton("src/content/seo.json", "seo"),
+  schema: z.strictObject({
+    id: z.literal("seo"),
+    home: pageMeta,
+    vehicles: pageMeta,
+    contact: pageMeta,
+    legalNotice: pageMeta,
+    privacy: pageMeta,
+    notFound: pageMeta,
+  }),
+});
+
 export const collections = {
   business,
   pricing,
@@ -472,4 +499,5 @@ export const collections = {
   vehiclesPage,
   contactPage,
   legal,
+  seo,
 };

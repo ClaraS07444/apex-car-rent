@@ -50,10 +50,36 @@ async function notFoundPage(urlPath) {
   return null;
 }
 
+/**
+ * Header aus dist/_headers wie bei Cloudflare Pages; unterstützt wird der
+ * Block für "/*", den der Build schreibt (astro.config.mjs).
+ */
+async function globalHeaders() {
+  try {
+    const lines = (await readFile(join(ROOT, "_headers"), "utf8")).split("\n");
+    const headers = {};
+    let inGlobal = false;
+    for (const line of lines) {
+      if (!line.trim()) continue;
+      if (!/^\s/.test(line)) {
+        inGlobal = line.trim() === "/*";
+        continue;
+      }
+      const [name, ...value] = line.trim().split(":");
+      if (inGlobal && name) headers[name.trim()] = value.join(":").trim();
+    }
+    return headers;
+  } catch {
+    return {};
+  }
+}
+
+const HEADERS = await globalHeaders();
+
 async function send(res, status, file, headers = {}) {
   const body = await readFile(file);
   const type = TYPES[extname(file)] ?? "application/octet-stream";
-  res.writeHead(status, { "content-type": type, ...headers });
+  res.writeHead(status, { ...HEADERS, "content-type": type, ...headers });
   res.end(body);
 }
 
@@ -62,7 +88,7 @@ createServer(async (req, res) => {
     const url = new URL(req.url ?? "/", "http://localhost");
     const path = decodeURIComponent(url.pathname);
     const redirect = (to) => {
-      res.writeHead(307, { location: to + url.search });
+      res.writeHead(307, { ...HEADERS, location: to + url.search });
       res.end();
     };
 
