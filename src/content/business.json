@@ -6,6 +6,7 @@
     "city": "Aachen",
     "country": "DE"
   },
+  "geo": { "latitude": 50.7735, "longitude": 6.1325 },
   "phone": "+49 241 0000 000",
   "email": "anfrage@apex-rent.example",
   "instagram": "@apexrent.aachen",

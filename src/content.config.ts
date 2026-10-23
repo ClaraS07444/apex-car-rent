@@ -43,6 +43,11 @@ const business = defineCollection({
       city: text,
       country: z.string().regex(/^[A-Z]{2}$/),
     }),
+    // E-06: neutraler Kartenpunkt statt Geocoding der fiktiven Adresse
+    geo: z.strictObject({
+      latitude: z.number().min(-90).max(90),
+      longitude: z.number().min(-180).max(180),
+    }),
     phone: z.string().regex(/^\+[\d ]{6,20}$/),
     email: z.email(),
     instagram: z.string().regex(/^@[a-z0-9._]+$/),

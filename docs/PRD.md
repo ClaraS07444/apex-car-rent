@@ -269,7 +269,7 @@ Buttons: Höhe 56 px Desktop, 48 px Mobile, Innenabstand 0 × 32 px. Mindest-Tip
 9.5 Icons und Logo
 •	Keine Emojis, nirgendwo, auch nicht in Meta-Daten, Übersetzungen oder Fehlermeldungen [Fakt].
 •	Icons [Empfehlung]: Phosphor Icons, Schnitt „Light“, passend zur Light-Schrift. Größe 24 px, Farbe = Textfarbe, inline als SVG.
-•	Benötigte Icons: Tacho, Kalender, Schlüssel, Schild mit Haken, Kartennadel, Telefon, Brief, Instagram, Uhr, Geschenk, Lieferwagen, Ringe, Euro, Ausweis, Lenkrad, Stern, Plus, Kreuz, Pfeil rechts, Menü.
+•	Benötigte Icons: Tacho, Kalender, Schlüssel, Schild mit Haken, Kartennadel, Telefon, Brief, Instagram, Uhr, Geschenk, Lieferwagen, Herz (statt Ringe, da Phosphor kein Ringe-Symbol hat; entschieden 23.10.2026), Euro, Ausweis, Lenkrad, Stern, Plus, Kreuz, Pfeil rechts, Menü.
 •	Logo-Einsatz: A-Bildmarke weiß-silber auf Schwarz (Navigation, Footer), A-Bildmarke schwarz auf Weiß. Wortmarke schwarz im Hero; weiße Wortmarke fehlt noch (Abschnitt 11).
 9.6 Bildwelt
 •	Freigestellte Fahrzeuge im exakten Seitenprofil, Fahrtrichtung links, ohne Hintergrund.
@@ -618,7 +618,7 @@ E-02	Formularversand	Demo ohne Übertragung. Daten verlassen den Browser nicht	E
 E-03	Telefon und Instagram	Beides fiktiv und nur als Text: keine Anruf-Verlinkung, kein Instagram-Link. Events phone_click und instagram_click entfallen	Anders entschieden
 E-04	Bewertungen	Fiktiv, gekennzeichnet als „Beispielbewertungen“, ohne Google-Logo	Empfehlung freigegeben
 E-05	Porsche-Zeichen in den Bildern	Bilder bleiben unverändert, ohne Hinweis und ohne Retusche. Risiko R-02 vom Auftraggeber akzeptiert	Anders entschieden
-E-06	Kartenpunkt	Neutraler Punkt in einem Aachener Gewerbegebiet, Koordinaten statt Adresse	Empfehlung freigegeben
+E-06	Kartenpunkt	Neutraler Punkt in einem Aachener Gewerbegebiet, Koordinaten statt Adresse: 50.7735, 6.1325 (Gewerbegebiet Rothe Erde, PLZ 52068, Parkplatz ohne Gebäude im Umkreis von 25 m laut OpenStreetMap; festgelegt 23.10.2026)	Empfehlung freigegeben
 E-07	Schriftschnitt kleiner Texte	Light 300, Mindestgröße 15 px	Empfehlung freigegeben
 E-08	Fahrzeugdetails	Overlay mit Deeplink	Empfehlung freigegeben
 E-09	Ansprache	Du	Empfehlung freigegeben
