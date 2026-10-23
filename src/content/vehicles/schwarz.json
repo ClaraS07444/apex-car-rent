@@ -1,0 +1,28 @@
+{
+  "active": true,
+  "order": 3,
+  "name": {
+    "de": "GT3 RS Schwarz",
+    "en": "GT3 RS Black",
+    "nl": "GT3 RS Zwart"
+  },
+  "colorName": { "de": "Schwarz", "en": "Black", "nl": "Zwart" },
+  "image": "../../../assets/images/porsche-black.png",
+  "alt": {
+    "de": "Porsche 911 GT3 RS in Schwarz, Seitenansicht",
+    "en": "Porsche 911 GT3 RS in black, side view",
+    "nl": "Porsche 911 GT3 RS in zwart, zijaanzicht"
+  },
+  "powerPs": 510,
+  "transmission": {
+    "de": "7-Gang-PDK",
+    "en": "7-speed PDK",
+    "nl": "7-traps PDK"
+  },
+  "drivetrain": {
+    "de": "Hinterradantrieb",
+    "en": "Rear-wheel drive",
+    "nl": "Achterwielaandrijving"
+  },
+  "seats": 2
+}

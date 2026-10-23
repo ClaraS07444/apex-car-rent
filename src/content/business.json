@@ -1,0 +1,25 @@
+{
+  "name": "Apex Rent",
+  "address": {
+    "street": "Apexstraße 1",
+    "postalCode": "52068",
+    "city": "Aachen",
+    "country": "DE"
+  },
+  "phone": "+49 241 0000 000",
+  "email": "anfrage@apex-rent.example",
+  "instagram": "@apexrent.aachen",
+  "openingHours": [
+    {
+      "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "09:00",
+      "closes": "19:00"
+    },
+    { "days": ["Saturday"], "opens": "10:00", "closes": "16:00" }
+  ],
+  "openingHoursNote": {
+    "de": "Sonntag nach Vereinbarung",
+    "en": "Sunday by appointment",
+    "nl": "Zondag op afspraak"
+  }
+}

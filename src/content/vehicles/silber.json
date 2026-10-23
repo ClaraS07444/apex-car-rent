@@ -1,0 +1,28 @@
+{
+  "active": true,
+  "order": 1,
+  "name": {
+    "de": "GT3 RS Silber",
+    "en": "GT3 RS Silver",
+    "nl": "GT3 RS Zilver"
+  },
+  "colorName": { "de": "Silber", "en": "Silver", "nl": "Zilver" },
+  "image": "../../../assets/images/porsche-silver.png",
+  "alt": {
+    "de": "Porsche 911 GT3 RS in Silber, Seitenansicht",
+    "en": "Porsche 911 GT3 RS in silver, side view",
+    "nl": "Porsche 911 GT3 RS in zilver, zijaanzicht"
+  },
+  "powerPs": 510,
+  "transmission": {
+    "de": "7-Gang-PDK",
+    "en": "7-speed PDK",
+    "nl": "7-traps PDK"
+  },
+  "drivetrain": {
+    "de": "Hinterradantrieb",
+    "en": "Rear-wheel drive",
+    "nl": "Achterwielaandrijving"
+  },
+  "seats": 2
+}
