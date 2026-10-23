@@ -54,17 +54,23 @@ function initCondensedHeader(): void {
   }).observe(sentinel);
 }
 
-function initLanguageLinks(): void {
+/** Sprachlinks übernehmen die aktuellen URL-Parameter (z. B. ?auto=rot). */
+function syncLanguageLinks(): void {
   const { search } = window.location;
-  if (!search) return;
-
   for (const link of document.querySelectorAll<HTMLAnchorElement>(
     "[data-lang-link]",
   )) {
     const url = new URL(link.href);
     url.search = search;
-    link.href = url.href;
+    link.setAttribute("href", url.pathname + url.search);
   }
+}
+
+function initLanguageLinks(): void {
+  syncLanguageLinks();
+  // Das Fahrzeug-Overlay ändert die URL ohne Neuladen (vehicle-dialog.ts)
+  document.addEventListener("apex:urlchange", syncLanguageLinks);
+  window.addEventListener("popstate", syncLanguageLinks);
 }
 
 initMenu();

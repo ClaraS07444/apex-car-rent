@@ -38,7 +38,12 @@ export function formatPrice(amount: number, locale: Locale): string {
 
 /** "510 PS", "510 hp", "510 pk" mit geschütztem Leerzeichen */
 export function formatPower(ps: number, unit: string, locale: Locale): string {
-  return `${new Intl.NumberFormat(locale).format(ps)} ${unit}`;
+  return `${new Intl.NumberFormat(locale).format(ps)}\u00A0${unit}`;
+}
+
+/** "1.200 km", "1,200 km", "1.200 km" mit geschütztem Leerzeichen */
+export function formatKm(km: number, locale: Locale): string {
+  return `${new Intl.NumberFormat(locale).format(km)}\u00A0km`;
 }
 
 /** "2026-06" wird zu "Juni 2026", "June 2026", "juni 2026" */

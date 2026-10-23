@@ -55,6 +55,61 @@
   }
 
   /*
+   * Einfahrendes Fahrzeug (PRD 9.7, Hero und Seitenköpfe), über data-drive-in.
+   * Es wartet rechts außerhalb (--drive-from), bis motion.ts data-state="drive"
+   * setzt (Bild dekodiert, spätestens 1,5s). Das Einfedern des inneren Elements
+   * beginnt 200ms vor der Ankunft, damit die Sequenz bei 1,9s endet.
+   */
+  .js [data-drive-in] {
+    animation: drive-in var(--dur-drive) var(--ease-drive) 200ms both paused;
+  }
+
+  .js [data-drive-in] > * {
+    transform-origin: 50% 100%;
+    animation: drive-settle 300ms var(--ease-out) 1600ms both paused;
+  }
+
+  [data-drive-in][data-state="drive"],
+  [data-drive-in][data-state="drive"] > *,
+  .js.motion-fallback:not(.motion-ready) [data-drive-in],
+  .js.motion-fallback:not(.motion-ready) [data-drive-in] > * {
+    animation-play-state: running;
+  }
+
+  /* Bild nach 1,5s noch nicht geladen: verborgen, danach 300ms Einblendung */
+  [data-drive-in][data-state="wait"] {
+    animation: none;
+    opacity: 0;
+  }
+
+  [data-drive-in][data-state="fade"] {
+    animation: drive-fade 300ms var(--ease-out) both;
+  }
+
+  [data-drive-in][data-state="wait"] > *,
+  [data-drive-in][data-state="fade"] > * {
+    animation: none;
+  }
+
+  @keyframes drive-in {
+    from {
+      transform: translateX(var(--drive-from, 100vw));
+    }
+  }
+
+  @keyframes drive-settle {
+    from {
+      transform: rotate(-0.6deg);
+    }
+  }
+
+  @keyframes drive-fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  /*
    * Reduzierte Bewegung (PRD 9.7, A-09): keine Verschiebungen,
    * Inhalte erscheinen sofort.
    */
@@ -73,6 +128,13 @@
     .js [data-reveal]:not([data-revealed]),
     .js [data-reveal="stagger"]:not([data-revealed]) > * {
       transform: none;
+    }
+
+    .js [data-drive-in],
+    .js [data-drive-in] > *,
+    [data-drive-in][data-state] {
+      animation: none;
+      opacity: 1;
     }
   }
 }

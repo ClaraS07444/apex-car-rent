@@ -1,0 +1,384 @@
+---
+import Button from "../components/Button.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Faq from "../components/Faq.astro";
+import InfoCard from "../components/InfoCard.astro";
+import PageIntro from "../components/PageIntro.astro";
+import PriceExtras from "../components/PriceExtras.astro";
+import PriceTable from "../components/PriceTable.astro";
+import Section from "../components/Section.astro";
+import VehicleDialog from "../components/VehicleDialog.astro";
+import VehicleImage from "../components/VehicleImage.astro";
+import type { Locale } from "../i18n/locales";
+import { pagePath } from "../i18n/routes";
+import {
+  fill,
+  getActiveVehicles,
+  getBusiness,
+  getHome,
+  getPricing,
+  getUi,
+  getVehiclesPage,
+  t,
+} from "../lib/content";
+import { formatKm, formatPower, formatPrice } from "../lib/format";
+
+/** Fahrzeugseite (PRD 8.2): F1 weiß, danach Schwarz und Weiß im Wechsel. */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const [page, home, ui, pricing, business, vehicles] = await Promise.all([
+  getVehiclesPage(),
+  getHome(),
+  getUi(),
+  getPricing(),
+  getBusiness(),
+  getActiveVehicles(),
+]);
+
+const CONDITIONS_ID = "mietbedingungen";
+const powerUnit = t(ui.vehicle.powerUnit, locale);
+const power = vehicles[0]
+  ? formatPower(vehicles[0].data.powerPs, powerUnit, locale)
+  : "";
+const price = (amount: number) => formatPrice(amount, locale);
+// Im Seitenkopf steht das schwarze Fahrzeug (PRD 8.2 F1), sonst das erste aktive
+const introVehicle = vehicles.find((v) => v.id === "schwarz") ?? vehicles[0];
+const { packages } = pricing;
+const listPrices = [
+  ["tag", packages.tag.price, packages.tag.includedKm],
+  ["wochenende", packages.wochenende.price, packages.wochenende.includedKm],
+  ["woche", packages.woche.price, packages.woche.includedKm],
+] as const;
+
+const conditionValues = {
+  age: business.requirements.minimumAge,
+  years: business.requirements.licenseYears,
+  deposit: price(pricing.deposit),
+};
+const conditionIcons = [
+  "calendar-blank",
+  "steering-wheel",
+  "currency-eur",
+  "map-pin",
+  "shield-check",
+  "identification-card",
+] as const;
+---
+
+<PageIntro
+  locale={locale}
+  title={t(page.intro.title, locale)}
+  vehicle={introVehicle}
+>
+  <p>{fill(t(page.intro.text, locale), { power })}</p>
+  <p class="vehicles-anchor">
+    {fill(t(page.intro.priceAnchor, locale), {
+      price: price(packages.tag.price),
+    })}
+  </p>
+</PageIntro>
+
+<Section tone="dark" aria-labelledby="list-title">
+  <h2 id="list-title" data-reveal="left">
+    {t(page.list.heading, locale)}
+  </h2>
+  {vehicles.length > 0 ? (
+    <ul class="vehicles-list">
+      {vehicles.map((vehicle) => {
+        const { data } = vehicle;
+        const name = t(data.name, locale);
+        return (
+          <li class="vehicles-item" data-tone="light" data-reveal="left">
+            <div class="vehicles-item__media">
+              <VehicleImage
+                image={data.image}
+                alt={t(data.alt, locale)}
+                sizes="(min-width: 1024px) 55vw, 90vw"
+              />
+            </div>
+            <div class="vehicles-item__body">
+              <h3>{name}</h3>
+              <dl class="vehicles-facts">
+                <div>
+                  <dt>{t(ui.vehicle.specs.power, locale)}</dt>
+                  <dd>{formatPower(data.powerPs, powerUnit, locale)}</dd>
+                </div>
+                <div>
+                  <dt>{t(ui.vehicle.specs.transmission, locale)}</dt>
+                  <dd>{t(data.transmission, locale)}</dd>
+                </div>
+                <div>
+                  <dt>{t(ui.vehicle.specs.drivetrain, locale)}</dt>
+                  <dd>{t(data.drivetrain, locale)}</dd>
+                </div>
+                <div>
+                  <dt>{t(ui.vehicle.specs.seats, locale)}</dt>
+                  <dd>{data.seats}</dd>
+                </div>
+              </dl>
+              <dl class="vehicles-facts vehicles-facts--prices">
+                {listPrices.map(([key, amount, km]) => (
+                  <div>
+                    <dt>{t(ui.packages[key], locale)}</dt>
+                    <dd>
+                      <strong class="vehicles-price">{price(amount)}</strong>
+                      <span class="vehicles-km">
+                        {fill(t(ui.vehicle.includedKm, locale), {
+                          km: formatKm(km, locale),
+                        })}
+                      </span>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <div class="vehicles-item__actions">
+                <Button
+                  variant="secondary"
+                  data-vehicle-open={vehicle.id}
+                  aria-haspopup="dialog"
+                  aria-controls={`vehicle-dialog-${vehicle.id}`}
+                >
+                  {t(ui.cta.details, locale)}
+                  <span class="visually-hidden">{name}</span>
+                </Button>
+                <Button
+                  href={pagePath("contact", locale, { auto: vehicle.id })}
+                >
+                  {t(ui.cta.requestVehicle, locale)}
+                  <span class="visually-hidden">{name}</span>
+                </Button>
+              </div>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  ) : (
+    <div class="vehicles-empty" data-reveal="left">
+      <p>{t(ui.vehicle.allBooked, locale)}</p>
+      <Button href={pagePath("contact", locale)}>
+        {t(ui.cta.contact, locale)}
+      </Button>
+    </div>
+  )}
+</Section>
+
+<Section tone="light" aria-labelledby="prices-title">
+  <h2 id="prices-title" data-reveal="left">
+    {t(page.prices.heading, locale)}
+  </h2>
+  <div data-reveal="left">
+    <PriceTable
+      locale={locale}
+      caption={t(page.prices.heading, locale)}
+      showPeriod
+    />
+  </div>
+  <div class="vehicles-extras" data-reveal="left">
+    <h3>{t(ui.prices.extrasHeading, locale)}</h3>
+    <PriceExtras locale={locale} />
+  </div>
+</Section>
+
+<Section tone="dark" id={CONDITIONS_ID} aria-labelledby="conditions-title">
+  <h2 id="conditions-title" tabindex="-1" data-reveal="left">
+    {t(page.conditions.heading, locale)}
+  </h2>
+  <div class="vehicles-conditions" data-reveal="stagger">
+    {page.conditions.items.map((item, index) => (
+      <InfoCard
+        tone="light"
+        icon={conditionIcons[index]}
+        title={t(item.title, locale)}
+      >
+        <p>{fill(t(item.text, locale), conditionValues)}</p>
+      </InfoCard>
+    ))}
+  </div>
+</Section>
+
+<Section tone="light" aria-labelledby="faq-title">
+  <h2 id="faq-title" data-reveal="left">
+    {t(page.faq.heading, locale)}
+  </h2>
+  <div data-reveal="left">
+    <Faq locale={locale} />
+  </div>
+</Section>
+
+<CtaBand
+  locale={locale}
+  tone="dark"
+  heading={fill(t(home.closing.heading, locale), { power })}
+  text={t(home.closing.text, locale)}
+/>
+
+{vehicles.map((vehicle) => (
+  <VehicleDialog
+    vehicle={vehicle}
+    locale={locale}
+    conditionsId={CONDITIONS_ID}
+    stepping={vehicles.length > 1}
+  />
+))}
+
+<script>
+  import "../scripts/vehicle-dialog";
+</script>
+
+<style>
+  @layer pages {
+    h2 {
+      margin-block-end: var(--space-48);
+    }
+
+    .vehicles-anchor {
+      font-size: var(--font-size-h3);
+      line-height: var(--line-height-h3);
+    }
+
+    /* F2: ein weißer Kasten pro Fahrzeug, volle Inhaltsbreite */
+    .vehicles-list {
+      display: grid;
+      gap: var(--space-48);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .vehicles-item {
+      display: grid;
+      background: var(--tone-bg);
+      color: var(--tone-fg);
+    }
+
+    .vehicles-item__media {
+      display: grid;
+      place-items: center;
+      padding: var(--space-32) var(--space-24) 0;
+    }
+
+    .vehicles-item__media :global(img) {
+      width: 100%;
+    }
+
+    .vehicles-item__body {
+      display: grid;
+      align-content: start;
+      gap: var(--space-24);
+      padding: var(--space-24) var(--space-32) var(--space-32);
+    }
+
+    /* Desktop: Bild 7/12, Daten 5/12, Bildseite wechselt je Fahrzeug */
+    @media (min-width: 1024px) {
+      .vehicles-item {
+        grid-template-columns: 7fr 5fr;
+        align-items: center;
+      }
+
+      .vehicles-item__media {
+        padding: var(--space-48);
+      }
+
+      .vehicles-item__body {
+        padding: var(--space-48) var(--space-48) var(--space-48) 0;
+      }
+
+      /* Bild bleibt 7/12, nur die Seite wechselt */
+      .vehicles-item:nth-child(even) {
+        grid-template-columns: 5fr 7fr;
+      }
+
+      .vehicles-item:nth-child(even) .vehicles-item__media {
+        order: 2;
+      }
+
+      .vehicles-item:nth-child(even) .vehicles-item__body {
+        padding: var(--space-48) 0 var(--space-48) var(--space-48);
+      }
+    }
+
+    .vehicles-facts {
+      display: grid;
+      margin: 0;
+    }
+
+    .vehicles-facts > div {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-16);
+      padding-block: var(--space-8);
+      border-bottom: var(--border-width) solid currentColor;
+    }
+
+    .vehicles-facts dd {
+      margin: 0;
+      text-align: end;
+    }
+
+    .vehicles-price {
+      font-weight: var(--font-weight);
+    }
+
+    .vehicles-km {
+      display: block;
+      color: var(--tone-muted);
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+    }
+
+    .vehicles-item__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-12);
+    }
+
+    .vehicles-item__actions > :global(.button) {
+      flex: 1 1 12rem;
+      padding-inline: var(--space-16);
+    }
+
+    /* Ohne JavaScript entfällt das Overlay; alle Daten stehen in der Liste */
+    :global(html:not(.js))
+      .vehicles-item__actions
+      > :global([data-vehicle-open]) {
+      display: none;
+    }
+
+    .vehicles-empty {
+      display: grid;
+      justify-items: start;
+      gap: var(--space-24);
+    }
+
+    .vehicles-extras {
+      margin-block-start: var(--space-48);
+      max-width: 40rem;
+    }
+
+    .vehicles-extras h3 {
+      margin-block-end: var(--space-16);
+    }
+
+    /* F4: 3 x 2 ab 1024px, 2 Spalten ab 600px, sonst 1 Spalte */
+    .vehicles-conditions {
+      display: grid;
+      gap: var(--space-32);
+    }
+
+    @media (min-width: 600px) {
+      .vehicles-conditions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .vehicles-conditions {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  }
+</style>

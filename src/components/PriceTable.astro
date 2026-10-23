@@ -1,0 +1,165 @@
+---
+import type { Locale } from "../i18n/locales";
+import { fill, getPricing, getUi, t } from "../lib/content";
+import { formatKm, formatPrice } from "../lib/format";
+
+/**
+ * Preistabelle (PRD 8.2 F3, Overlay): schwarze Kopfzeile, 1px Trennlinien.
+ * Unter 600px wird jede Zeile zu einem Kasten ohne horizontales Scrollen.
+ * Die expliziten Rollen erhalten die Tabellensemantik, auch wenn die
+ * Darstellung auf Block wechselt.
+ */
+interface Props {
+  locale: Locale;
+  caption: string;
+  /** Spalte "Zeitraum" anzeigen (F3), im Overlay entfällt sie */
+  showPeriod?: boolean;
+}
+
+const { locale, caption, showPeriod = false } = Astro.props;
+const [ui, pricing] = await Promise.all([getUi(), getPricing()]);
+const { packages } = pricing;
+const col = ui.prices.columns;
+const price = (amount: number) => formatPrice(amount, locale);
+const perMonth = (value: string) =>
+  fill(t(ui.vehicle.perMonth, locale), { value });
+
+const rows = [
+  {
+    key: "tag",
+    price: price(packages.tag.price),
+    km: formatKm(packages.tag.includedKm, locale),
+  },
+  {
+    key: "wochenende",
+    price: price(packages.wochenende.price),
+    km: formatKm(packages.wochenende.includedKm, locale),
+  },
+  {
+    key: "woche",
+    price: price(packages.woche.price),
+    km: formatKm(packages.woche.includedKm, locale),
+  },
+  {
+    key: "langzeit",
+    price: perMonth(
+      fill(t(ui.prices.fromPrice, locale), {
+        price: price(packages.langzeit.pricePerMonth),
+      }),
+    ),
+    km: perMonth(formatKm(packages.langzeit.includedKmPerMonth, locale)),
+  },
+] as const;
+---
+
+<table class="price-table" role="table">
+  <caption class="visually-hidden">{caption}</caption>
+  <thead role="rowgroup">
+    <tr role="row">
+      <th role="columnheader" scope="col">
+        {t(col.package, locale)}
+      </th>
+      {showPeriod && (
+        <th role="columnheader" scope="col">
+          {t(col.period, locale)}
+        </th>
+      )}
+      <th role="columnheader" scope="col">
+        {t(col.price, locale)}
+      </th>
+      <th role="columnheader" scope="col">
+        {t(col.includedKm, locale)}
+      </th>
+    </tr>
+  </thead>
+  <tbody role="rowgroup">
+    {rows.map((row) => (
+      <tr role="row">
+        <th role="rowheader" scope="row">
+          {t(ui.packages[row.key], locale)}
+        </th>
+        {showPeriod && (
+          <td role="cell" data-label={t(col.period, locale)}>
+            {t(ui.prices.periods[row.key], locale)}
+          </td>
+        )}
+        <td role="cell" data-label={t(col.price, locale)}>
+          {row.price}
+        </td>
+        <td role="cell" data-label={t(col.includedKm, locale)}>
+          {row.km}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+<style>
+  @layer components {
+    .price-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: start;
+    }
+
+    .price-table th,
+    .price-table td {
+      padding: var(--space-16);
+      border-bottom: var(--border-width) solid var(--color-black);
+      text-align: start;
+      font-weight: var(--font-weight);
+    }
+
+    .price-table thead th {
+      background: var(--color-black);
+      color: var(--color-white);
+      font-size: var(--font-size-label);
+      letter-spacing: var(--letter-spacing-label);
+      text-transform: uppercase;
+    }
+
+    /* Unter 600px: jede Zeile ein eigener Kasten mit Beschriftung je Wert */
+    @media (max-width: 599.98px) {
+      .price-table thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+      }
+
+      .price-table tbody {
+        display: grid;
+        gap: var(--space-16);
+      }
+
+      .price-table tr {
+        display: grid;
+        border: var(--border-width) solid var(--color-black);
+      }
+
+      .price-table th[role="rowheader"] {
+        background: var(--color-black);
+        color: var(--color-white);
+        border: 0;
+      }
+
+      .price-table td {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-16);
+      }
+
+      .price-table tr > :last-child {
+        border-bottom: 0;
+      }
+
+      /* Sichtbare Beschriftung; für Screenreader leer, sie lesen die Kopfzeile */
+      .price-table td::before {
+        content: attr(data-label);
+        content: attr(data-label) / "";
+        color: var(--tone-muted);
+      }
+    }
+  }
+</style>

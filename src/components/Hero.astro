@@ -8,7 +8,8 @@ import VehicleImage from "./VehicleImage.astro";
 
 /**
  * Hero der Startseite (PRD 8.1 S1, 9.7). Wortmarke, Claim und Button fliegen
- * per CSS von links ein; das Fahrzeug fährt per motion.ts von rechts herein.
+ * per CSS von links ein; das Fahrzeug fährt über data-drive-in von rechts
+ * herein (styles/motion.css, scripts/motion.ts).
  */
 interface Props {
   locale: Locale;
@@ -47,8 +48,8 @@ const car = vehicles.find((v) => v.id === "silber") ?? vehicles[0];
   </div>
 
   {car && (
-    <div class="hero__car" data-hero-car>
-      <div class="hero__car-body">
+    <div class="hero__car" data-drive-in>
+      <div>
         <VehicleImage
           image={car.data.image}
           alt={t(car.data.alt, locale)}
@@ -191,43 +192,6 @@ const car = vehicles.find((v) => v.id === "silber") ?? vehicles[0];
       animation-delay: 450ms;
     }
 
-    /*
-     * Fahrzeug: wartet rechts außerhalb, bis motion.ts data-state="drive"
-     * setzt (Bild dekodiert, spätestens 1,5s). Einfedern beginnt 200ms vor
-     * Ankunft, damit die Sequenz bei 1,9s endet.
-     */
-    :global(.js) .hero__car {
-      animation: hero-drive var(--dur-drive) var(--ease-drive) 200ms both;
-      animation-play-state: paused;
-    }
-
-    :global(.js) .hero__car-body {
-      transform-origin: 50% 100%;
-      animation: hero-settle 300ms var(--ease-out) 1600ms both;
-      animation-play-state: paused;
-    }
-
-    .hero__car[data-state="drive"],
-    .hero__car[data-state="drive"] .hero__car-body,
-    :global(.motion-fallback:not(.motion-ready)) .hero__car,
-    :global(.motion-fallback:not(.motion-ready)) .hero__car-body {
-      animation-play-state: running;
-    }
-
-    .hero__car[data-state="wait"] {
-      animation: none;
-      opacity: 0;
-    }
-
-    .hero__car[data-state="fade"] {
-      animation: hero-fade 300ms var(--ease-out) both;
-    }
-
-    .hero__car[data-state="wait"] .hero__car-body,
-    .hero__car[data-state="fade"] .hero__car-body {
-      animation: none;
-    }
-
     @keyframes hero-text-in {
       from {
         opacity: 0;
@@ -235,31 +199,11 @@ const car = vehicles.find((v) => v.id === "silber") ?? vehicles[0];
       }
     }
 
-    @keyframes hero-drive {
-      from {
-        transform: translateX(var(--drive-from));
-      }
-    }
-
-    @keyframes hero-settle {
-      from {
-        transform: rotate(-0.6deg);
-      }
-    }
-
-    @keyframes hero-fade {
-      from {
-        opacity: 0;
-      }
-    }
-
     /* Reduzierte Bewegung: alles steht sofort an der Endposition */
     @media (prefers-reduced-motion: reduce) {
       .hero__title,
       .hero__claim,
-      .hero__cta,
-      :global(.js) .hero__car,
-      :global(.js) .hero__car-body {
+      .hero__cta {
         animation: none;
       }
     }

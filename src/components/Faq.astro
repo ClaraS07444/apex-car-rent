@@ -1,0 +1,101 @@
+---
+import type { Locale } from "../i18n/locales";
+import { fill, getBusiness, getFaq, getPricing, t } from "../lib/content";
+import { formatPrice } from "../lib/format";
+import Icon from "./Icon.astro";
+
+/**
+ * FAQ-Accordion (PRD 8.2 F5) aus nativen <details>: ohne JavaScript bedienbar,
+ * Zustand für Screenreader eingebaut, mehrere Einträge gleichzeitig offen.
+ * Platzhalter in den Antworten kommen aus den Datenquellen (T-02).
+ */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const [entries, pricing, business] = await Promise.all([
+  getFaq(),
+  getPricing(),
+  getBusiness(),
+]);
+
+const values = {
+  delivery: formatPrice(pricing.delivery, locale),
+  deposit: formatPrice(pricing.deposit, locale),
+  voucher: formatPrice(pricing.voucherMinimum, locale),
+  age: business.requirements.minimumAge,
+  years: business.requirements.licenseYears,
+};
+---
+
+<div class="faq">
+  {entries.map(({ data }) => (
+    <details class="faq__item">
+      <summary class="faq__question">
+        <span>{t(data.question, locale)}</span>
+        <Icon name="plus" class="faq__icon" />
+      </summary>
+      <div class="faq__answer">
+        <p>{fill(t(data.answer, locale), values)}</p>
+      </div>
+    </details>
+  ))}
+</div>
+
+<style>
+  @layer components {
+    .faq {
+      border-top: var(--border-width) solid currentColor;
+    }
+
+    .faq__item {
+      border-bottom: var(--border-width) solid currentColor;
+      /* Höhenanimation 250ms, wo der Browser sie unterstützt (sonst sofort) */
+      interpolate-size: allow-keywords;
+    }
+
+    .faq__item::details-content {
+      height: 0;
+      overflow: clip;
+      transition:
+        height 250ms var(--ease-out),
+        content-visibility 250ms allow-discrete;
+    }
+
+    .faq__item[open]::details-content {
+      height: auto;
+    }
+
+    .faq__question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-24);
+      min-height: var(--tap-min);
+      padding-block: var(--space-16);
+      font-size: var(--font-size-h3);
+      line-height: var(--line-height-h3);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .faq__question::-webkit-details-marker {
+      display: none;
+    }
+
+    /* Plus dreht sich beim Öffnen um 45° (PRD 8.2 F5) */
+    .faq__question :global(.faq__icon) {
+      flex-shrink: 0;
+      transition: transform 250ms var(--ease-out);
+    }
+
+    .faq__item[open] .faq__question :global(.faq__icon) {
+      transform: rotate(45deg);
+    }
+
+    .faq__answer {
+      padding-block-end: var(--space-24);
+    }
+  }
+</style>

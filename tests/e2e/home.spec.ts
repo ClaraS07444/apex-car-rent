@@ -22,7 +22,7 @@ test.describe("Startseite: Hero (PRD 8.1 S1, 9.7, 17)", () => {
     page,
   }) => {
     await page.goto("/");
-    const car = page.locator("[data-hero-car]");
+    const car = page.locator("[data-drive-in]");
     await expect(car).toHaveAttribute("data-state", "drive");
     // Längste Animation: Einfedern, 1600ms Verzögerung + 300ms = 1900ms
     const longest = await page.evaluate(() =>
@@ -89,7 +89,7 @@ test.describe("Reduzierte Bewegung (PRD 9.7, A-09)", () => {
     );
     expect(moving).toBe(0);
     const transform = await page
-      .locator("[data-hero-car]")
+      .locator("[data-drive-in]")
       .evaluate((el) => getComputedStyle(el).transform);
     expect(transform).toBe("none");
   });

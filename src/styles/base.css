@@ -134,6 +134,11 @@
     outline: none;
   }
 
+  /* Seite hinter einem geöffneten Dialog (Menü, Fahrzeug-Overlay) scrollt nicht */
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+
   /* Sprungziele nicht unter der fixierten Navigation verstecken */
   [id] {
     scroll-margin-top: var(--header-height);

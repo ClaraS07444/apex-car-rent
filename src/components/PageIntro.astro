@@ -1,0 +1,82 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { Locale } from "../i18n/locales";
+import { t } from "../lib/content";
+import VehicleImage from "./VehicleImage.astro";
+
+/**
+ * Seitenkopf der Unterseiten (PRD 8.2 F1, 8.3 K1): weiß, H1 und Text links
+ * (5/12), Fahrzeug rechts, das wie im Hero von rechts einfährt.
+ */
+interface Props {
+  locale: Locale;
+  title: string;
+  vehicle?: CollectionEntry<"vehicles">;
+}
+
+const { locale, title, vehicle } = Astro.props;
+---
+
+<section class="page-intro" data-tone="light" aria-labelledby="page-title">
+  <div class="container page-intro__grid">
+    <div class="page-intro__text" data-reveal="left">
+      <h1 id="page-title">{title}</h1>
+      <slot />
+    </div>
+    {vehicle && (
+      <div class="page-intro__car" data-drive-in>
+        <div>
+          <VehicleImage
+            image={vehicle.data.image}
+            alt={t(vehicle.data.alt, locale)}
+            sizes="(min-width: 1024px) 55vw, 90vw"
+            priority
+          />
+        </div>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .page-intro {
+      padding-block: var(--section-padding);
+      background: var(--tone-bg);
+      color: var(--tone-fg);
+      overflow-x: clip;
+    }
+
+    .page-intro__grid {
+      display: grid;
+      gap: var(--space-48);
+      align-items: center;
+    }
+
+    .page-intro__text {
+      display: grid;
+      gap: var(--space-24);
+    }
+
+    /* Mobile: Fahrzeug in 90 % Breite unter dem Text */
+    .page-intro__car {
+      width: 90%;
+      justify-self: center;
+    }
+
+    .page-intro__car :global(img) {
+      width: 100%;
+    }
+
+    @media (min-width: 1024px) {
+      .page-intro__grid {
+        grid-template-columns: 5fr 7fr;
+        gap: var(--grid-gap);
+      }
+
+      .page-intro__car {
+        width: 100%;
+      }
+    }
+  }
+</style>

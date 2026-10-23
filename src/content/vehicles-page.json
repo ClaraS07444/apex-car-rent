@@ -1,0 +1,109 @@
+{
+  "intro": {
+    "title": {
+      "de": "Porsche 911 GT3 RS mieten in Aachen",
+      "en": "Rent a Porsche 911 GT3 RS in Aachen",
+      "nl": "Porsche 911 GT3 RS huren in Aken"
+    },
+    "text": {
+      "de": "Drei Fahrzeuge, ein Modell: der 911 GT3 RS in Silber, Rot und Schwarz, jeweils mit {power}. Alle Preise, Kilometer und Bedingungen stehen auf dieser Seite, die Übergabe erfolgt persönlich in Aachen.",
+      "en": "Three cars, one model: the 911 GT3 RS in silver, red and black, each with {power}. All prices, mileage and conditions are on this page, and every handover takes place in person in Aachen.",
+      "nl": "Drie auto's, één model: de 911 GT3 RS in zilver, rood en zwart, elk met {power}. Alle prijzen, kilometers en voorwaarden staan op deze pagina; de overdracht gebeurt persoonlijk in Aken."
+    },
+    "priceAnchor": {
+      "de": "ab {price} pro Tag",
+      "en": "from {price} per day",
+      "nl": "vanaf {price} per dag"
+    }
+  },
+  "list": {
+    "heading": { "de": "Die Fahrzeuge", "en": "The cars", "nl": "De auto's" }
+  },
+  "prices": {
+    "heading": {
+      "de": "Preise und Pakete",
+      "en": "Prices and packages",
+      "nl": "Prijzen en pakketten"
+    }
+  },
+  "conditions": {
+    "heading": {
+      "de": "Mietbedingungen",
+      "en": "Rental conditions",
+      "nl": "Huurvoorwaarden"
+    },
+    "items": [
+      {
+        "title": {
+          "de": "Mindestalter",
+          "en": "Minimum age",
+          "nl": "Minimumleeftijd"
+        },
+        "text": {
+          "de": "{age} Jahre.",
+          "en": "{age} years.",
+          "nl": "{age} jaar."
+        }
+      },
+      {
+        "title": {
+          "de": "Führerschein",
+          "en": "Driving licence",
+          "nl": "Rijbewijs"
+        },
+        "text": {
+          "de": "Klasse B seit mindestens {years} Jahren.",
+          "en": "Category B, held for at least {years} years.",
+          "nl": "Categorie B, minstens {years} jaar in bezit."
+        }
+      },
+      {
+        "title": { "de": "Kaution", "en": "Deposit", "nl": "Borg" },
+        "text": {
+          "de": "{deposit} bei Übergabe.",
+          "en": "{deposit} at handover.",
+          "nl": "{deposit} bij de overdracht."
+        }
+      },
+      {
+        "title": { "de": "Zahlung", "en": "Payment", "nl": "Betaling" },
+        "text": {
+          "de": "Bar oder per Karte vor Ort.",
+          "en": "Cash or card on site.",
+          "nl": "Contant of met kaart ter plaatse."
+        }
+      },
+      {
+        "title": {
+          "de": "Vollkasko inklusive",
+          "en": "Comprehensive cover included",
+          "nl": "Allrisk inbegrepen"
+        },
+        "text": {
+          "de": "Bei einem Schaden wird die Kaution bis zu ihrer vollen Höhe einbehalten.",
+          "en": "In the event of damage, the deposit is retained up to its full amount.",
+          "nl": "Bij schade wordt de borg tot het volledige bedrag ingehouden."
+        }
+      },
+      {
+        "title": {
+          "de": "Mitbringen",
+          "en": "What to bring",
+          "nl": "Meenemen"
+        },
+        "text": {
+          "de": "Personalausweis oder Reisepass und Führerschein.",
+          "en": "ID card or passport and driving licence.",
+          "nl": "Identiteitskaart of paspoort en rijbewijs."
+        }
+      }
+    ]
+  },
+  "faq": {
+    "heading": {
+      "de": "Häufige Fragen",
+      "en": "Frequently asked questions",
+      "nl": "Veelgestelde vragen"
+    }
+  }
+}

@@ -1,0 +1,304 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { Locale } from "../i18n/locales";
+import { pagePath } from "../i18n/routes";
+import { fill, getBusiness, getPricing, getUi, t } from "../lib/content";
+import { formatPower, formatPrice } from "../lib/format";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+import PriceExtras from "./PriceExtras.astro";
+import PriceTable from "./PriceTable.astro";
+import VehicleImage from "./VehicleImage.astro";
+
+/**
+ * Detail-Overlay je Fahrzeug (PRD 8.2 F2, 10.5). Modaler <dialog>, gesteuert
+ * von scripts/vehicle-dialog.ts: Deeplink ?auto=, Zurück schließt, Fokus
+ * bleibt im Dialog und kehrt zum auslösenden Button zurück.
+ */
+interface Props {
+  vehicle: CollectionEntry<"vehicles">;
+  locale: Locale;
+  /** Sprungziel der vollständigen Mietbedingungen (F4) */
+  conditionsId: string;
+  /** Pfeile anzeigen, wenn es mehr als ein Fahrzeug gibt */
+  stepping: boolean;
+}
+
+const { vehicle, locale, conditionsId, stepping } = Astro.props;
+const [ui, pricing, business] = await Promise.all([
+  getUi(),
+  getPricing(),
+  getBusiness(),
+]);
+const { data } = vehicle;
+const id = vehicle.id;
+const titleId = `vehicle-dialog-${id}-title`;
+const specs = ui.vehicle.specs;
+const d = ui.dialog;
+---
+
+<dialog
+  id={`vehicle-dialog-${id}`}
+  class="vehicle-dialog"
+  data-tone="light"
+  data-vehicle-dialog={id}
+  aria-labelledby={titleId}
+  tabindex="-1"
+>
+  <div class="vehicle-dialog__bar">
+    {stepping && (
+      <>
+        <button
+          type="button"
+          class="vehicle-dialog__icon-button vehicle-dialog__prev"
+          data-vehicle-step="-1"
+          aria-label={t(d.previous, locale)}
+        >
+          <Icon name="arrow-right" />
+        </button>
+        <button
+          type="button"
+          class="vehicle-dialog__icon-button"
+          data-vehicle-step="1"
+          aria-label={t(d.next, locale)}
+        >
+          <Icon name="arrow-right" />
+        </button>
+      </>
+    )}
+    <button
+      type="button"
+      class="vehicle-dialog__icon-button vehicle-dialog__close"
+      data-vehicle-close
+      aria-label={t(d.close, locale)}
+    >
+      <Icon name="x" />
+    </button>
+  </div>
+
+  <div class="vehicle-dialog__body">
+    <div class="vehicle-dialog__media">
+      <VehicleImage
+        image={data.image}
+        alt={t(data.alt, locale)}
+        sizes="(min-width: 1024px) 56rem, 100vw"
+      />
+    </div>
+
+    <h2 id={titleId}>{t(data.name, locale)}</h2>
+
+    <div class="vehicle-dialog__columns">
+      <section aria-labelledby={`${titleId}-specs`}>
+        <h3 id={`${titleId}-specs`}>{t(d.specs, locale)}</h3>
+        <dl class="vehicle-dialog__specs">
+          <div>
+            <dt>{t(specs.power, locale)}</dt>
+            <dd>
+              {formatPower(
+                data.powerPs,
+                t(ui.vehicle.powerUnit, locale),
+                locale,
+              )}
+            </dd>
+          </div>
+          <div>
+            <dt>{t(specs.transmission, locale)}</dt>
+            <dd>{t(data.transmission, locale)}</dd>
+          </div>
+          <div>
+            <dt>{t(specs.drivetrain, locale)}</dt>
+            <dd>{t(data.drivetrain, locale)}</dd>
+          </div>
+          <div>
+            <dt>{t(specs.seats, locale)}</dt>
+            <dd>{data.seats}</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section aria-labelledby={`${titleId}-prices`}>
+        <h3 id={`${titleId}-prices`}>{t(d.prices, locale)}</h3>
+        <PriceTable locale={locale} caption={t(d.prices, locale)} />
+        <h3 class="vehicle-dialog__subheading">
+          {t(ui.prices.extrasHeading, locale)}
+        </h3>
+        <PriceExtras locale={locale} />
+      </section>
+    </div>
+
+    <section
+      class="vehicle-dialog__conditions"
+      aria-labelledby={`${titleId}-conditions`}
+    >
+      <h3 id={`${titleId}-conditions`}>{t(d.conditions, locale)}</h3>
+      <p>
+        {fill(t(d.conditionsSummary, locale), {
+          age: business.requirements.minimumAge,
+          years: business.requirements.licenseYears,
+          deposit: formatPrice(pricing.deposit, locale),
+        })}
+      </p>
+      <a href={`#${conditionsId}`} data-vehicle-conditions>
+        {t(d.conditionsLink, locale)}
+      </a>
+    </section>
+
+    <Button href={pagePath("contact", locale, { auto: id })}>
+      {t(ui.cta.requestVehicle, locale)}
+    </Button>
+  </div>
+</dialog>
+
+<style>
+  @layer components {
+    /* Mobile und Tablet: Vollbild */
+    .vehicle-dialog {
+      width: 100%;
+      max-width: none;
+      height: 100%;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: var(--tone-bg);
+      color: var(--tone-fg);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    /* Einzige Transparenz der Seite: schwarzer Hintergrund mit 80 % (PRD 9.1) */
+    .vehicle-dialog::backdrop {
+      background: rgb(0 0 0 / 0.8);
+    }
+
+    /* Desktop: max. 960px breit, zentriert */
+    @media (min-width: 1024px) {
+      .vehicle-dialog {
+        width: min(60rem, 100% - 2 * var(--page-margin));
+        height: auto;
+        max-height: calc(100% - 2 * var(--space-48));
+        margin: auto;
+      }
+    }
+
+    /* Öffnen 300ms (Einblenden, 24px von unten), Schließen 200ms (PRD 10.5) */
+    .vehicle-dialog[open],
+    .vehicle-dialog[open]::backdrop {
+      animation: vehicle-dialog-in 300ms var(--ease-out);
+    }
+
+    .vehicle-dialog[data-closing],
+    .vehicle-dialog[data-closing]::backdrop {
+      animation: vehicle-dialog-out 200ms var(--ease-out) forwards;
+    }
+
+    @keyframes vehicle-dialog-in {
+      from {
+        opacity: 0;
+        transform: translateY(1.5rem);
+      }
+    }
+
+    @keyframes vehicle-dialog-out {
+      to {
+        opacity: 0;
+        transform: translateY(1.5rem);
+      }
+    }
+
+    .vehicle-dialog__bar {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-8);
+      padding: var(--space-8);
+      background: var(--tone-bg);
+    }
+
+    .vehicle-dialog__icon-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--tap-min);
+      height: var(--tap-min);
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .vehicle-dialog__prev :global(svg) {
+      transform: scaleX(-1);
+    }
+
+    .vehicle-dialog__close {
+      margin-inline-start: var(--space-16);
+    }
+
+    .vehicle-dialog__body {
+      display: grid;
+      gap: var(--space-32);
+      padding: 0 var(--page-margin) var(--space-48);
+    }
+
+    .vehicle-dialog__media :global(img) {
+      width: 100%;
+    }
+
+    .vehicle-dialog__columns {
+      display: grid;
+      gap: var(--space-48);
+    }
+
+    @media (min-width: 768px) {
+      .vehicle-dialog__columns {
+        grid-template-columns: 1fr 1.4fr;
+        gap: var(--grid-gap);
+      }
+    }
+
+    .vehicle-dialog h3 {
+      margin-block-end: var(--space-16);
+      font-size: var(--font-size-label);
+      line-height: var(--line-height-label);
+      letter-spacing: var(--letter-spacing-label);
+      text-transform: uppercase;
+      color: var(--tone-muted);
+    }
+
+    .vehicle-dialog__subheading {
+      margin-block-start: var(--space-32);
+    }
+
+    .vehicle-dialog__specs {
+      display: grid;
+      margin: 0;
+    }
+
+    .vehicle-dialog__specs > div {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-16);
+      padding-block: var(--space-12);
+      border-bottom: var(--border-width) solid currentColor;
+    }
+
+    .vehicle-dialog__specs dd {
+      margin: 0;
+      text-align: end;
+    }
+
+    .vehicle-dialog__conditions {
+      display: grid;
+      gap: var(--space-12);
+      justify-items: start;
+    }
+
+    .vehicle-dialog__body > :global(.button) {
+      justify-self: start;
+    }
+  }
+</style>

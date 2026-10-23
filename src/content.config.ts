@@ -65,6 +65,11 @@ const business = defineCollection({
       )
       .min(1),
     openingHoursNote: localized,
+    // PRD 8.2 F4: Mietvoraussetzungen, auch im Overlay, in den FAQ und im Formular
+    requirements: z.strictObject({
+      minimumAge: z.number().int().min(18),
+      licenseYears: z.number().int().min(1),
+    }),
   }),
 });
 
@@ -142,13 +147,94 @@ const ui = defineCollection({
       viewCars: localized,
       details: localized,
       request: localized,
+      requestVehicle: localized,
       contact: localized,
+    }),
+    packages: z.strictObject({
+      tag: localized,
+      wochenende: localized,
+      woche: localized,
+      langzeit: localized,
     }),
     vehicle: z.strictObject({
       powerUnit: localized,
       priceFromPerDay: localized,
       allBooked: localized,
+      specs: z.strictObject({
+        power: localized,
+        transmission: localized,
+        drivetrain: localized,
+        seats: localized,
+      }),
+      includedKm: localized,
+      perMonth: localized,
     }),
+    prices: z.strictObject({
+      columns: z.strictObject({
+        package: localized,
+        period: localized,
+        price: localized,
+        includedKm: localized,
+      }),
+      periods: z.strictObject({
+        tag: localized,
+        wochenende: localized,
+        woche: localized,
+        langzeit: localized,
+      }),
+      fromPrice: localized,
+      extrasHeading: localized,
+      delivery: localized,
+      pickup: localized,
+      extraKm: localized,
+      perKm: localized,
+      vouchers: localized,
+      deposit: localized,
+      vatIncluded: localized,
+    }),
+    dialog: z.strictObject({
+      close: localized,
+      previous: localized,
+      next: localized,
+      specs: localized,
+      prices: localized,
+      conditions: localized,
+      conditionsSummary: localized,
+      conditionsLink: localized,
+    }),
+  }),
+});
+
+// PRD 8.2 F5: FAQ, Antworten dürfen Platzhalter wie {deposit} enthalten
+const faq = defineCollection({
+  loader: file("src/content/faq.json"),
+  schema: z.strictObject({
+    id: z.string(),
+    order: z.number().int().nonnegative(),
+    question: localized,
+    answer: localized,
+  }),
+});
+
+// Texte der Fahrzeugseite (PRD 8.2); Preise und Daten kommen aus den Daten.
+const vehiclesPage = defineCollection({
+  loader: singleton("src/content/vehicles-page.json", "vehiclesPage"),
+  schema: z.strictObject({
+    id: z.literal("vehiclesPage"),
+    intro: z.strictObject({
+      title: localized,
+      text: localized,
+      priceAnchor: localized,
+    }),
+    list: z.strictObject({ heading: localized }),
+    prices: z.strictObject({ heading: localized }),
+    conditions: z.strictObject({
+      heading: localized,
+      items: z
+        .array(z.strictObject({ title: localized, text: localized }))
+        .length(6),
+    }),
+    faq: z.strictObject({ heading: localized }),
   }),
 });
 
@@ -227,4 +313,13 @@ const home = defineCollection({
   }),
 });
 
-export const collections = { business, pricing, vehicles, ui, reviews, home };
+export const collections = {
+  business,
+  pricing,
+  vehicles,
+  ui,
+  reviews,
+  home,
+  faq,
+  vehiclesPage,
+};

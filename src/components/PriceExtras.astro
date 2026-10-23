@@ -1,0 +1,67 @@
+---
+import type { Locale } from "../i18n/locales";
+import { fill, getPricing, getUi, t } from "../lib/content";
+import { formatPrice } from "../lib/format";
+
+/** Zusatzleistungen und Kaution (PRD 8.2 F3, Overlay), alle Werte aus pricing.json. */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const [ui, pricing] = await Promise.all([getUi(), getPricing()]);
+const p = ui.prices;
+const price = (amount: number) => formatPrice(amount, locale);
+
+const items = [
+  [p.delivery, price(pricing.delivery)],
+  [p.pickup, price(pricing.pickup)],
+  [p.extraKm, fill(t(p.perKm, locale), { price: price(pricing.extraKmPrice) })],
+  [
+    p.vouchers,
+    fill(t(p.fromPrice, locale), { price: price(pricing.voucherMinimum) }),
+  ],
+  [p.deposit, price(pricing.deposit)],
+] as const;
+---
+
+<dl class="price-extras">
+  {items.map(([label, value]) => (
+    <div class="price-extras__row">
+      <dt>{t(label, locale)}</dt>
+      <dd>{value}</dd>
+    </div>
+  ))}
+</dl>
+{pricing.pricesIncludeVat && (
+  <p class="price-extras__note">{t(p.vatIncluded, locale)}</p>
+)}
+
+<style>
+  @layer components {
+    .price-extras {
+      display: grid;
+      margin: 0;
+    }
+
+    .price-extras__row {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-16);
+      padding-block: var(--space-12);
+      border-bottom: var(--border-width) solid currentColor;
+    }
+
+    .price-extras dd {
+      margin: 0;
+      text-align: end;
+    }
+
+    .price-extras__note {
+      margin-block-start: var(--space-16);
+      color: var(--tone-muted);
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+    }
+  }
+</style>

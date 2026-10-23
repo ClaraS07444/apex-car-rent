@@ -6,7 +6,10 @@
     "city": "Aachen",
     "country": "DE"
   },
-  "geo": { "latitude": 50.7735, "longitude": 6.1325 },
+  "geo": {
+    "latitude": 50.7735,
+    "longitude": 6.1325
+  },
   "phone": "+49 241 0000 000",
   "email": "anfrage@apex-rent.example",
   "instagram": "@apexrent.aachen",
@@ -16,11 +19,19 @@
       "opens": "09:00",
       "closes": "19:00"
     },
-    { "days": ["Saturday"], "opens": "10:00", "closes": "16:00" }
+    {
+      "days": ["Saturday"],
+      "opens": "10:00",
+      "closes": "16:00"
+    }
   ],
   "openingHoursNote": {
     "de": "Sonntag nach Vereinbarung",
     "en": "Sunday by appointment",
     "nl": "Zondag op afspraak"
+  },
+  "requirements": {
+    "minimumAge": 25,
+    "licenseYears": 4
   }
 }

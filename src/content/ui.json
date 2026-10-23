@@ -14,7 +14,11 @@
     "en": "Main navigation",
     "nl": "Hoofdnavigatie"
   },
-  "menuOpen": { "de": "Menü öffnen", "en": "Open menu", "nl": "Menu openen" },
+  "menuOpen": {
+    "de": "Menü öffnen",
+    "en": "Open menu",
+    "nl": "Menu openen"
+  },
   "menuClose": {
     "de": "Menü schließen",
     "en": "Close menu",
@@ -26,15 +30,31 @@
     "nl": "Taal kiezen"
   },
   "pages": {
-    "home": { "de": "Startseite", "en": "Home", "nl": "Home" },
-    "vehicles": { "de": "Fahrzeuge", "en": "Cars", "nl": "Auto's" },
-    "contact": { "de": "Kontakt", "en": "Contact", "nl": "Contact" },
+    "home": {
+      "de": "Startseite",
+      "en": "Home",
+      "nl": "Home"
+    },
+    "vehicles": {
+      "de": "Fahrzeuge",
+      "en": "Cars",
+      "nl": "Auto's"
+    },
+    "contact": {
+      "de": "Kontakt",
+      "en": "Contact",
+      "nl": "Contact"
+    },
     "legalNotice": {
       "de": "Impressum",
       "en": "Legal notice",
       "nl": "Colofon"
     },
-    "privacy": { "de": "Datenschutz", "en": "Privacy", "nl": "Privacy" }
+    "privacy": {
+      "de": "Datenschutz",
+      "en": "Privacy",
+      "nl": "Privacy"
+    }
   },
   "footer": {
     "description": {
@@ -42,16 +62,36 @@
       "en": "Apex Rent is an uncompromising specialist rental for a single model: one car, three colours, full power, transparent prices, personal service in Aachen.",
       "nl": "Apex Rent is de compromisloze specialist in de verhuur van één model: één auto, drie kleuren, vol vermogen, transparante prijzen, persoonlijke service in Aken."
     },
-    "contactHeading": { "de": "Kontakt", "en": "Contact", "nl": "Contact" },
+    "contactHeading": {
+      "de": "Kontakt",
+      "en": "Contact",
+      "nl": "Contact"
+    },
     "hoursHeading": {
       "de": "Öffnungszeiten",
       "en": "Opening hours",
       "nl": "Openingstijden"
     },
-    "legalNav": { "de": "Rechtliches", "en": "Legal", "nl": "Juridisch" },
-    "phone": { "de": "Telefon", "en": "Phone", "nl": "Telefoon" },
-    "email": { "de": "E-Mail", "en": "Email", "nl": "E-mail" },
-    "instagram": { "de": "Instagram", "en": "Instagram", "nl": "Instagram" }
+    "legalNav": {
+      "de": "Rechtliches",
+      "en": "Legal",
+      "nl": "Juridisch"
+    },
+    "phone": {
+      "de": "Telefon",
+      "en": "Phone",
+      "nl": "Telefoon"
+    },
+    "email": {
+      "de": "E-Mail",
+      "en": "Email",
+      "nl": "E-mail"
+    },
+    "instagram": {
+      "de": "Instagram",
+      "en": "Instagram",
+      "nl": "Instagram"
+    }
   },
   "conceptNote": {
     "de": "Konzeptprojekt: Apex Rent ist ein fiktives Unternehmen.",
@@ -59,22 +99,43 @@
     "nl": "Conceptproject: Apex Rent is een fictief bedrijf."
   },
   "cta": {
-    "rent": { "de": "Jetzt mieten", "en": "Rent now", "nl": "Nu huren" },
+    "rent": {
+      "de": "Jetzt mieten",
+      "en": "Rent now",
+      "nl": "Nu huren"
+    },
     "viewCars": {
       "de": "Fahrzeuge ansehen",
       "en": "View the cars",
       "nl": "Bekijk de auto's"
     },
-    "details": { "de": "Details", "en": "Details", "nl": "Details" },
-    "request": { "de": "Anfragen", "en": "Request", "nl": "Aanvragen" },
+    "details": {
+      "de": "Details",
+      "en": "Details",
+      "nl": "Details"
+    },
+    "request": {
+      "de": "Anfragen",
+      "en": "Request",
+      "nl": "Aanvragen"
+    },
     "contact": {
       "de": "Kontakt aufnehmen",
       "en": "Get in touch",
       "nl": "Neem contact op"
+    },
+    "requestVehicle": {
+      "de": "Dieses Fahrzeug anfragen",
+      "en": "Request this car",
+      "nl": "Deze auto aanvragen"
     }
   },
   "vehicle": {
-    "powerUnit": { "de": "PS", "en": "hp", "nl": "pk" },
+    "powerUnit": {
+      "de": "PS",
+      "en": "hp",
+      "nl": "pk"
+    },
     "priceFromPerDay": {
       "de": "ab {price} / Tag",
       "en": "from {price} / day",
@@ -84,6 +145,193 @@
       "de": "Derzeit sind alle Fahrzeuge vergeben.",
       "en": "All cars are currently booked.",
       "nl": "Momenteel zijn alle auto's verhuurd."
+    },
+    "specs": {
+      "power": {
+        "de": "Leistung",
+        "en": "Power",
+        "nl": "Vermogen"
+      },
+      "transmission": {
+        "de": "Getriebe",
+        "en": "Transmission",
+        "nl": "Transmissie"
+      },
+      "drivetrain": {
+        "de": "Antrieb",
+        "en": "Drive",
+        "nl": "Aandrijving"
+      },
+      "seats": {
+        "de": "Sitze",
+        "en": "Seats",
+        "nl": "Zitplaatsen"
+      }
+    },
+    "includedKm": {
+      "de": "inkl. {km}",
+      "en": "incl. {km}",
+      "nl": "incl. {km}"
+    },
+    "perMonth": {
+      "de": "{value} pro Monat",
+      "en": "{value} per month",
+      "nl": "{value} per maand"
+    }
+  },
+  "packages": {
+    "tag": {
+      "de": "Tag",
+      "en": "Day",
+      "nl": "Dag"
+    },
+    "wochenende": {
+      "de": "Wochenende",
+      "en": "Weekend",
+      "nl": "Weekend"
+    },
+    "woche": {
+      "de": "Woche",
+      "en": "Week",
+      "nl": "Week"
+    },
+    "langzeit": {
+      "de": "Langzeit",
+      "en": "Long-term",
+      "nl": "Langdurig"
+    }
+  },
+  "prices": {
+    "columns": {
+      "package": {
+        "de": "Paket",
+        "en": "Package",
+        "nl": "Pakket"
+      },
+      "period": {
+        "de": "Zeitraum",
+        "en": "Period",
+        "nl": "Periode"
+      },
+      "price": {
+        "de": "Preis",
+        "en": "Price",
+        "nl": "Prijs"
+      },
+      "includedKm": {
+        "de": "Inklusiv-km",
+        "en": "Included km",
+        "nl": "Inclusief km"
+      }
+    },
+    "periods": {
+      "tag": {
+        "de": "24 Stunden",
+        "en": "24 hours",
+        "nl": "24 uur"
+      },
+      "wochenende": {
+        "de": "Fr 12:00 bis Mo 10:00",
+        "en": "Fri 12:00 to Mon 10:00",
+        "nl": "vr 12:00 tot ma 10:00"
+      },
+      "woche": {
+        "de": "7 Tage",
+        "en": "7 days",
+        "nl": "7 dagen"
+      },
+      "langzeit": {
+        "de": "ab 1 Monat",
+        "en": "from 1 month",
+        "nl": "vanaf 1 maand"
+      }
+    },
+    "fromPrice": {
+      "de": "ab {price}",
+      "en": "from {price}",
+      "nl": "vanaf {price}"
+    },
+    "extrasHeading": {
+      "de": "Zusatzleistungen und Kaution",
+      "en": "Extras and deposit",
+      "nl": "Extra's en borg"
+    },
+    "delivery": {
+      "de": "Lieferung",
+      "en": "Delivery",
+      "nl": "Levering"
+    },
+    "pickup": {
+      "de": "Abholung",
+      "en": "Collection",
+      "nl": "Ophalen"
+    },
+    "extraKm": {
+      "de": "Mehrkilometer",
+      "en": "Extra kilometres",
+      "nl": "Extra kilometers"
+    },
+    "perKm": {
+      "de": "{price} pro km",
+      "en": "{price} per km",
+      "nl": "{price} per km"
+    },
+    "vouchers": {
+      "de": "Gutscheine",
+      "en": "Gift vouchers",
+      "nl": "Cadeaubonnen"
+    },
+    "deposit": {
+      "de": "Kaution",
+      "en": "Deposit",
+      "nl": "Borg"
+    },
+    "vatIncluded": {
+      "de": "Alle Preise inkl. MwSt.",
+      "en": "All prices include VAT.",
+      "nl": "Alle prijzen incl. btw."
+    }
+  },
+  "dialog": {
+    "close": {
+      "de": "Schließen",
+      "en": "Close",
+      "nl": "Sluiten"
+    },
+    "previous": {
+      "de": "Vorheriges Fahrzeug",
+      "en": "Previous car",
+      "nl": "Vorige auto"
+    },
+    "next": {
+      "de": "Nächstes Fahrzeug",
+      "en": "Next car",
+      "nl": "Volgende auto"
+    },
+    "specs": {
+      "de": "Technische Daten",
+      "en": "Specifications",
+      "nl": "Technische gegevens"
+    },
+    "prices": {
+      "de": "Preise",
+      "en": "Prices",
+      "nl": "Prijzen"
+    },
+    "conditions": {
+      "de": "Mietbedingungen",
+      "en": "Rental conditions",
+      "nl": "Huurvoorwaarden"
+    },
+    "conditionsSummary": {
+      "de": "Ab {age} Jahren, Führerschein Klasse B seit {years} Jahren, Kaution {deposit} bei Übergabe.",
+      "en": "From {age} years, category B licence held for {years} years, deposit of {deposit} at handover.",
+      "nl": "Vanaf {age} jaar, rijbewijs B sinds {years} jaar, borg van {deposit} bij de overdracht."
+    },
+    "conditionsLink": {
+      "de": "Alle Mietbedingungen",
+      "en": "All rental conditions",
+      "nl": "Alle huurvoorwaarden"
     }
   }
 }

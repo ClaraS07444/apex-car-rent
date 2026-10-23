@@ -1,10 +1,10 @@
 /**
  * Zentrale Motion-Logik (PRD 9.7, T-06): Scroll-Animationen über data-reveal
- * und der Start des Hero-Fahrzeugs. Bewegt werden nur transform und opacity;
+ * und der Start einfahrender Fahrzeuge über data-drive-in. Bewegt werden nur transform und opacity;
  * Dauern und Kurven kommen aus den CSS-Tokens.
  */
 
-const HERO_CAR_TIMEOUT_MS = 1500;
+const DRIVE_IN_TIMEOUT_MS = 1500;
 
 /** Elemente erscheinen einmal, sobald sie 85 % der Viewport-Höhe erreichen. */
 function initReveal(): void {
@@ -26,14 +26,13 @@ function initReveal(): void {
 }
 
 /**
- * Das Hero-Fahrzeug fährt los, sobald das Bild dekodiert ist, spätestens nach
+ * Ein Fahrzeug fährt los, sobald sein Bild dekodiert ist, spätestens nach
  * 1,5 s. Ist es dann noch nicht geladen, bleibt es verborgen und blendet nach
  * dem Laden in 300 ms ein (PRD 10.5).
  */
-function initHeroCar(): void {
-  const car = document.querySelector<HTMLElement>("[data-hero-car]");
-  const image = car?.querySelector("img");
-  if (!car || !image) return;
+function startDriveIn(car: HTMLElement): void {
+  const image = car.querySelector("img");
+  if (!image) return;
 
   const setState = (state: "drive" | "wait" | "fade") => {
     car.dataset.state = state;
@@ -44,7 +43,7 @@ function initHeroCar(): void {
     () => false,
   );
   const timeout = new Promise<false>((resolve) =>
-    window.setTimeout(() => resolve(false), HERO_CAR_TIMEOUT_MS),
+    window.setTimeout(() => resolve(false), DRIVE_IN_TIMEOUT_MS),
   );
 
   void Promise.race([decoded, timeout]).then((ready) => {
@@ -62,4 +61,4 @@ function initHeroCar(): void {
 
 document.documentElement.classList.add("motion-ready");
 initReveal();
-initHeroCar();
+document.querySelectorAll<HTMLElement>("[data-drive-in]").forEach(startDriveIn);

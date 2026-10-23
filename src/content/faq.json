@@ -1,0 +1,86 @@
+[
+  {
+    "id": "bestaetigung",
+    "order": 1,
+    "question": {
+      "de": "Wie läuft die Bestätigung ab?",
+      "en": "How does the confirmation work?",
+      "nl": "Hoe verloopt de bevestiging?"
+    },
+    "answer": {
+      "de": "Nach deiner Anfrage prüfen wir die Verfügbarkeit und melden uns innerhalb von 24 Stunden. Verbindlich ist die Miete erst mit unserer Bestätigung.",
+      "en": "After your request we check availability and get back to you within 24 hours. The rental only becomes binding once we confirm it.",
+      "nl": "Na je aanvraag controleren we de beschikbaarheid en nemen we binnen 24 uur contact op. De huur is pas bindend na onze bevestiging."
+    }
+  },
+  {
+    "id": "lieferung",
+    "order": 2,
+    "question": {
+      "de": "Bringt ihr das Fahrzeug auch zu mir?",
+      "en": "Can you deliver the car to me?",
+      "nl": "Kunnen jullie de auto bij mij afleveren?"
+    },
+    "answer": {
+      "de": "Ja. Lieferung und Abholung kosten je {delivery}. Den genauen Ort stimmen wir bei der Bestätigung mit dir ab.",
+      "en": "Yes. Delivery and collection cost {delivery} each. We agree the exact location with you when we confirm.",
+      "nl": "Ja. Levering en ophalen kosten elk {delivery}. De precieze locatie spreken we af bij de bevestiging."
+    }
+  },
+  {
+    "id": "schaden",
+    "order": 3,
+    "question": {
+      "de": "Was passiert bei einem Schaden?",
+      "en": "What happens if there is damage?",
+      "nl": "Wat gebeurt er bij schade?"
+    },
+    "answer": {
+      "de": "Jede Miete ist vollkaskoversichert. Bei einem Schaden wird die Kaution von {deposit} bis zu ihrer vollen Höhe einbehalten.",
+      "en": "Every rental is fully insured. In the event of damage, the deposit of {deposit} is retained up to its full amount.",
+      "nl": "Elke huur is allrisk verzekerd. Bij schade wordt de borg van {deposit} tot het volledige bedrag ingehouden."
+    }
+  },
+  {
+    "id": "zusatzfahrer",
+    "order": 4,
+    "question": {
+      "de": "Darf eine zweite Person fahren?",
+      "en": "Can a second person drive?",
+      "nl": "Mag een tweede persoon rijden?"
+    },
+    "answer": {
+      "de": "Nach Absprache ja. Auch die zweite Person muss mindestens {age} Jahre alt sein und seit {years} Jahren einen Führerschein der Klasse B haben.",
+      "en": "Yes, by arrangement. The second driver must also be at least {age} years old and have held a category B licence for {years} years.",
+      "nl": "Ja, in overleg. Ook de tweede bestuurder moet minstens {age} jaar oud zijn en sinds {years} jaar een rijbewijs B hebben."
+    }
+  },
+  {
+    "id": "ausland",
+    "order": 5,
+    "question": {
+      "de": "Darf ich ins Ausland fahren?",
+      "en": "Can I drive abroad?",
+      "nl": "Mag ik naar het buitenland rijden?"
+    },
+    "answer": {
+      "de": "Fahrten ins Ausland sind nach vorheriger Absprache möglich. Nenne dein Ziel bitte schon in der Anfrage.",
+      "en": "Trips abroad are possible by prior arrangement. Please mention your destination in your request.",
+      "nl": "Ritten naar het buitenland zijn mogelijk na voorafgaand overleg. Vermeld je bestemming graag al in je aanvraag."
+    }
+  },
+  {
+    "id": "gutscheine",
+    "order": 6,
+    "question": {
+      "de": "Wie funktionieren Gutscheine?",
+      "en": "How do gift vouchers work?",
+      "nl": "Hoe werken cadeaubonnen?"
+    },
+    "answer": {
+      "de": "Gutscheine gibt es ab {voucher}. Wähle im Anfrageformular den Anlass Geschenkgutschein, wir melden uns mit allen Details.",
+      "en": "Gift vouchers start at {voucher}. Choose the occasion gift voucher in the request form and we will get back to you with all the details.",
+      "nl": "Cadeaubonnen zijn er vanaf {voucher}. Kies in het aanvraagformulier de gelegenheid cadeaubon, dan nemen we contact op met alle details."
+    }
+  }
+]
