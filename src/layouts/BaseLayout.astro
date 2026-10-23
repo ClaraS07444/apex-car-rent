@@ -1,13 +1,19 @@
 ---
 import { INDEXIERUNG } from "astro:env/server";
 import type { Locale } from "../i18n/locales";
+import type { PageKey } from "../i18n/routes";
+import { getUi, t } from "../lib/content";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
 import "../styles/global.css";
 
 interface Props {
+  page: PageKey;
   locale: Locale;
 }
 
-const { locale } = Astro.props;
+const { page, locale } = Astro.props;
+const ui = await getUi();
 ---
 
 <!doctype html>
@@ -16,6 +22,7 @@ const { locale } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Apex Rent</title>
+    {!INDEXIERUNG && <meta name="robots" content="noindex, nofollow" />}
     <link
       rel="preload"
       href="/fonts/manrope-300-latin.woff2"
@@ -23,11 +30,56 @@ const { locale } = Astro.props;
       type="font/woff2"
       crossorigin
     />
-    {!INDEXIERUNG && <meta name="robots" content="noindex, nofollow" />}
+    <!--
+      Reihenfolge der Kaskaden-Schichten. Steht vor allen Stylesheets, die Astro
+      ans Ende des head setzt, und gilt damit unabhängig von der Bundle-Reihenfolge.
+    -->
+    <style is:inline>
+      @layer tokens, base, layout, components, pages, utilities, motion;
+    </style>
+    <!-- Markiert aktives JavaScript vor dem ersten Rendern (progressive Enhancement) -->
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
   <body>
-    <main id="main">
+    <a class="skip-link" href="#main">
+      {t(ui.skipLink, locale)}
+    </a>
+    <div class="header-sentinel" aria-hidden="true" data-header-sentinel></div>
+    <SiteHeader page={page} locale={locale} />
+    <main id="main" tabindex="-1">
       <slot />
     </main>
+    <SiteFooter page={page} locale={locale} />
   </body>
 </html>
+
+<style>
+  @layer components {
+    /* PRD A-03: erstes fokussierbares Element, sichtbar bei Fokus */
+    .skip-link {
+      position: absolute;
+      top: var(--space-8);
+      left: var(--space-8);
+      z-index: 20;
+      padding: var(--space-12) var(--space-16);
+      background: var(--color-white);
+      color: var(--color-black);
+      transform: translateY(-200%);
+    }
+
+    .skip-link:focus {
+      transform: none;
+    }
+
+    /* Messpunkt für die verkleinerte Navigation nach 80px Scrollen (PRD 6) */
+    .header-sentinel {
+      position: absolute;
+      top: 80px;
+      width: 1px;
+      height: 1px;
+      pointer-events: none;
+    }
+  }
+</style>

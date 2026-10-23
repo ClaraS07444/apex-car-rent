@@ -1,0 +1,179 @@
+---
+import markUrl from "../assets/logo/apex-mark-white.svg?url";
+import type { Locale } from "../i18n/locales";
+import { routes, type PageKey } from "../i18n/routes";
+import { getBusiness, getUi, t } from "../lib/content";
+import { formatOpeningSlot } from "../lib/format";
+import LanguageSwitch from "./LanguageSwitch.astro";
+
+/**
+ * Footer (PRD 6). Kontaktdaten kommen aus business.json (NAP, PRD 13.3).
+ * Telefon, E-Mail und Instagram sind fiktiv und nur Text (E-03).
+ */
+interface Props {
+  page: PageKey;
+  locale: Locale;
+}
+
+const { page, locale } = Astro.props;
+const [ui, business] = await Promise.all([getUi(), getBusiness()]);
+const { address } = business;
+---
+
+<footer class="site-footer" data-tone="dark">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <img src={markUrl} alt="" width="90" height="56" />
+      <p>{t(ui.footer.description, locale)}</p>
+    </div>
+
+    <div>
+      <h2 class="site-footer__heading">
+        {t(ui.footer.contactHeading, locale)}
+      </h2>
+      <address>
+        {business.name}
+        <br />
+        {address.street}
+        <br />
+        {`${address.postalCode} ${address.city}`}
+      </address>
+      <dl class="site-footer__contact">
+        <div>
+          <dt>{t(ui.footer.phone, locale)}</dt>
+          <dd>{business.phone}</dd>
+        </div>
+        <div>
+          <dt>{t(ui.footer.email, locale)}</dt>
+          <dd>{business.email}</dd>
+        </div>
+        <div>
+          <dt>{t(ui.footer.instagram, locale)}</dt>
+          <dd>{business.instagram}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div>
+      <h2 class="site-footer__heading">{t(ui.footer.hoursHeading, locale)}</h2>
+      <ul class="site-footer__list">
+        {business.openingHours.map((slot) => (
+          <li>{formatOpeningSlot(slot, locale)}</li>
+        ))}
+        <li>{t(business.openingHoursNote, locale)}</li>
+      </ul>
+    </div>
+
+    <div class="site-footer__meta">
+      <nav aria-label={t(ui.footer.legalNav, locale)}>
+        <ul class="site-footer__list">
+          <li>
+            <a
+              href={routes.legalNotice[locale]}
+              aria-current={page === "legalNotice" ? "page" : undefined}
+            >
+              {t(ui.pages.legalNotice, locale)}
+            </a>
+          </li>
+          <li>
+            <a
+              href={routes.privacy[locale]}
+              aria-current={page === "privacy" ? "page" : undefined}
+            >
+              {t(ui.pages.privacy, locale)}
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <LanguageSwitch page={page} locale={locale} />
+    </div>
+  </div>
+
+  <div class="container">
+    <p class="site-footer__note">{t(ui.conceptNote, locale)}</p>
+  </div>
+</footer>
+
+<style>
+  @layer components {
+    /* Immer schwarz, durch eine 2px rote Linie abgesetzt (PRD 8) */
+    .site-footer {
+      padding-block: var(--space-64);
+      border-top: 2px solid var(--color-red);
+      background: var(--tone-bg);
+      color: var(--tone-fg);
+    }
+
+    .site-footer__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+      gap: var(--space-48) var(--grid-gap);
+    }
+
+    .site-footer__brand {
+      display: grid;
+      gap: var(--space-24);
+      align-content: start;
+    }
+
+    .site-footer__brand img {
+      width: auto;
+      height: 3.5rem;
+    }
+
+    .site-footer__heading {
+      margin-block-end: var(--space-16);
+      font-size: var(--font-size-label);
+      line-height: var(--line-height-label);
+      letter-spacing: var(--letter-spacing-label);
+      text-transform: uppercase;
+      color: var(--tone-muted);
+    }
+
+    address {
+      font-style: normal;
+    }
+
+    .site-footer__contact {
+      display: grid;
+      gap: var(--space-8);
+      margin-block-start: var(--space-16);
+    }
+
+    .site-footer__contact dt {
+      color: var(--tone-muted);
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+    }
+
+    .site-footer__list {
+      display: grid;
+      gap: var(--space-8);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .site-footer__meta {
+      display: grid;
+      gap: var(--space-24);
+      align-content: start;
+    }
+
+    .site-footer__meta a {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap-min);
+    }
+
+    .site-footer__note {
+      max-width: none;
+      margin-block-start: var(--space-48);
+      padding-block-start: var(--space-24);
+      border-top: var(--border-width) solid var(--color-muted-on-black);
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+      color: var(--tone-muted);
+    }
+  }
+</style>

@@ -1,0 +1,335 @@
+---
+import markUrl from "../assets/logo/apex-mark-white.svg?url";
+import type { Locale } from "../i18n/locales";
+import { routes, type PageKey } from "../i18n/routes";
+import { getBusiness, getUi, t } from "../lib/content";
+import Icon from "./Icon.astro";
+import LanguageSwitch from "./LanguageSwitch.astro";
+
+/**
+ * Navigation (PRD 6). Desktop ab 1024px: Leiste mit Menüpunkten und
+ * Sprachumschalter. Darunter: Menü-Button öffnet ein Vollbild-<dialog>.
+ */
+interface Props {
+  page: PageKey;
+  locale: Locale;
+}
+
+const { page, locale } = Astro.props;
+const [ui, business] = await Promise.all([getUi(), getBusiness()]);
+
+const items = (["home", "vehicles", "contact"] as const).map((key) => ({
+  key,
+  href: routes[key][locale],
+  label: t(ui.pages[key], locale),
+}));
+const homeHref = routes.home[locale];
+const homeLabel = t(ui.homeLink, locale);
+const navLabel = t(ui.mainNav, locale);
+---
+
+<header class="site-header" data-tone="dark" data-site-header>
+  <div class="site-header__bar">
+    <a class="site-header__home" href={homeHref}>
+      <img src={markUrl} alt={homeLabel} width="90" height="56" />
+    </a>
+
+    <nav class="site-nav" aria-label={navLabel}>
+      <ul>
+        {items.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={item.key === page ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="site-header__lang">
+      <LanguageSwitch page={page} locale={locale} />
+    </div>
+
+    <button
+      type="button"
+      class="menu-button"
+      aria-haspopup="dialog"
+      aria-controls="menu-dialog"
+      aria-expanded="false"
+      data-menu-open
+    >
+      <Icon name="list" size={32} />
+      <span class="visually-hidden">{t(ui.menuOpen, locale)}</span>
+    </button>
+  </div>
+
+  <dialog
+    id="menu-dialog"
+    class="menu-dialog"
+    data-tone="dark"
+    aria-label={navLabel}
+    tabindex="-1"
+    data-menu-dialog
+  >
+    <div class="site-header__bar">
+      <a class="site-header__home" href={homeHref}>
+        <img src={markUrl} alt={homeLabel} width="90" height="56" />
+      </a>
+      <button type="button" class="menu-button" data-menu-close>
+        <Icon name="x" size={32} />
+        <span class="visually-hidden">{t(ui.menuClose, locale)}</span>
+      </button>
+    </div>
+
+    <div class="menu-dialog__body">
+      <ul class="menu-dialog__list">
+        {items.map((item) => (
+          <li class="menu-dialog__item">
+            <a
+              href={item.href}
+              aria-current={item.key === page ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div class="menu-dialog__item menu-dialog__lang">
+        <LanguageSwitch page={page} locale={locale} />
+      </div>
+      <p class="menu-dialog__item menu-dialog__phone">
+        <span class="visually-hidden">{t(ui.footer.phone, locale)}: </span>
+        {business.phone}
+      </p>
+    </div>
+  </dialog>
+</header>
+
+<script>
+  import "../scripts/nav";
+</script>
+
+<style>
+  @layer components {
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--tone-bg);
+      color: var(--tone-fg);
+      transition: transform var(--dur-hover) var(--ease-out);
+    }
+
+    .site-header__bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-24);
+      height: var(--header-height);
+      padding-inline: var(--page-margin);
+      transition: transform var(--dur-hover) var(--ease-out);
+    }
+
+    .site-header__home {
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .site-header__home img {
+      width: auto;
+      height: 2.5rem; /* Mobile 40px */
+    }
+
+    /* Mobile zuerst: Menü-Button statt Leiste */
+    .site-nav,
+    .site-header__lang {
+      display: none;
+    }
+
+    .menu-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--tap-min);
+      height: var(--tap-min);
+      margin-inline-start: auto;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .site-nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 var(--space-96);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .site-nav a {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap-min);
+      font-size: var(--font-size-label);
+      line-height: var(--line-height-label);
+      letter-spacing: var(--letter-spacing-label);
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    /* Aktive Seite und Hover: 2px rote Linie, wächst von links (PRD 6) */
+    .site-nav a::after {
+      content: "";
+      position: absolute;
+      inset-inline: 0 var(--letter-spacing-label);
+      bottom: var(--space-8);
+      height: 2px;
+      background: var(--color-red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--dur-hover) var(--ease-out);
+    }
+
+    .site-nav a:hover::after,
+    .site-nav a[aria-current="page"]::after {
+      transform: scaleX(1);
+    }
+
+    /* Ohne JavaScript bleibt die Navigation auch mobil als Liste sichtbar */
+    :global(html:not(.js)) .site-header__bar {
+      flex-wrap: wrap;
+      height: auto;
+      min-height: var(--header-height);
+    }
+
+    :global(html:not(.js)) .site-nav {
+      display: block;
+      flex-basis: 100%;
+    }
+
+    :global(html:not(.js)) .menu-button {
+      display: none;
+    }
+
+    @media (min-width: 1024px) {
+      .site-header__home img {
+        height: 3.5rem; /* Desktop 56px */
+      }
+
+      .site-nav {
+        display: block;
+        margin-inline-start: var(--space-64);
+      }
+
+      .site-header__lang {
+        display: block;
+        margin-inline-start: auto;
+      }
+
+      .menu-button {
+        display: none;
+      }
+
+      /* Nach 80px Scrollen sichtbar 72px hoch: nur per transform (P-07) */
+      .site-header[data-condensed] {
+        transform: translateY(-1.5rem);
+      }
+
+      .site-header[data-condensed] .site-header__bar {
+        transform: translateY(0.75rem);
+      }
+    }
+
+    /* Mobile-Menü als Vollbild-Dialog */
+    .menu-dialog {
+      width: 100%;
+      max-width: none;
+      height: 100%;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: var(--tone-bg);
+      color: var(--tone-fg);
+      overflow-y: auto;
+    }
+
+    .menu-dialog::backdrop {
+      background: var(--color-black);
+    }
+
+    .menu-dialog__body {
+      display: grid;
+      gap: var(--space-32);
+      padding: var(--space-48) var(--page-margin);
+    }
+
+    .menu-dialog__list {
+      display: grid;
+      gap: var(--space-8);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .menu-dialog__list a {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap-min);
+      font-size: var(--font-size-h3);
+      letter-spacing: var(--letter-spacing-label);
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .menu-dialog__list a[aria-current="page"] {
+      text-decoration: underline;
+      text-decoration-color: var(--color-red);
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.3em;
+    }
+
+    .menu-dialog__phone {
+      color: var(--tone-muted);
+    }
+
+    /* Menüpunkte fliegen gestaffelt von links ein, 60ms Versatz (PRD 6) */
+    .menu-dialog[open] .menu-dialog__item {
+      animation: menu-fly-in var(--dur-reveal) var(--ease-out) both;
+    }
+
+    .menu-dialog[open] .menu-dialog__item:nth-child(2) {
+      animation-delay: 60ms;
+    }
+
+    .menu-dialog[open] .menu-dialog__item:nth-child(3) {
+      animation-delay: 120ms;
+    }
+
+    .menu-dialog[open] .menu-dialog__lang {
+      animation-delay: 180ms;
+    }
+
+    .menu-dialog[open] .menu-dialog__phone {
+      animation-delay: 240ms;
+    }
+
+    @keyframes menu-fly-in {
+      from {
+        opacity: 0;
+        transform: translateX(-3rem);
+      }
+    }
+
+    /* Seite hinter dem geöffneten Menü scrollt nicht */
+    :global(html:has(.menu-dialog[open])) {
+      overflow: hidden;
+    }
+  }
+</style>

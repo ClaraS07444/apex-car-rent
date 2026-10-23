@@ -128,4 +128,14 @@
     outline: var(--focus-width) solid var(--color-red);
     outline-offset: var(--focus-offset);
   }
+
+  /* Programmatisch fokussierte Ziele (Skip-Link) ohne Fokusring */
+  [tabindex="-1"]:focus {
+    outline: none;
+  }
+
+  /* Sprungziele nicht unter der fixierten Navigation verstecken */
+  [id] {
+    scroll-margin-top: var(--header-height);
+  }
 }

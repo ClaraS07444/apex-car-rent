@@ -11,13 +11,16 @@
     "preview": "astro preview",
     "check": "astro check && prettier --check .",
     "format": "prettier --write .",
-    "test": "npm run build && node --test \"tests/**/*.test.mjs\""
+    "test": "npm run build && node --test \"tests/**/*.test.mjs\"",
+    "test:e2e": "npm run build && playwright test"
   },
   "dependencies": {
     "astro": "7.4.2"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.64.1",
     "prettier": "3.9.10",
     "prettier-plugin-astro": "1.1.1",
     "typescript": "6.0.3"

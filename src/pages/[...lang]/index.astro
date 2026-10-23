@@ -19,7 +19,7 @@ interface Props {
 const { locale } = Astro.props;
 ---
 
-<BaseLayout locale={locale}>
+<BaseLayout page="home" locale={locale}>
   <!-- Inhalte folgen in späteren Inkrementen (View Startseite). -->
   <div data-page="home"></div>
 </BaseLayout>

@@ -1,0 +1,95 @@
+---
+import { languageNames, locales, type Locale } from "../i18n/locales";
+import { routes, type PageKey } from "../i18n/routes";
+import { getUi, t } from "../lib/content";
+
+/**
+ * Sprachumschalter (PRD 6, A-13). Führt auf dieselbe Seite in der Zielsprache;
+ * nav.ts hängt im Browser die aktuellen URL-Parameter an.
+ */
+interface Props {
+  page: PageKey;
+  locale: Locale;
+}
+
+const { page, locale } = Astro.props;
+const ui = await getUi();
+// Auf der 404-Seite führt der Wechsel zur Startseite der Zielsprache.
+const target: PageKey = page === "notFound" ? "home" : page;
+---
+
+<nav class="lang-switch" aria-label={t(ui.languageSwitch, locale)}>
+  <ul>
+    {locales.map((code, index) => (
+      <li>
+        {index > 0 && (
+          <span class="lang-switch__sep" aria-hidden="true">
+            /
+          </span>
+        )}
+        <a
+          href={routes[target][code]}
+          hreflang={code}
+          lang={code}
+          aria-current={code === locale ? "true" : undefined}
+          data-lang-link
+        >
+          <span aria-hidden="true">{code.toUpperCase()}</span>
+          <span class="visually-hidden">{languageNames[code]}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  @layer components {
+    /* Negativer Rand gleicht den Innenabstand der Tippflächen aus,
+       damit der Text bündig mit der umgebenden Spalte steht. */
+    .lang-switch ul {
+      display: flex;
+      align-items: center;
+      margin: 0 calc(-1 * var(--space-12));
+      padding: 0;
+      list-style: none;
+    }
+
+    .lang-switch li {
+      display: flex;
+      align-items: center;
+    }
+
+    .lang-switch__sep {
+      opacity: 0.6;
+    }
+
+    /* Tippfläche mind. 48 x 48px (A-08): Text plus 12px Innenabstand je Seite */
+    .lang-switch a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: var(--tap-min);
+      min-height: var(--tap-min);
+      padding-inline: var(--space-12);
+      font-size: var(--font-size-label);
+      line-height: var(--line-height-label);
+      letter-spacing: var(--letter-spacing-label);
+      text-decoration: none;
+      opacity: 0.6;
+      transition: opacity var(--dur-hover) var(--ease-out);
+    }
+
+    .lang-switch a:hover {
+      opacity: 1;
+    }
+
+    /* Aktive Sprache: volle Deckkraft, 2px rote Unterstreichung */
+    .lang-switch a[aria-current="true"] {
+      opacity: 1;
+      text-decoration: underline;
+      text-decoration-color: var(--color-red);
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.4em;
+    }
+  }
+</style>

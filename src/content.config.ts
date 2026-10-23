@@ -109,4 +109,35 @@ const vehicles = defineCollection({
     }),
 });
 
-export const collections = { business, pricing, vehicles };
+// Wiederkehrende Oberflächentexte (Navigation, Footer, Hinweise)
+const ui = defineCollection({
+  loader: singleton("src/content/ui.json", "ui"),
+  schema: z.strictObject({
+    id: z.literal("ui"),
+    skipLink: localized,
+    homeLink: localized,
+    mainNav: localized,
+    menuOpen: localized,
+    menuClose: localized,
+    languageSwitch: localized,
+    pages: z.strictObject({
+      home: localized,
+      vehicles: localized,
+      contact: localized,
+      legalNotice: localized,
+      privacy: localized,
+    }),
+    footer: z.strictObject({
+      description: localized,
+      contactHeading: localized,
+      hoursHeading: localized,
+      legalNav: localized,
+      phone: localized,
+      email: localized,
+      instagram: localized,
+    }),
+    conceptNote: localized,
+  }),
+});
+
+export const collections = { business, pricing, vehicles, ui };

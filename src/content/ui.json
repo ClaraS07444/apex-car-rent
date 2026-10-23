@@ -1,0 +1,61 @@
+{
+  "skipLink": {
+    "de": "Zum Inhalt springen",
+    "en": "Skip to content",
+    "nl": "Naar de inhoud"
+  },
+  "homeLink": {
+    "de": "Apex Rent, zur Startseite",
+    "en": "Apex Rent, go to home page",
+    "nl": "Apex Rent, naar de homepage"
+  },
+  "mainNav": {
+    "de": "Hauptnavigation",
+    "en": "Main navigation",
+    "nl": "Hoofdnavigatie"
+  },
+  "menuOpen": { "de": "Menü öffnen", "en": "Open menu", "nl": "Menu openen" },
+  "menuClose": {
+    "de": "Menü schließen",
+    "en": "Close menu",
+    "nl": "Menu sluiten"
+  },
+  "languageSwitch": {
+    "de": "Sprache wählen",
+    "en": "Choose language",
+    "nl": "Taal kiezen"
+  },
+  "pages": {
+    "home": { "de": "Startseite", "en": "Home", "nl": "Home" },
+    "vehicles": { "de": "Fahrzeuge", "en": "Cars", "nl": "Auto's" },
+    "contact": { "de": "Kontakt", "en": "Contact", "nl": "Contact" },
+    "legalNotice": {
+      "de": "Impressum",
+      "en": "Legal notice",
+      "nl": "Colofon"
+    },
+    "privacy": { "de": "Datenschutz", "en": "Privacy", "nl": "Privacy" }
+  },
+  "footer": {
+    "description": {
+      "de": "Apex Rent ist die kompromisslose Spezialvermietung für ein einziges Modell: ein Fahrzeug, drei Farben, volle Leistung, transparente Preise, persönlicher Service in Aachen.",
+      "en": "Apex Rent is an uncompromising specialist rental for a single model: one car, three colours, full power, transparent prices, personal service in Aachen.",
+      "nl": "Apex Rent is de compromisloze specialist in de verhuur van één model: één auto, drie kleuren, vol vermogen, transparante prijzen, persoonlijke service in Aken."
+    },
+    "contactHeading": { "de": "Kontakt", "en": "Contact", "nl": "Contact" },
+    "hoursHeading": {
+      "de": "Öffnungszeiten",
+      "en": "Opening hours",
+      "nl": "Openingstijden"
+    },
+    "legalNav": { "de": "Rechtliches", "en": "Legal", "nl": "Juridisch" },
+    "phone": { "de": "Telefon", "en": "Phone", "nl": "Telefoon" },
+    "email": { "de": "E-Mail", "en": "Email", "nl": "E-mail" },
+    "instagram": { "de": "Instagram", "en": "Instagram", "nl": "Instagram" }
+  },
+  "conceptNote": {
+    "de": "Konzeptprojekt: Apex Rent ist ein fiktives Unternehmen.",
+    "en": "Concept project: Apex Rent is a fictional company.",
+    "nl": "Conceptproject: Apex Rent is een fictief bedrijf."
+  }
+}

@@ -23,7 +23,7 @@ interface Props {
 const { page, locale } = Astro.props;
 ---
 
-<BaseLayout locale={locale}>
+<BaseLayout page={page} locale={locale}>
   <!-- Inhalte folgen in späteren Inkrementen (Views je Seite). -->
   <div data-page={page}></div>
 </BaseLayout>

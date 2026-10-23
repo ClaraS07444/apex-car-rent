@@ -71,6 +71,9 @@
     --radius: 0;
     --border-width: 1px;
 
+    /* PRD 6: Navigationsleiste, Mobile 64px, Desktop 96px */
+    --header-height: 4rem;
+
     /* 9.4 Komponenten */
     --button-height: 3rem; /* 48px */
     --tap-min: 3rem; /* 48px */
@@ -103,6 +106,7 @@
       --grid-columns: 12;
       --grid-gap: var(--space-32);
       --button-height: 3.5rem; /* 56px */
+      --header-height: 6rem; /* 96px */
     }
   }
 

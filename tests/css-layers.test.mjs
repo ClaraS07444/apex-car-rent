@@ -34,18 +34,19 @@ const pages = (await readdir(DIST, { recursive: true })).filter((f) =>
 for (const page of pages) {
   test(`${page}: Layer-Reihenfolge`, async () => {
     const html = await readFile(join(DIST, page), "utf8");
-    const hrefs = [
-      ...html.matchAll(/<link rel="stylesheet" href="([^"]+)"/g),
-    ].map((m) => m[1]);
-    assert.ok(hrefs.length > 0, "kein Stylesheet eingebunden");
-    const inline = [...html.matchAll(/<style>([\s\S]*?)<\/style>/g)].map(
-      (m) => m[1],
+    // Inline-Styles und Stylesheets in Dokumentreihenfolge einsammeln
+    const sources = [
+      ...html.matchAll(
+        /<style>([\s\S]*?)<\/style>|<link rel="stylesheet" href="([^"]+)"/g,
+      ),
+    ];
+    assert.ok(
+      sources.some((m) => m[2]),
+      "kein Stylesheet eingebunden",
     );
-    const css = (
-      await Promise.all(hrefs.map((href) => readFile(join(DIST, href), "utf8")))
-    )
-      .concat(inline)
-      .join("\n");
-    assert.deepEqual(layerOrder(css), EXPECTED);
+    const parts = await Promise.all(
+      sources.map((m) => (m[2] ? readFile(join(DIST, m[2]), "utf8") : m[1])),
+    );
+    assert.deepEqual(layerOrder(parts.join("\n")), EXPECTED);
   });
 }
