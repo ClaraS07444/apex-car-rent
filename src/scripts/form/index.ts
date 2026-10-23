@@ -510,15 +510,6 @@ function init(config: Config, submitter: InquirySubmitter): void {
   function refresh(): void {
     updateConditions();
     updateDerived();
-    // Datumsauswahl auf morgen bis Ende des Buchungsfensters begrenzen
-    if (startInput) {
-      const { min, max } = bookingRange(
-        localIso(new Date()),
-        config.windowMonths,
-      );
-      startInput.min = min;
-      startInput.max = max;
-    }
   }
 
   // --- Ereignisse -------------------------------------------------------
@@ -619,6 +610,18 @@ function init(config: Config, submitter: InquirySubmitter): void {
   select("vehicle", prefill.vehicle);
   select("package", prefill.package);
   select("occasion", prefill.occasion);
+
+  // Datumsauswahl auf morgen bis Ende des Buchungsfensters begrenzen. Nur
+  // einmal: Chromium verwirft beim Neusetzen von min/max halb getippte
+  // Datumsteile, und input feuert schon je Teil (A-02).
+  if (startInput) {
+    const { min, max } = bookingRange(
+      localIso(new Date()),
+      config.windowMonths,
+    );
+    startInput.min = min;
+    startInput.max = max;
+  }
 
   refresh();
   // Erst mit JavaScript kann gesendet werden (Demo-Modus, PRD 10.4)

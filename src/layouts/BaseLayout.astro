@@ -7,6 +7,7 @@ import { getPageSeo } from "../lib/seo";
 import { getStructuredData, serializeJsonLd } from "../lib/structured-data";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
+import faviconUrl from "../assets/logo/apex-mark-black.svg?url";
 import "../styles/global.css";
 
 interface Props {
@@ -64,6 +65,8 @@ const [ui, seo, structuredData] = await Promise.all([
         set:html={serializeJsonLd(data)}
       />
     ))}
+    <!-- A-Bildmarke; ohne Angabe fragt der Browser /favicon.ico an (404) -->
+    <link rel="icon" href={faviconUrl} type="image/svg+xml" />
     <link
       rel="preload"
       href="/fonts/manrope-300-latin.woff2"

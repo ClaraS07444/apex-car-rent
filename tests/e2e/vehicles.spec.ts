@@ -228,3 +228,18 @@ test.describe("Ohne JavaScript", () => {
     await expect(page.locator(".vehicles-item").first()).toContainText("2.000");
   });
 });
+
+test("Bild-Ladefehler zeigt Kasten mit Fahrzeugnamen (PRD 10.5)", async ({
+  page,
+}) => {
+  await page.route(/\/_astro\/.*\.(avif|webp)$/, (route) => route.abort());
+  await gotoReady(page, "/fahrzeuge");
+  const card = page.locator("[data-vehicle-image]").first();
+  await card.scrollIntoViewIfNeeded();
+  await expect(card).toHaveAttribute("data-failed", "");
+  const fallback = card.locator(".vehicle-image__fallback");
+  await expect(fallback).toBeVisible();
+  await expect(fallback).toContainText("GT3 RS");
+  const box = await card.boundingBox();
+  expect(box?.height ?? 0).toBeGreaterThan(40);
+});

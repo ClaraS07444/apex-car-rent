@@ -24,8 +24,10 @@
     text-transform: uppercase;
   }
 
+  /* Textfarbe der Fläche: rotes Sternchen auf Schwarz hätte nur 3,6:1
+     Kontrast (PRD 9.1, A-01) */
   .field__required {
-    color: var(--color-red);
+    color: inherit;
   }
 
   .field__hint {

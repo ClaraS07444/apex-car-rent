@@ -7,7 +7,8 @@ import { Picture } from "astro:assets";
  * AVIF mit WebP-Fallback in 480 / 800 / 1200 / 1600 / 2400px, begrenzt auf
  * die Breite des Zuschnitts. width/height reservieren den Platz (kein
  * Layoutsprung); das transparente Bild zeigt beim Laden die Flächenfarbe.
- * Fällt das Bild aus, zeigt der Browser den Alt-Text mit dem Fahrzeugnamen.
+ * Fällt das Bild aus, zeigt scripts/image-fallback.ts an derselben Stelle
+ * einen Kasten mit dem Fahrzeugnamen (PRD 10.5).
  */
 interface Props {
   image: ImageMetadata;
@@ -30,15 +31,63 @@ const widths = [
 ];
 ---
 
-<Picture
-  src={image}
-  alt={alt}
-  formats={["avif"]}
-  fallbackFormat="webp"
-  widths={widths}
-  sizes={sizes}
-  loading={priority ? "eager" : "lazy"}
-  fetchpriority={priority ? "high" : "auto"}
-  decoding="async"
-  class={className}
-/>
+<span class="vehicle-image" data-vehicle-image>
+  <Picture
+    src={image}
+    alt={alt}
+    formats={["avif"]}
+    fallbackFormat="webp"
+    widths={widths}
+    sizes={sizes}
+    loading={priority ? "eager" : "lazy"}
+    fetchpriority={priority ? "high" : "auto"}
+    decoding="async"
+    class={className}
+  />
+  {
+    /* Für Screenreader genügt der Alt-Text des Bildes */
+    alt && (
+      <span class="vehicle-image__fallback" aria-hidden="true">
+        {alt}
+      </span>
+    )
+  }
+</span>
+
+<script>
+  import "../scripts/image-fallback";
+</script>
+
+<style>
+  @layer components {
+    .vehicle-image {
+      position: relative;
+      display: block;
+      width: 100%;
+    }
+
+    .vehicle-image__fallback {
+      display: none;
+    }
+
+    /* Ladefehler: Kasten in der Fläche des Bildes, Name als Text */
+    .vehicle-image[data-failed] :global(img) {
+      position: absolute;
+      inset: 0;
+      visibility: hidden;
+    }
+
+    .vehicle-image[data-failed] .vehicle-image__fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-16);
+      border: var(--border-width) solid currentColor;
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+      text-align: center;
+    }
+  }
+</style>

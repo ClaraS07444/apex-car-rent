@@ -33,8 +33,15 @@ test.describe("Desktop-Navigation (PRD 6)", () => {
       await page.goto(routes.vehicles[locale]);
       const nav = page.locator(".site-nav");
       await expect(nav).toBeVisible();
-      await expect(nav.locator('[aria-current="page"]')).toHaveText(label);
+      const active = nav.locator('[aria-current="page"]');
+      await expect(active).toHaveText(label);
       await expect(nav.locator("a")).toHaveCount(3);
+      // rote Linie unter dem aktiven Punkt (PRD 6)
+      const line = await active.evaluate((el) => {
+        const style = getComputedStyle(el, "::after");
+        return [style.backgroundColor, style.transform].join(" ");
+      });
+      expect(line).toBe("rgb(200, 16, 46) matrix(1, 0, 0, 1, 0, 0)");
     });
   }
 
