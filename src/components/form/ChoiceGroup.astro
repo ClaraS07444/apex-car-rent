@@ -1,0 +1,71 @@
+---
+import type { ImageMetadata } from "astro";
+import VehicleImage from "../VehicleImage.astro";
+import FieldError from "./FieldError.astro";
+
+/**
+ * Optionsgruppe als Kästen (PRD 10.1, A-07): echte Radiobuttons in einem
+ * fieldset mit legend, Pfeiltasten wechseln die Auswahl.
+ */
+interface Props {
+  name: string;
+  legend: string;
+  options: {
+    value: string;
+    label: string;
+    checked?: boolean;
+    image?: ImageMetadata;
+  }[];
+  required?: boolean;
+  requiredUnlessVoucher?: boolean;
+}
+
+const {
+  name,
+  legend,
+  options,
+  required = false,
+  requiredUnlessVoucher = false,
+} = Astro.props;
+const isRequired = required || requiredUnlessVoucher;
+---
+
+<fieldset class="field choice" data-field={name}>
+  <legend class="field__label">
+    {legend}
+    {isRequired && (
+      <span
+        class="field__required"
+        aria-hidden="true"
+        data-required-mark={requiredUnlessVoucher ? "unless-voucher" : ""}
+      >
+        {" *"}
+      </span>
+    )}
+  </legend>
+  <div class="choice__options">
+    {options.map((option) => (
+      <label class="choice__option">
+        {option.image && (
+          <span class="choice__media">
+            <VehicleImage image={option.image} alt="" sizes="10rem" />
+          </span>
+        )}
+        <span class="choice__row">
+          <input
+            class="choice__input"
+            type="radio"
+            id={`field-${name}-${option.value}`}
+            name={name}
+            value={option.value}
+            checked={option.checked}
+            required={isRequired}
+            data-required-unless-voucher={requiredUnlessVoucher || undefined}
+          />
+          <span>{option.label}</span>
+        </span>
+      </label>
+    ))}
+  </div>
+  <FieldError name={name} />
+</fieldset>

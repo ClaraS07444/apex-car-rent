@@ -1,0 +1,47 @@
+---
+import FieldError from "./FieldError.astro";
+
+/** Checkbox mit Text oder Link im Label (PRD 10.1 Felder 17 und 19). */
+interface Props {
+  name: string;
+  required?: boolean;
+  requiredUnlessVoucher?: boolean;
+  /** Nur Hilfsfeld, ohne eigene Fehlermeldung (z. B. "wie Lieferadresse") */
+  plain?: boolean;
+}
+
+const {
+  name,
+  required = false,
+  requiredUnlessVoucher = false,
+  plain = false,
+} = Astro.props;
+const isRequired = required || requiredUnlessVoucher;
+---
+
+<div class="field checkbox" data-field={name}>
+  <label class="checkbox__label">
+    <input
+      class="checkbox__input"
+      type="checkbox"
+      id={`field-${name}`}
+      name={name}
+      value="ja"
+      required={isRequired}
+      data-required-unless-voucher={requiredUnlessVoucher || undefined}
+    />
+    <span>
+      <slot />
+      {isRequired && (
+        <span
+          class="field__required"
+          aria-hidden="true"
+          data-required-mark={requiredUnlessVoucher ? "unless-voucher" : ""}
+        >
+          {" *"}
+        </span>
+      )}
+    </span>
+  </label>
+  {!plain && <FieldError name={name} />}
+</div>

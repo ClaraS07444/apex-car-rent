@@ -1,0 +1,71 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import FieldError from "./FieldError.astro";
+
+/** Text-, E-Mail-, Telefon-, Datums- und Zahlenfeld oder Textbereich (PRD 9.4). */
+type Props = {
+  name: string;
+  label: string;
+  hint?: string;
+  multiline?: boolean;
+  required?: boolean;
+  /** Pflicht nur, wenn kein Geschenkgutschein gewählt ist */
+  requiredUnlessVoucher?: boolean;
+} & Omit<HTMLAttributes<"input">, "name" | "required">;
+
+const {
+  name,
+  label,
+  hint,
+  multiline = false,
+  required = false,
+  requiredUnlessVoucher = false,
+  ...attrs
+} = Astro.props;
+const id = `field-${name}`;
+const hintId = hint ? `hint-${name}` : undefined;
+const isRequired = required || requiredUnlessVoucher;
+---
+
+<div class="field" data-field={name}>
+  <label class="field__label" for={id}>
+    {label}
+    {isRequired && (
+      <span
+        class="field__required"
+        aria-hidden="true"
+        data-required-mark={requiredUnlessVoucher ? "unless-voucher" : ""}
+      >
+        {" *"}
+      </span>
+    )}
+  </label>
+  {hint && (
+    <p class="field__hint" id={hintId}>
+      {hint}
+    </p>
+  )}
+  {multiline ? (
+    <textarea
+      class="field__control"
+      id={id}
+      name={name}
+      required={isRequired}
+      aria-describedby={hintId}
+      data-required-unless-voucher={requiredUnlessVoucher || undefined}
+      {...(attrs as HTMLAttributes<"textarea">)}
+    />
+  ) : (
+    <input
+      class="field__control"
+      id={id}
+      name={name}
+      required={isRequired}
+      aria-describedby={hintId}
+      data-required-unless-voucher={requiredUnlessVoucher || undefined}
+      {...attrs}
+    />
+  )}
+  <slot />
+  <FieldError name={name} />
+</div>

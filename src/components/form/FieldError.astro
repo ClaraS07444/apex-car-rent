@@ -1,0 +1,15 @@
+---
+import Icon from "../Icon.astro";
+
+/** Fehlertext eines Feldes; scripts/form/index.ts füllt und zeigt ihn (PRD 10.2). */
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+---
+
+<p class="field__error" id={`error-${name}`} hidden>
+  <Icon name="warning-circle" />
+  <span data-error-text></span>
+</p>

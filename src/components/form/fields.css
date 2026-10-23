@@ -1,0 +1,171 @@
+/*
+ * Formularfelder (PRD 9.4, 10.2, A-06, A-07). Felder stehen in Kästen der
+ * Gegenfarbe; Fehler zeigen 2px roten Rahmen, rotes Warn-Icon und Text in
+ * der Textfarbe der Fläche, damit sie nie nur über Farbe vermittelt werden.
+ */
+@layer components {
+  /* align-content: start, damit Nachbarfelder mit längerer Fehlermeldung
+     das Eingabefeld nicht strecken */
+  .field {
+    display: grid;
+    align-content: start;
+    gap: var(--space-8);
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .field__label {
+    padding: 0;
+    font-size: var(--font-size-label);
+    line-height: var(--line-height-small);
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .field__required {
+    color: var(--color-red);
+  }
+
+  .field__hint {
+    color: var(--tone-muted);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+  }
+
+  /* Eingabefelder: weißer Kasten mit schwarzem Text, 48px Tippfläche */
+  .field__control {
+    width: 100%;
+    min-height: var(--tap-min);
+    padding: var(--space-12) var(--space-16);
+    border: 2px solid var(--color-white);
+    border-radius: var(--radius);
+    background: var(--color-white);
+    color: var(--color-black);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-small);
+    color-scheme: light;
+  }
+
+  textarea.field__control {
+    min-height: 8rem;
+    resize: vertical;
+  }
+
+  /* Auswahlliste mit Pfeil-Icon statt Browser-Pfeil */
+  .field__select {
+    position: relative;
+  }
+
+  .field__select select {
+    appearance: none;
+    padding-inline-end: var(--space-48);
+  }
+
+  .field__select svg {
+    position: absolute;
+    top: 50%;
+    right: var(--space-16);
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-black);
+    transform: translateY(-50%) rotate(90deg);
+    pointer-events: none;
+  }
+
+  .field[data-invalid] .field__control {
+    border-color: var(--color-red);
+  }
+
+  .field__error {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-8);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+  }
+
+  .field__error svg {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-red);
+  }
+
+  /* Optionsgruppen als Kästen mit echten Radiobuttons (A-07) */
+  .choice__options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+    gap: var(--space-12);
+  }
+
+  .choice__option {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: var(--space-8);
+    min-height: var(--tap-min);
+    padding: var(--space-12) var(--space-16);
+    border: 2px solid var(--color-white);
+    background: var(--color-white);
+    color: var(--color-black);
+    cursor: pointer;
+  }
+
+  .choice__option:has(:checked) {
+    border-color: var(--color-red);
+  }
+
+  .choice__option:has(:focus-visible) {
+    outline: var(--focus-width) solid var(--color-red);
+    outline-offset: var(--focus-offset);
+  }
+
+  .field[data-invalid] .choice__option {
+    border-color: var(--color-red);
+  }
+
+  .choice__row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+  }
+
+  .choice__input,
+  .checkbox__input {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+    accent-color: var(--color-red);
+  }
+
+  /* Fokus zeigt der Kasten, nicht das kleine Eingabeelement */
+  .choice__input:focus-visible {
+    outline: none;
+  }
+
+  .choice__media :is(img, picture) {
+    width: 100%;
+  }
+
+  /* Checkboxen: Text neben dem Kästchen, ganze Zeile klickbar */
+  .checkbox__label {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-12);
+    min-height: var(--tap-min);
+    padding-block: var(--space-8);
+    cursor: pointer;
+  }
+
+  .checkbox__input {
+    margin-block-start: 0.15rem;
+  }
+
+  .field[data-invalid] .checkbox__input {
+    outline: 2px solid var(--color-red);
+    outline-offset: 2px;
+  }
+}

@@ -15,6 +15,9 @@ type Props = {
 
 const { variant = "primary", href, class: className, ...attrs } = Astro.props;
 const classes = ["button", `button--${variant}`, className];
+// Ohne Angabe kein versehentliches Absenden; doppelte Attribute vermeiden,
+// denn im HTML gilt das erste (sonst wäre type="submit" wirkungslos).
+const { type = "button", ...buttonAttrs } = attrs as HTMLAttributes<"button">;
 ---
 
 {href ? (
@@ -22,11 +25,7 @@ const classes = ["button", `button--${variant}`, className];
     <slot />
   </a>
 ) : (
-  <button
-    type="button"
-    class:list={classes}
-    {...(attrs as HTMLAttributes<"button">)}
-  >
+  <button type={type} class:list={classes} {...buttonAttrs}>
     <slot />
   </button>
 )}

@@ -1,0 +1,593 @@
+---
+import type { Locale } from "../../i18n/locales";
+import { pagePath } from "../../i18n/routes";
+import {
+  fill,
+  getActiveVehicles,
+  getBusiness,
+  getContactPage,
+  getPricing,
+  getUi,
+  t,
+} from "../../lib/content";
+import { formatKm, formatPrice } from "../../lib/format";
+import { LIMITS } from "../../scripts/form/rules.ts";
+import Button from "../Button.astro";
+import Icon from "../Icon.astro";
+import CheckboxField from "./CheckboxField.astro";
+import ChoiceGroup from "./ChoiceGroup.astro";
+import SelectField from "./SelectField.astro";
+import TextField from "./TextField.astro";
+import "./fields.css";
+
+/**
+ * Anfrageformular (PRD 8.3 K2, 10). Statisches HTML mit allen Feldern;
+ * scripts/form/index.ts ergänzt bedingte Felder, Validierung, Vorschau und
+ * Versand. Ohne JavaScript bleibt das Absenden gesperrt (Demo-Modus, E-02).
+ */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const [page, ui, pricing, business, vehicles] = await Promise.all([
+  getContactPage(),
+  getUi(),
+  getPricing(),
+  getBusiness(),
+  getActiveVehicles(),
+]);
+const f = page.form;
+const tr = (text: Record<Locale, string>) => t(text, locale);
+const price = (amount: number) => formatPrice(amount, locale);
+const { booking, requirements } = business;
+
+const months = Array.from(
+  { length: pricing.packages.langzeit.maxMonths },
+  (_, i) => i + 1,
+);
+const hours = Array.from(
+  { length: booking.handoverLastHour - booking.handoverFirstHour + 1 },
+  (_, i) => `${String(booking.handoverFirstHour + i).padStart(2, "0")}:00`,
+);
+const occasionKeys = [
+  "keiner",
+  "hochzeit",
+  "event",
+  "gutschein",
+  "business",
+  "fotoshooting",
+] as const;
+
+// Konfiguration für das Skript: nur Daten und Texte der aktuellen Sprache
+const config = {
+  locale,
+  vehicleIds: vehicles.map((v) => v.id),
+  windowMonths: booking.windowMonths,
+  pricing: {
+    packages: pricing.packages,
+    extraKmPrice: pricing.extraKmPrice,
+    delivery: pricing.delivery,
+    pickup: pricing.pickup,
+    voucherMinimum: pricing.voucherMinimum,
+  },
+  messages: Object.fromEntries(
+    Object.entries(page.errors).map(([key, text]) => [key, tr(text)]),
+  ),
+  text: {
+    returnDatePending: tr(f.returnDatePending),
+    kmIncluded: tr(f.kmIncluded),
+    perMonth: tr(ui.vehicle.perMonth),
+    fromPrice: tr(ui.prices.fromPrice),
+    messageCounter: tr(f.messageCounter),
+    successHeading: tr(page.success.heading),
+    previewExtraKm: tr(page.preview.extraKm),
+    previewVoucher: tr(page.preview.voucher),
+    delivery: tr(ui.prices.delivery),
+    pickup: tr(ui.prices.pickup),
+    packages: {
+      tag: tr(ui.packages.tag),
+      wochenende: tr(ui.packages.wochenende),
+      woche: tr(ui.packages.woche),
+      langzeit: tr(ui.packages.langzeit),
+    },
+  },
+};
+// "<" maskieren, damit der Inhalt das Skript-Element nicht beenden kann
+const configJson = JSON.stringify(config).replaceAll("<", "\\u003c");
+---
+
+<div class="inquiry" data-inquiry>
+  <script
+    type="application/json"
+    id="inquiry-config"
+    is:inline
+    set:html={configJson}
+  />
+  <form
+    class="inquiry__form"
+    novalidate
+    aria-labelledby="inquiry-title"
+    data-inquiry-form
+  >
+    <h2 id="inquiry-title" tabindex="-1">
+      {tr(f.heading)}
+    </h2>
+    <p class="inquiry__hint">{tr(f.requiredHint)}</p>
+    <p class="inquiry__notice inquiry__nojs">{tr(f.noscript)}</p>
+
+    <div
+      class="inquiry__summary"
+      tabindex="-1"
+      aria-labelledby="inquiry-errors-title"
+      data-error-summary
+      hidden
+    >
+      <h3 id="inquiry-errors-title">{tr(f.errorSummary)}</h3>
+      <ul data-error-list></ul>
+    </div>
+
+    <fieldset class="inquiry__body" data-form-body>
+      <section class="inquiry__group" aria-labelledby="group-booking">
+        <h3 id="group-booking">{tr(f.sections.booking)}</h3>
+
+        <ChoiceGroup
+          name="vehicle"
+          legend={tr(f.vehicle)}
+          requiredUnlessVoucher
+          options={[
+            ...vehicles.map((v) => ({
+              value: v.id,
+              label: t(v.data.colorName, locale),
+              image: v.data.image,
+            })),
+            { value: "egal", label: tr(f.vehicleAny) },
+          ]}
+        />
+
+        <ChoiceGroup
+          name="package"
+          legend={tr(f.package)}
+          required
+          options={(["tag", "wochenende", "woche", "langzeit"] as const).map(
+            (key) => ({ value: key, label: tr(ui.packages[key]) }),
+          )}
+        />
+
+        <TextField
+          name="startDate"
+          label={tr(f.startDate)}
+          type="date"
+          requiredUnlessVoucher
+        >
+          <p class="field__hint" data-show-when="package=wochenende">
+            {tr(f.weekendHint)}
+          </p>
+        </TextField>
+
+        <div class="conditional" data-show-when="package!=langzeit">
+          <div>
+            <p class="field inquiry__return">
+              <span class="field__label">{tr(f.returnDate)}</span>
+              <output data-return-date aria-live="polite">
+                {tr(f.returnDatePending)}
+              </output>
+            </p>
+          </div>
+        </div>
+
+        <div class="conditional" data-show-when="package=langzeit">
+          <div>
+            <SelectField
+              name="duration"
+              label={tr(f.duration)}
+              required
+              options={[
+                { value: "", label: tr(f.durationChoose) },
+                ...months.map((count) => ({
+                  value: String(count),
+                  label: fill(tr(count === 1 ? f.monthOne : f.monthOther), {
+                    count,
+                  }),
+                })),
+              ]}
+            />
+          </div>
+        </div>
+
+        <div class="inquiry__pair">
+          <SelectField
+            name="handoverTime"
+            label={tr(f.handoverTime)}
+            options={[
+              { value: "", label: tr(f.noPreference) },
+              ...hours.map((hour) => ({ value: hour, label: hour })),
+            ]}
+          />
+          <SelectField
+            name="extraKm"
+            label={tr(f.kmLimit)}
+            options={[
+              {
+                value: "0",
+                label: fill(tr(f.kmIncluded), {
+                  km: formatKm(pricing.packages.tag.includedKm, locale),
+                }),
+              },
+              ...pricing.extraKmOptions.map((km) => ({
+                value: String(km),
+                label: fill(tr(f.kmExtra), {
+                  km: formatKm(km, locale),
+                  price: price(km * pricing.extraKmPrice),
+                }),
+              })),
+            ]}
+          />
+        </div>
+      </section>
+
+      <section class="inquiry__group" aria-labelledby="group-handover">
+        <h3 id="group-handover">{tr(f.sections.handover)}</h3>
+
+        <ChoiceGroup
+          name="handover"
+          legend={tr(f.handover)}
+          required
+          options={[
+            { value: "abholung", label: tr(f.handoverPickup), checked: true },
+            {
+              value: "lieferung",
+              label: fill(tr(f.handoverDelivery), {
+                price: price(pricing.delivery),
+              }),
+            },
+          ]}
+        />
+        <div class="conditional" data-show-when="handover=lieferung">
+          <div>
+            <TextField
+              name="deliveryAddress"
+              label={tr(f.deliveryAddress)}
+              multiline
+              required
+              autocomplete="street-address"
+              minlength={LIMITS.address.min}
+              maxlength={LIMITS.address.max}
+            />
+          </div>
+        </div>
+
+        <ChoiceGroup
+          name="return"
+          legend={tr(f.returnType)}
+          required
+          options={[
+            { value: "aachen", label: tr(f.returnAachen), checked: true },
+            {
+              value: "abholung",
+              label: fill(tr(f.returnPickup), { price: price(pricing.pickup) }),
+            },
+          ]}
+        />
+        <div class="conditional" data-show-when="return=abholung">
+          <div>
+            <div class="conditional" data-show-when="handover=lieferung">
+              <div>
+                <CheckboxField name="sameAsDelivery" plain>
+                  {tr(f.sameAsDelivery)}
+                </CheckboxField>
+              </div>
+            </div>
+            <TextField
+              name="pickupAddress"
+              label={tr(f.pickupAddress)}
+              multiline
+              required
+              autocomplete="street-address"
+              minlength={LIMITS.address.min}
+              maxlength={LIMITS.address.max}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="inquiry__group" aria-labelledby="group-person">
+        <h3 id="group-person">{tr(f.sections.person)}</h3>
+
+        <SelectField
+          name="occasion"
+          label={tr(f.occasion)}
+          options={occasionKeys.map((key) => ({
+            value: key === "keiner" ? "" : key,
+            label: tr(f.occasions[key]),
+          }))}
+        />
+        <div class="conditional" data-show-when="occasion=gutschein">
+          <div>
+            <TextField
+              name="voucherValue"
+              label={tr(f.voucherValue)}
+              hint={fill(tr(f.voucherHint), {
+                price: price(pricing.voucherMinimum),
+              })}
+              type="number"
+              inputmode="numeric"
+              min={pricing.voucherMinimum}
+              step="1"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="inquiry__pair">
+          <TextField
+            name="firstName"
+            label={tr(f.firstName)}
+            required
+            autocomplete="given-name"
+            minlength={LIMITS.name.min}
+            maxlength={LIMITS.name.max}
+          />
+          <TextField
+            name="lastName"
+            label={tr(f.lastName)}
+            required
+            autocomplete="family-name"
+            minlength={LIMITS.name.min}
+            maxlength={LIMITS.name.max}
+          />
+          <TextField
+            name="email"
+            label={tr(f.email)}
+            type="email"
+            required
+            autocomplete="email"
+            spellcheck="false"
+          />
+          <TextField
+            name="phone"
+            label={tr(f.phone)}
+            type="tel"
+            required
+            autocomplete="tel"
+            inputmode="tel"
+          />
+        </div>
+
+        <CheckboxField name="requirements" requiredUnlessVoucher>
+          {fill(tr(f.requirements), {
+            age: requirements.minimumAge,
+            years: requirements.licenseYears,
+          })}
+        </CheckboxField>
+
+        <TextField
+          name="message"
+          label={tr(f.message)}
+          multiline
+          maxlength={LIMITS.message.max}
+        >
+          <p class="field__hint" aria-live="polite" data-message-counter>
+            {fill(tr(f.messageCounter), { count: 0, max: LIMITS.message.max })}
+          </p>
+        </TextField>
+
+        <CheckboxField name="privacy" required>
+          {`${tr(f.privacyBefore)} `}
+          <a href={pagePath("privacy", locale)}>{tr(f.privacyLink)}</a>
+          {` ${tr(f.privacyAfter)}`}
+        </CheckboxField>
+
+        <!-- Spam-Schutz: für Menschen unsichtbar, für Bots ein normales Feld -->
+        <div class="inquiry__trap" aria-hidden="true">
+          <label for="field-website">{tr(f.honeypot)}</label>
+          <input
+            id="field-website"
+            name="website"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </div>
+      </section>
+
+      <p class="inquiry__notice" role="alert" data-technical-error hidden>
+        {fill(tr(f.technicalError), { phone: business.phone })}
+      </p>
+
+      <div class="inquiry__actions">
+        <Button type="submit" disabled data-submit>
+          <span data-label-idle>{tr(f.submit)}</span>
+          <span class="inquiry__sending" data-label-sending hidden>
+            <Icon name="circle-notch" class="inquiry__spinner" />
+            {tr(f.sending)}
+          </span>
+        </Button>
+        <p class="inquiry__demo">{`${tr(ui.conceptNote)} ${tr(f.demoNote)}`}</p>
+      </div>
+    </fieldset>
+  </form>
+
+  <div class="inquiry__success" data-success hidden>
+    <h2 tabindex="-1" data-success-title></h2>
+    <h3>{tr(page.success.summary)}</h3>
+    <dl class="inquiry__summary-list" data-success-summary></dl>
+    <p class="inquiry__demo">{`${tr(ui.conceptNote)} ${tr(f.demoNote)}`}</p>
+    <Button variant="secondary" data-again>
+      {tr(page.success.again)}
+    </Button>
+  </div>
+</div>
+
+<script>
+  import "../../scripts/form/index";
+</script>
+
+<style>
+  @layer components {
+    .inquiry__form,
+    .inquiry__body,
+    .inquiry__group {
+      display: grid;
+      gap: var(--space-32);
+    }
+
+    .inquiry__body {
+      min-width: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .inquiry__form h2 {
+      margin-block-end: calc(-1 * var(--space-16));
+    }
+
+    .inquiry__group {
+      padding-block-start: var(--space-32);
+      border-top: var(--border-width) solid var(--color-muted-on-black);
+    }
+
+    .inquiry__group h3 {
+      font-size: var(--font-size-h3);
+    }
+
+    .inquiry__hint {
+      color: var(--tone-muted);
+    }
+
+    .inquiry__pair {
+      display: grid;
+      gap: var(--space-24);
+    }
+
+    @media (min-width: 600px) {
+      .inquiry__pair {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .inquiry__return output {
+      font-size: var(--font-size-body);
+    }
+
+    /* Bedingte Felder: 250ms Höhenanimation (PRD 10.1), zu = inert */
+    :global(.js) .conditional {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 250ms var(--ease-out);
+    }
+
+    :global(.js) .conditional[data-open] {
+      grid-template-rows: 1fr;
+    }
+
+    /* Eingeklappt nimmt der Bereich auch den Rasterabstand davor nicht ein */
+    :global(.js) .inquiry__group > .conditional {
+      transition:
+        grid-template-rows 250ms var(--ease-out),
+        margin 250ms var(--ease-out);
+    }
+
+    :global(.js) .inquiry__group > .conditional:not([data-open]) {
+      margin-block-start: calc(-1 * var(--space-32));
+    }
+
+    :global(.js) .conditional > * {
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    /* Eingeklappt nach der Animation auch unsichtbar (zusätzlich zu inert) */
+    :global(.js) .conditional:not([data-open]) > * {
+      visibility: hidden;
+      transition: visibility 0s 250ms;
+    }
+
+    /* Fehlerliste mit Sprunglinks (PRD 10.2) */
+    .inquiry__summary {
+      padding: var(--space-24);
+      border: 2px solid var(--color-red);
+    }
+
+    .inquiry__summary ul {
+      margin: var(--space-12) 0 0;
+      padding-inline-start: var(--space-24);
+    }
+
+    .inquiry__notice {
+      padding: var(--space-16) var(--space-24);
+      border: 2px solid var(--color-red);
+    }
+
+    /* Nur ohne JavaScript sichtbar: dann bleibt das Absenden gesperrt */
+    :global(.js) .inquiry__nojs {
+      display: none;
+    }
+
+    .inquiry__trap {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .inquiry__actions {
+      display: grid;
+      gap: var(--space-16);
+      justify-items: start;
+    }
+
+    .inquiry__sending {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-12);
+    }
+
+    .inquiry__sending :global(.inquiry__spinner) {
+      animation: inquiry-spin 900ms linear infinite;
+    }
+
+    @keyframes inquiry-spin {
+      to {
+        transform: rotate(1turn);
+      }
+    }
+
+    .inquiry__demo {
+      color: var(--tone-muted);
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+    }
+
+    .inquiry__success {
+      display: grid;
+      gap: var(--space-24);
+      justify-items: start;
+    }
+
+    .inquiry__summary-list {
+      display: grid;
+      width: 100%;
+      margin: 0;
+    }
+
+    .inquiry__summary-list > :global(div) {
+      display: grid;
+      gap: var(--space-4);
+      padding-block: var(--space-12);
+      border-bottom: var(--border-width) solid var(--color-muted-on-black);
+    }
+
+    .inquiry__summary-list :global(dt) {
+      color: var(--tone-muted);
+      font-size: var(--font-size-small);
+    }
+
+    .inquiry__summary-list :global(dd) {
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+  }
+</style>

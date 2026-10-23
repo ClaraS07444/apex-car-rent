@@ -2,12 +2,26 @@
   "currency": "EUR",
   "pricesIncludeVat": true,
   "packages": {
-    "tag": { "price": 2000, "includedKm": 200 },
-    "wochenende": { "price": 3500, "includedKm": 500 },
-    "woche": { "price": 10000, "includedKm": 1200 },
-    "langzeit": { "pricePerMonth": 20000, "includedKmPerMonth": 3000 }
+    "tag": {
+      "price": 2000,
+      "includedKm": 200
+    },
+    "wochenende": {
+      "price": 3500,
+      "includedKm": 500
+    },
+    "woche": {
+      "price": 10000,
+      "includedKm": 1200
+    },
+    "langzeit": {
+      "pricePerMonth": 20000,
+      "includedKmPerMonth": 3000,
+      "maxMonths": 12
+    }
   },
   "extraKmPrice": 5,
+  "extraKmOptions": [200, 500, 1000],
   "delivery": 500,
   "pickup": 500,
   "deposit": 10000,

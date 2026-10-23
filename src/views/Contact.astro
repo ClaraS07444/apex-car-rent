@@ -1,0 +1,202 @@
+---
+import MapEmbed from "../components/MapEmbed.astro";
+import PageIntro from "../components/PageIntro.astro";
+import PricePreview from "../components/PricePreview.astro";
+import Section from "../components/Section.astro";
+import InquiryForm from "../components/form/InquiryForm.astro";
+import type { Locale } from "../i18n/locales";
+import {
+  getActiveVehicles,
+  getBusiness,
+  getContactPage,
+  getUi,
+  t,
+} from "../lib/content";
+import { formatOpeningSlot } from "../lib/format";
+
+/** Kontaktseite (PRD 8.3): K1 weiß, K2 Formular schwarz, K3 Standort weiß. */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const [page, ui, business, vehicles] = await Promise.all([
+  getContactPage(),
+  getUi(),
+  getBusiness(),
+  getActiveVehicles(),
+]);
+// Im Seitenkopf fährt das rote Fahrzeug ein (PRD 8.3 K1)
+const introVehicle = vehicles.find((v) => v.id === "rot") ?? vehicles[0];
+const { address, geo } = business;
+const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${geo.latitude},${geo.longitude}`;
+const hours = [
+  ...business.openingHours.map((slot) => formatOpeningSlot(slot, locale)),
+  t(business.openingHoursNote, locale),
+];
+---
+
+<PageIntro
+  locale={locale}
+  title={t(page.intro.title, locale)}
+  vehicle={introVehicle}
+>
+  <p>{t(page.intro.text, locale)}</p>
+</PageIntro>
+
+<Section tone="dark" aria-labelledby="inquiry-title">
+  <div class="contact-layout">
+    <InquiryForm locale={locale} />
+    <div class="contact-aside">
+      <PricePreview locale={locale} />
+      <section
+        class="contact-box"
+        data-tone="light"
+        aria-labelledby="contact-box-title"
+      >
+        <h3 id="contact-box-title">{t(page.contact.heading, locale)}</h3>
+        <dl>
+          <div>
+            <dt>{t(ui.footer.phone, locale)}</dt>
+            <dd>{business.phone}</dd>
+          </div>
+          <div>
+            <dt>{t(ui.footer.email, locale)}</dt>
+            <dd>{business.email}</dd>
+          </div>
+          <div>
+            <dt>{t(ui.footer.instagram, locale)}</dt>
+            <dd>{business.instagram}</dd>
+          </div>
+          <div>
+            <dt>{t(ui.footer.hoursHeading, locale)}</dt>
+            {hours.map((line) => (
+              <dd>{line}</dd>
+            ))}
+          </div>
+        </dl>
+      </section>
+    </div>
+  </div>
+</Section>
+
+<Section tone="light" aria-labelledby="location-title">
+  <div class="contact-location">
+    <div class="contact-location__text" data-reveal="left">
+      <h2 id="location-title">{t(page.location.heading, locale)}</h2>
+      <address>
+        {business.name}
+        <br />
+        {address.street}
+        <br />
+        {`${address.postalCode} ${address.city}`}
+      </address>
+      <ul class="contact-location__hours">
+        {hours.map((line) => (
+          <li>{line}</li>
+        ))}
+      </ul>
+      <a href={routeUrl} target="_blank" rel="noopener">
+        {t(page.location.route, locale)}
+        <span class="visually-hidden">{t(page.location.newTab, locale)}</span>
+      </a>
+    </div>
+    <MapEmbed locale={locale} />
+  </div>
+</Section>
+
+<style>
+  @layer pages {
+    /* K2: Formular 8/12, rechts 4/12 mitlaufende Spalte (Desktop) */
+    .contact-layout {
+      display: grid;
+      gap: var(--space-48);
+    }
+
+    .contact-aside {
+      display: grid;
+      gap: var(--space-24);
+      align-content: start;
+    }
+
+    @media (min-width: 1024px) {
+      .contact-layout {
+        grid-template-columns: 8fr 4fr;
+        gap: var(--grid-gap);
+        align-items: start;
+      }
+
+      .contact-aside {
+        position: sticky;
+        top: calc(var(--header-height) + var(--space-24));
+      }
+    }
+
+    .contact-box {
+      padding: var(--space-32);
+      background: var(--tone-bg);
+      color: var(--tone-fg);
+    }
+
+    .contact-box h3 {
+      margin-block-end: var(--space-16);
+      font-size: var(--font-size-label);
+      line-height: var(--line-height-small);
+      letter-spacing: var(--letter-spacing-label);
+      text-transform: uppercase;
+    }
+
+    .contact-box dl {
+      display: grid;
+      gap: var(--space-16);
+      margin: 0;
+    }
+
+    .contact-box dt {
+      color: var(--tone-muted);
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+    }
+
+    .contact-box dd {
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    /* K3: Adresse 4/12, Karte 8/12 */
+    .contact-location {
+      display: grid;
+      gap: var(--space-32);
+    }
+
+    .contact-location__text {
+      display: grid;
+      gap: var(--space-24);
+      align-content: start;
+    }
+
+    .contact-location address {
+      font-style: normal;
+    }
+
+    .contact-location__hours {
+      display: grid;
+      gap: var(--space-4);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    @media (min-width: 1024px) {
+      .contact-location {
+        grid-template-columns: 4fr 8fr;
+        gap: var(--grid-gap);
+      }
+    }
+
+    /* Ohne JavaScript bleibt der Link "Route planen" statt der Karte */
+    :global(html:not(.js)) :global([data-map-load]) {
+      display: none;
+    }
+  }
+</style>

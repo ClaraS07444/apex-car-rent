@@ -1,0 +1,125 @@
+---
+import type { Locale } from "../i18n/locales";
+import { getBusiness, getContactPage, t } from "../lib/content";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+
+/**
+ * Karte mit Zwei-Klick-Aktivierung (PRD 10.5, P-09, 16): Bis zum Klick wird
+ * nichts von Google geladen. Zustände: inaktiv, lädt, aktiv, Fehler.
+ * Die Zustimmung wird nicht gespeichert.
+ */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const [page, business] = await Promise.all([getContactPage(), getBusiness()]);
+const l = page.location;
+// E-06: neutraler Kartenpunkt über Koordinaten statt fiktiver Adresse
+const { latitude, longitude } = business.geo;
+const embedUrl = `https://www.google.com/maps?q=${latitude},${longitude}&z=15&output=embed&hl=${locale}`;
+const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
+---
+
+<div
+  class="map"
+  tabindex="-1"
+  data-map
+  data-map-src={embedUrl}
+  data-map-title={t(l.mapTitle, locale)}
+  data-state="idle"
+>
+  <div class="map__placeholder" data-tone="dark">
+    <Icon name="map-pin" size={32} />
+    <p class="map__notice" data-map-idle>
+      {t(l.mapNotice, locale)}
+    </p>
+    <p class="map__status" role="status" data-map-status></p>
+    <Button data-map-load>{t(l.mapLoad, locale)}</Button>
+    <p class="map__error" data-map-error hidden>
+      {t(l.mapError, locale)}
+      <a href={routeUrl} target="_blank" rel="noopener">
+        {t(l.mapErrorLink, locale)}
+        <span class="visually-hidden">{t(l.newTab, locale)}</span>
+      </a>
+    </p>
+  </div>
+  <template data-map-texts>
+    <span data-loading>{t(l.mapLoading, locale)}</span>
+  </template>
+</div>
+
+<script>
+  import "../scripts/map";
+</script>
+
+<style>
+  @layer components {
+    /* Desktop 16:9, Mobile 4:3 (PRD 8.3 K3) */
+    .map {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      background: var(--color-black);
+    }
+
+    @media (min-width: 1024px) {
+      .map {
+        aspect-ratio: 16 / 9;
+      }
+    }
+
+    .map:focus {
+      outline: none;
+    }
+
+    .map__placeholder {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-content: center;
+      justify-items: center;
+      gap: var(--space-16);
+      padding: var(--space-24);
+      background: var(--tone-bg);
+      color: var(--tone-fg);
+      text-align: center;
+    }
+
+    .map__notice,
+    .map__error {
+      max-width: 32rem;
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+    }
+
+    .map__error {
+      display: grid;
+      gap: var(--space-8);
+    }
+
+    .map__status:empty {
+      display: none;
+    }
+
+    /* Aktiv: Karte füllt die Fläche, der Platzhalter tritt zurück */
+    .map[data-state="active"] .map__placeholder {
+      display: none;
+    }
+
+    .map[data-state="loading"] :global([data-map-load]),
+    .map[data-state="loading"] .map__notice,
+    .map[data-state="error"] :global([data-map-load]),
+    .map[data-state="error"] .map__notice {
+      display: none;
+    }
+
+    .map :global(iframe) {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  }
+</style>

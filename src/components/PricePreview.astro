@@ -1,0 +1,98 @@
+---
+import type { Locale } from "../i18n/locales";
+import { fill, getContactPage, getPricing, t } from "../lib/content";
+import { formatPrice } from "../lib/format";
+
+/**
+ * Unverbindliche Preisvorschau (PRD 10.3). scripts/form/index.ts füllt
+ * Positionen und Summe; Screenreader hören die neue Summe (aria-live).
+ */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const [page, pricing] = await Promise.all([getContactPage(), getPricing()]);
+const p = page.preview;
+---
+
+<section
+  class="price-preview"
+  data-tone="light"
+  aria-labelledby="preview-title"
+  data-price-preview
+>
+  <h3 id="preview-title">{t(p.heading, locale)}</h3>
+  <p class="price-preview__empty" data-preview-empty>
+    {t(p.empty, locale)}
+  </p>
+  <div data-preview-result hidden>
+    <dl class="price-preview__lines" data-preview-lines></dl>
+    <p class="price-preview__total">
+      <span>{t(p.total, locale)}</span>
+      <strong data-preview-total aria-live="polite"></strong>
+    </p>
+  </div>
+  <p class="price-preview__note">
+    {fill(t(p.deposit, locale), {
+      price: formatPrice(pricing.deposit, locale),
+    })}
+  </p>
+  <p class="price-preview__note">{t(p.disclaimer, locale)}</p>
+</section>
+
+<style>
+  @layer components {
+    .price-preview {
+      display: grid;
+      gap: var(--space-16);
+      padding: var(--space-32);
+      background: var(--tone-bg);
+      color: var(--tone-fg);
+    }
+
+    .price-preview h3 {
+      font-size: var(--font-size-label);
+      line-height: var(--line-height-small);
+      letter-spacing: var(--letter-spacing-label);
+      text-transform: uppercase;
+    }
+
+    .price-preview__empty,
+    .price-preview__note {
+      color: var(--tone-muted);
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+    }
+
+    .price-preview__lines {
+      display: grid;
+      margin: 0;
+    }
+
+    .price-preview__lines > :global(div) {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-16);
+      padding-block: var(--space-8);
+      border-bottom: var(--border-width) solid currentColor;
+    }
+
+    .price-preview__lines :global(dd) {
+      margin: 0;
+    }
+
+    .price-preview__total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--space-16);
+      margin-block-start: var(--space-12);
+    }
+
+    .price-preview__total strong {
+      font-size: var(--font-size-h3);
+      font-weight: var(--font-weight);
+    }
+  }
+</style>

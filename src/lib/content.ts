@@ -19,7 +19,8 @@ export function fill(
 }
 
 // Einzeldateien: Collection-Name = Eintrags-ID
-type Singleton = "business" | "pricing" | "ui" | "home" | "vehiclesPage";
+type Singleton =
+  "business" | "pricing" | "ui" | "home" | "vehiclesPage" | "contactPage";
 
 async function getSingleton<C extends Singleton>(
   collection: C,
@@ -34,6 +35,7 @@ export const getPricing = () => getSingleton("pricing");
 export const getUi = () => getSingleton("ui");
 export const getHome = () => getSingleton("home");
 export const getVehiclesPage = () => getSingleton("vehiclesPage");
+export const getContactPage = () => getSingleton("contactPage");
 
 /** Aktive Fahrzeuge in der festgelegten Reihenfolge (PRD 12.2). */
 export async function getActiveVehicles(): Promise<

@@ -1,0 +1,485 @@
+{
+  "intro": {
+    "title": {
+      "de": "Anfrage und Kontakt",
+      "en": "Request and contact",
+      "nl": "Aanvraag en contact"
+    },
+    "text": {
+      "de": "Nenne uns Fahrzeug, Paket und Wunschtermin. Wir bestätigen deine Anfrage persönlich innerhalb von 24 Stunden.",
+      "en": "Tell us your car, package and preferred date. We will confirm your request personally within 24 hours.",
+      "nl": "Geef je auto, pakket en gewenste datum door. We bevestigen je aanvraag persoonlijk binnen 24 uur."
+    }
+  },
+  "form": {
+    "heading": {
+      "de": "Deine Anfrage",
+      "en": "Your request",
+      "nl": "Jouw aanvraag"
+    },
+    "requiredHint": {
+      "de": "Pflichtfelder sind mit * gekennzeichnet.",
+      "en": "Required fields are marked with *.",
+      "nl": "Verplichte velden zijn gemarkeerd met *."
+    },
+    "demoNote": {
+      "de": "Diese Anfrage wird nicht übermittelt.",
+      "en": "This request is not sent anywhere.",
+      "nl": "Deze aanvraag wordt niet verzonden."
+    },
+    "noscript": {
+      "de": "Bitte aktiviere JavaScript, um das Formular zu nutzen.",
+      "en": "Please enable JavaScript to use this form.",
+      "nl": "Schakel JavaScript in om dit formulier te gebruiken."
+    },
+    "sections": {
+      "booking": {
+        "de": "Fahrzeug und Termin",
+        "en": "Car and date",
+        "nl": "Auto en datum"
+      },
+      "handover": {
+        "de": "Übergabe und Rückgabe",
+        "en": "Handover and return",
+        "nl": "Overdracht en terugbrengen"
+      },
+      "person": {
+        "de": "Deine Angaben",
+        "en": "Your details",
+        "nl": "Jouw gegevens"
+      }
+    },
+    "vehicle": {
+      "de": "Fahrzeug",
+      "en": "Car",
+      "nl": "Auto"
+    },
+    "vehicleAny": {
+      "de": "Egal",
+      "en": "No preference",
+      "nl": "Maakt niet uit"
+    },
+    "package": {
+      "de": "Paket",
+      "en": "Package",
+      "nl": "Pakket"
+    },
+    "startDate": {
+      "de": "Startdatum",
+      "en": "Start date",
+      "nl": "Startdatum"
+    },
+    "weekendHint": {
+      "de": "Das Wochenende beginnt freitags um 12:00 und endet montags um 10:00.",
+      "en": "The weekend starts on Friday at 12:00 and ends on Monday at 10:00.",
+      "nl": "Het weekend begint op vrijdag om 12:00 en eindigt op maandag om 10:00."
+    },
+    "returnDate": {
+      "de": "Rückgabe am",
+      "en": "Return on",
+      "nl": "Terug op"
+    },
+    "returnDatePending": {
+      "de": "ergibt sich aus Startdatum und Paket",
+      "en": "calculated from start date and package",
+      "nl": "volgt uit startdatum en pakket"
+    },
+    "duration": {
+      "de": "Laufzeit",
+      "en": "Duration",
+      "nl": "Looptijd"
+    },
+    "durationChoose": {
+      "de": "Bitte wählen",
+      "en": "Please choose",
+      "nl": "Maak een keuze"
+    },
+    "monthOne": {
+      "de": "{count} Monat",
+      "en": "{count} month",
+      "nl": "{count} maand"
+    },
+    "monthOther": {
+      "de": "{count} Monate",
+      "en": "{count} months",
+      "nl": "{count} maanden"
+    },
+    "handoverTime": {
+      "de": "Wunschuhrzeit Übergabe",
+      "en": "Preferred handover time",
+      "nl": "Gewenste overdrachtstijd"
+    },
+    "noPreference": {
+      "de": "Keine Angabe",
+      "en": "No preference",
+      "nl": "Geen voorkeur"
+    },
+    "kmLimit": {
+      "de": "Kilometerlimit",
+      "en": "Mileage limit",
+      "nl": "Kilometerlimiet"
+    },
+    "kmIncluded": {
+      "de": "{km} inklusive",
+      "en": "{km} included",
+      "nl": "{km} inbegrepen"
+    },
+    "kmExtra": {
+      "de": "+{km} (+{price})",
+      "en": "+{km} (+{price})",
+      "nl": "+{km} (+{price})"
+    },
+    "handover": {
+      "de": "Übergabe",
+      "en": "Handover",
+      "nl": "Overdracht"
+    },
+    "handoverPickup": {
+      "de": "Abholung in Aachen",
+      "en": "Pick-up in Aachen",
+      "nl": "Ophalen in Aken"
+    },
+    "handoverDelivery": {
+      "de": "Lieferung (+{price})",
+      "en": "Delivery (+{price})",
+      "nl": "Levering (+{price})"
+    },
+    "deliveryAddress": {
+      "de": "Lieferadresse",
+      "en": "Delivery address",
+      "nl": "Afleveradres"
+    },
+    "returnType": {
+      "de": "Rückgabe",
+      "en": "Return",
+      "nl": "Terugbrengen"
+    },
+    "returnAachen": {
+      "de": "Rückgabe in Aachen",
+      "en": "Return in Aachen",
+      "nl": "Terugbrengen in Aken"
+    },
+    "returnPickup": {
+      "de": "Abholung durch uns (+{price})",
+      "en": "Collection by us (+{price})",
+      "nl": "Ophalen door ons (+{price})"
+    },
+    "pickupAddress": {
+      "de": "Abholadresse",
+      "en": "Collection address",
+      "nl": "Ophaaladres"
+    },
+    "sameAsDelivery": {
+      "de": "Wie Lieferadresse",
+      "en": "Same as delivery address",
+      "nl": "Zelfde als afleveradres"
+    },
+    "occasion": {
+      "de": "Anlass",
+      "en": "Occasion",
+      "nl": "Gelegenheid"
+    },
+    "occasions": {
+      "keiner": {
+        "de": "Kein besonderer Anlass",
+        "en": "No particular occasion",
+        "nl": "Geen bijzondere gelegenheid"
+      },
+      "hochzeit": {
+        "de": "Hochzeit",
+        "en": "Wedding",
+        "nl": "Bruiloft"
+      },
+      "event": {
+        "de": "Event",
+        "en": "Event",
+        "nl": "Evenement"
+      },
+      "gutschein": {
+        "de": "Geschenkgutschein",
+        "en": "Gift voucher",
+        "nl": "Cadeaubon"
+      },
+      "business": {
+        "de": "Business",
+        "en": "Business",
+        "nl": "Zakelijk"
+      },
+      "fotoshooting": {
+        "de": "Fotoshooting",
+        "en": "Photo shoot",
+        "nl": "Fotoshoot"
+      }
+    },
+    "voucherValue": {
+      "de": "Gutscheinwert in €",
+      "en": "Voucher value in €",
+      "nl": "Waarde cadeaubon in €"
+    },
+    "voucherHint": {
+      "de": "mindestens {price}",
+      "en": "at least {price}",
+      "nl": "minimaal {price}"
+    },
+    "firstName": {
+      "de": "Vorname",
+      "en": "First name",
+      "nl": "Voornaam"
+    },
+    "lastName": {
+      "de": "Nachname",
+      "en": "Last name",
+      "nl": "Achternaam"
+    },
+    "email": {
+      "de": "E-Mail",
+      "en": "Email",
+      "nl": "E-mail"
+    },
+    "phone": {
+      "de": "Telefon",
+      "en": "Phone",
+      "nl": "Telefoon"
+    },
+    "requirements": {
+      "de": "Ich bin mindestens {age} Jahre alt und habe seit mindestens {years} Jahren einen Führerschein Klasse B.",
+      "en": "I am at least {age} years old and have held a category B driving licence for at least {years} years.",
+      "nl": "Ik ben minstens {age} jaar oud en heb minstens {years} jaar een rijbewijs B."
+    },
+    "message": {
+      "de": "Nachricht",
+      "en": "Message",
+      "nl": "Bericht"
+    },
+    "messageCounter": {
+      "de": "{count} von {max} Zeichen",
+      "en": "{count} of {max} characters",
+      "nl": "{count} van {max} tekens"
+    },
+    "privacyBefore": {
+      "de": "Ich habe die",
+      "en": "I have read the",
+      "nl": "Ik heb de"
+    },
+    "privacyLink": {
+      "de": "Datenschutzerklärung",
+      "en": "privacy policy",
+      "nl": "privacyverklaring"
+    },
+    "privacyAfter": {
+      "de": "gelesen und bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden.",
+      "en": "and agree that my details are used to handle this request.",
+      "nl": "gelezen en ga ermee akkoord dat mijn gegevens worden gebruikt om deze aanvraag te behandelen."
+    },
+    "honeypot": {
+      "de": "Dieses Feld bitte leer lassen",
+      "en": "Please leave this field empty",
+      "nl": "Laat dit veld leeg"
+    },
+    "submit": {
+      "de": "Anfrage senden",
+      "en": "Send request",
+      "nl": "Aanvraag versturen"
+    },
+    "sending": {
+      "de": "Wird gesendet",
+      "en": "Sending",
+      "nl": "Bezig met verzenden"
+    },
+    "errorSummary": {
+      "de": "Bitte prüfe deine Angaben",
+      "en": "Please check your details",
+      "nl": "Controleer je gegevens"
+    },
+    "technicalError": {
+      "de": "Senden fehlgeschlagen. Bitte versuche es erneut oder ruf uns an: {phone}.",
+      "en": "Sending failed. Please try again or call us: {phone}.",
+      "nl": "Verzenden mislukt. Probeer het opnieuw of bel ons: {phone}."
+    }
+  },
+  "errors": {
+    "vehicleRequired": {
+      "de": "Bitte wähle ein Fahrzeug.",
+      "en": "Please choose a car.",
+      "nl": "Kies een auto."
+    },
+    "packageRequired": {
+      "de": "Bitte wähle ein Paket.",
+      "en": "Please choose a package.",
+      "nl": "Kies een pakket."
+    },
+    "dateRequired": {
+      "de": "Bitte gib ein Startdatum an.",
+      "en": "Please enter a start date.",
+      "nl": "Vul een startdatum in."
+    },
+    "dateInvalid": {
+      "de": "Bitte gib ein gültiges Datum an.",
+      "en": "Please enter a valid date.",
+      "nl": "Vul een geldige datum in."
+    },
+    "dateRange": {
+      "de": "Das Startdatum muss zwischen {min} und {max} liegen.",
+      "en": "The start date must be between {min} and {max}.",
+      "nl": "De startdatum moet tussen {min} en {max} liggen."
+    },
+    "weekendFriday": {
+      "de": "Das Wochenendpaket beginnt immer an einem Freitag.",
+      "en": "The weekend package always starts on a Friday.",
+      "nl": "Het weekendpakket begint altijd op een vrijdag."
+    },
+    "durationRequired": {
+      "de": "Bitte wähle eine Laufzeit.",
+      "en": "Please choose a duration.",
+      "nl": "Kies een looptijd."
+    },
+    "addressLength": {
+      "de": "Bitte gib eine Adresse mit {min} bis {max} Zeichen an.",
+      "en": "Please enter an address of {min} to {max} characters.",
+      "nl": "Vul een adres in van {min} tot {max} tekens."
+    },
+    "voucherMin": {
+      "de": "Der Gutscheinwert beträgt mindestens {min}.",
+      "en": "The voucher value is at least {min}.",
+      "nl": "De waarde van de cadeaubon is minimaal {min}."
+    },
+    "nameLength": {
+      "de": "Bitte gib {min} bis {max} Zeichen ein.",
+      "en": "Please enter {min} to {max} characters.",
+      "nl": "Vul {min} tot {max} tekens in."
+    },
+    "email": {
+      "de": "Bitte gib eine gültige E-Mail-Adresse an, z. B. name@beispiel.de.",
+      "en": "Please enter a valid email address, e.g. name@example.com.",
+      "nl": "Vul een geldig e-mailadres in, bijv. naam@voorbeeld.nl."
+    },
+    "phone": {
+      "de": "Bitte gib eine Telefonnummer mit {min} bis {max} Ziffern an.",
+      "en": "Please enter a phone number with {min} to {max} digits.",
+      "nl": "Vul een telefoonnummer in met {min} tot {max} cijfers."
+    },
+    "requirements": {
+      "de": "Bitte bestätige die Mietvoraussetzungen.",
+      "en": "Please confirm the rental requirements.",
+      "nl": "Bevestig de huurvoorwaarden."
+    },
+    "messageLength": {
+      "de": "Die Nachricht darf höchstens {max} Zeichen lang sein.",
+      "en": "The message may be at most {max} characters long.",
+      "nl": "Het bericht mag maximaal {max} tekens lang zijn."
+    },
+    "privacy": {
+      "de": "Bitte stimme der Datenschutzerklärung zu.",
+      "en": "Please accept the privacy policy.",
+      "nl": "Ga akkoord met de privacyverklaring."
+    }
+  },
+  "preview": {
+    "heading": {
+      "de": "Unverbindliche Preisvorschau",
+      "en": "Non-binding price preview",
+      "nl": "Vrijblijvende prijsindicatie"
+    },
+    "empty": {
+      "de": "Wähle ein Paket, um den Preis zu sehen.",
+      "en": "Choose a package to see the price.",
+      "nl": "Kies een pakket om de prijs te zien."
+    },
+    "extraKm": {
+      "de": "+{km}",
+      "en": "+{km}",
+      "nl": "+{km}"
+    },
+    "voucher": {
+      "de": "Gutschein",
+      "en": "Gift voucher",
+      "nl": "Cadeaubon"
+    },
+    "total": {
+      "de": "Summe",
+      "en": "Total",
+      "nl": "Totaal"
+    },
+    "deposit": {
+      "de": "Kaution {price}, vor Ort, wird erstattet",
+      "en": "Deposit {price}, paid on site, refunded",
+      "nl": "Borg {price}, ter plaatse, wordt terugbetaald"
+    },
+    "disclaimer": {
+      "de": "Unverbindliche Vorschau. Verbindlich ist unsere Bestätigung.",
+      "en": "Non-binding preview. Our confirmation is binding.",
+      "nl": "Vrijblijvende indicatie. Onze bevestiging is bindend."
+    }
+  },
+  "success": {
+    "heading": {
+      "de": "Danke, {name}. Deine Anfrage ist eingegangen.",
+      "en": "Thank you, {name}. Your request has been received.",
+      "nl": "Bedankt, {name}. Je aanvraag is ontvangen."
+    },
+    "summary": {
+      "de": "Deine Angaben",
+      "en": "Your details",
+      "nl": "Jouw gegevens"
+    },
+    "again": {
+      "de": "Neue Anfrage",
+      "en": "New request",
+      "nl": "Nieuwe aanvraag"
+    }
+  },
+  "contact": {
+    "heading": {
+      "de": "Direkter Kontakt",
+      "en": "Direct contact",
+      "nl": "Direct contact"
+    }
+  },
+  "location": {
+    "heading": {
+      "de": "Standort",
+      "en": "Location",
+      "nl": "Locatie"
+    },
+    "route": {
+      "de": "Route planen",
+      "en": "Plan route",
+      "nl": "Route plannen"
+    },
+    "newTab": {
+      "de": "(öffnet in neuem Tab)",
+      "en": "(opens in a new tab)",
+      "nl": "(opent in een nieuw tabblad)"
+    },
+    "mapNotice": {
+      "de": "Beim Laden der Karte werden Daten an Google übertragen, unter anderem deine IP-Adresse.",
+      "en": "Loading the map sends data to Google, including your IP address.",
+      "nl": "Bij het laden van de kaart worden gegevens naar Google verzonden, waaronder je IP-adres."
+    },
+    "mapLoad": {
+      "de": "Karte laden",
+      "en": "Load map",
+      "nl": "Kaart laden"
+    },
+    "mapLoading": {
+      "de": "Karte wird geladen",
+      "en": "Loading map",
+      "nl": "Kaart wordt geladen"
+    },
+    "mapError": {
+      "de": "Die Karte konnte nicht geladen werden.",
+      "en": "The map could not be loaded.",
+      "nl": "De kaart kon niet worden geladen."
+    },
+    "mapErrorLink": {
+      "de": "Route in Google Maps öffnen",
+      "en": "Open route in Google Maps",
+      "nl": "Route openen in Google Maps"
+    },
+    "mapTitle": {
+      "de": "Karte: Standort von Apex Rent",
+      "en": "Map: Apex Rent location",
+      "nl": "Kaart: locatie van Apex Rent"
+    }
+  }
+}

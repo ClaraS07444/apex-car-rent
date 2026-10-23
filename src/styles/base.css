@@ -30,6 +30,15 @@
     box-sizing: border-box;
   }
 
+  /*
+   * hidden gilt immer, auch wenn eine Komponente display setzt (z. B. grid).
+   * Einziger begründeter Einsatz von !important: ein verborgenes Element darf
+   * durch keine spätere Schicht wieder sichtbar werden.
+   */
+  [hidden] {
+    display: none !important;
+  }
+
   html {
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;

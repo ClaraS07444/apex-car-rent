@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths } from "astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Contact from "../views/Contact.astro";
 import Vehicles from "../views/Vehicles.astro";
 import { locales, type Locale } from "../i18n/locales";
 import { routes, toRouteParam, type PageKey } from "../i18n/routes";
@@ -27,8 +28,10 @@ const { page, locale } = Astro.props;
 <BaseLayout page={page} locale={locale}>
   {page === "vehicles" ? (
     <Vehicles locale={locale} />
+  ) : page === "contact" ? (
+    <Contact locale={locale} />
   ) : (
-    // Übrige Seiten folgen in späteren Inkrementen (Kontakt, Rechtliches, 404)
+    // Übrige Seiten folgen in späteren Inkrementen (Rechtliches, 404)
     <div data-page={page} />
   )}
 </BaseLayout>

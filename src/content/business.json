@@ -33,5 +33,10 @@
   "requirements": {
     "minimumAge": 25,
     "licenseYears": 4
+  },
+  "booking": {
+    "windowMonths": 12,
+    "handoverFirstHour": 9,
+    "handoverLastHour": 18
   }
 }
