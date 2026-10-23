@@ -42,7 +42,8 @@ test.describe("Rechtsseiten (PRD S-02)", () => {
   test("offene Angaben sind sichtbar als Platzhalter markiert", async ({
     page,
   }) => {
-    await page.goto("/impressum");
+    // Offen sind noch die Cloudflare-Angaben in der Datenschutzerklärung
+    await page.goto("/datenschutz");
     const placeholders = page.locator("mark.placeholder");
     await expect(placeholders.first()).toBeVisible();
     await expect(placeholders.first()).toHaveText(/^\[.+\]$/);

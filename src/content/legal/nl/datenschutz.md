@@ -5,10 +5,10 @@ updated: "2026-10-23"
 
 ## Verwerkingsverantwoordelijke
 
-<mark class="placeholder">[Voor- en achternaam]</mark><br>
-<mark class="placeholder">[Straat en huisnummer]</mark><br>
-<mark class="placeholder">[Postcode en plaats]</mark><br>
-E-mail: <mark class="placeholder">[E-mailadres]</mark>
+Max Mustermann<br>
+Musterweg 44<br>
+52072 Aachen<br>
+E-mail: apex-rent@carrental.example
 
 ## Conceptproject
 

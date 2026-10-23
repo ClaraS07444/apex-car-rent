@@ -5,10 +5,10 @@ updated: "2026-10-23"
 
 ## Verantwortlich
 
-<mark class="placeholder">[Vor- und Nachname]</mark><br>
-<mark class="placeholder">[Straße und Hausnummer]</mark><br>
-<mark class="placeholder">[Postleitzahl und Ort]</mark><br>
-E-Mail: <mark class="placeholder">[E-Mail-Adresse]</mark>
+Max Mustermann<br>
+Musterweg 44<br>
+52072 Aachen<br>
+E-Mail: apex-rent@carrental.example
 
 ## Konzeptprojekt
 

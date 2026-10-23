@@ -5,10 +5,10 @@ updated: "2026-10-23"
 
 ## Controller
 
-<mark class="placeholder">[First and last name]</mark><br>
-<mark class="placeholder">[Street and house number]</mark><br>
-<mark class="placeholder">[Postcode and city]</mark><br>
-Email: <mark class="placeholder">[Email address]</mark>
+Max Mustermann<br>
+Musterweg 44<br>
+52072 Aachen<br>
+Email: apex-rent@carrental.example
 
 ## Concept project
 

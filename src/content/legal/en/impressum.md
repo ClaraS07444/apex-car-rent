@@ -5,13 +5,13 @@ updated: "2026-10-23"
 
 ## Information pursuant to § 5 DDG (German Digital Services Act)
 
-<mark class="placeholder">[First and last name]</mark><br>
-<mark class="placeholder">[Street and house number]</mark><br>
-<mark class="placeholder">[Postcode and city]</mark>
+Max Mustermann<br>
+Musterweg 44<br>
+52072 Aachen
 
 ## Contact
 
-Email: <mark class="placeholder">[Email address]</mark>
+Email: apex-rent@carrental.example
 
 ## About this project
 
