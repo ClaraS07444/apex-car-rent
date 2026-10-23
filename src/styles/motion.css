@@ -1,0 +1,16 @@
+@layer motion {
+  /*
+   * Reduzierte Bewegung (PRD 9.7, A-09): keine Verschiebungen,
+   * Übergänge höchstens als kurze Einblendung.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 1ms;
+      animation-iteration-count: 1;
+      transition-duration: 1ms;
+      scroll-behavior: auto;
+    }
+  }
+}

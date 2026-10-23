@@ -1,6 +1,7 @@
 ---
 import { INDEXIERUNG } from "astro:env/server";
 import type { Locale } from "../i18n/locales";
+import "../styles/global.css";
 
 interface Props {
   locale: Locale;
@@ -15,6 +16,13 @@ const { locale } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Apex Rent</title>
+    <link
+      rel="preload"
+      href="/fonts/manrope-300-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     {!INDEXIERUNG && <meta name="robots" content="noindex, nofollow" />}
   </head>
   <body>

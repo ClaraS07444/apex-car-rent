@@ -1,0 +1,19 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+/**
+ * Section im Schwarz-Weiß-Wechsel (PRD 8, 9.1). Der Ton wird je View
+ * explizit vergeben, damit der Wechsel auch bei ausgeblendeten Sections stimmt.
+ */
+interface Props extends HTMLAttributes<"section"> {
+  tone: "light" | "dark";
+}
+
+const { tone, class: className, ...attrs } = Astro.props;
+---
+
+<section class:list={["section", className]} data-tone={tone} {...attrs}>
+  <div class="container">
+    <slot />
+  </div>
+</section>

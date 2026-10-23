@@ -1,0 +1,21 @@
+@layer layout {
+  /* Inhaltsbreite max. 1280px mit Seitenrändern je Breakpoint (PRD 9.3) */
+  .container {
+    width: min(100% - 2 * var(--page-margin), var(--content-max));
+    margin-inline: auto;
+  }
+
+  /* 4 / 8 / 12 Spalten je Breakpoint */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+    gap: var(--grid-gap);
+  }
+
+  /* Sections im Schwarz-Weiß-Wechsel; der Ton kommt über data-tone */
+  .section {
+    padding-block: var(--section-padding);
+    background: var(--tone-bg);
+    color: var(--tone-fg);
+  }
+}

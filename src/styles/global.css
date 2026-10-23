@@ -1,0 +1,12 @@
+/*
+ * Reihenfolge der Kaskaden-Schichten. Spätere Schichten gewinnen,
+ * unabhängig von der Spezifität. Komponenten- und Seiten-CSS liegt
+ * in den .astro-Dateien in @layer components bzw. @layer pages.
+ */
+@layer tokens, base, layout, components, pages, utilities, motion;
+
+@import "./tokens.css";
+@import "./base.css";
+@import "./layout.css";
+@import "./utilities.css";
+@import "./motion.css";

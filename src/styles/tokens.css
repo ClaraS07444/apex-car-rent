@@ -1,0 +1,131 @@
+/*
+ * Design-Tokens (PRD Abschnitt 9). Jeder Wert wird nur hier definiert.
+ *
+ * Breakpoints (Media Queries können keine Custom Properties lesen):
+ *   600px   Tablet
+ *   1024px  Laptop
+ *   1440px  Desktop
+ */
+@layer tokens {
+  :root {
+    /* 9.1 Farben */
+    --color-black: #000000;
+    --color-white: #ffffff;
+    --color-red: #c8102e;
+    --color-muted-on-white: #595959;
+    --color-muted-on-black: #a6a6a6;
+
+    /* 9.2 Typografie: Manrope Light 300 für alle Texte */
+    --font-family: "Manrope", system-ui, sans-serif;
+    --font-weight: 300;
+
+    /* Fluid zwischen 390px (Mobile) und 1440px (Desktop) */
+    --font-size-h1: clamp(2.25rem, 1.7857rem + 1.9048vw, 3.5rem); /* 36–56px */
+    --font-size-h2: clamp(1.875rem, 1.6429rem + 0.9524vw, 2.5rem); /* 30–40px */
+    --font-size-h3: clamp(1.25rem, 1.1571rem + 0.381vw, 1.5rem); /* 20–24px */
+    --font-size-body: clamp(
+      1.0625rem,
+      1.0393rem + 0.0952vw,
+      1.125rem
+    ); /* 17–18px */
+    --font-size-small: 0.9375rem; /* 15px, Untergrenze für jeden Text */
+    --font-size-label: 0.9375rem; /* Navigation, Buttons, Labels */
+    --font-size-hero-claim: clamp(2rem, 3vw, 3.25rem); /* Desktop 32–52px */
+    --font-size-hero-claim-mobile: clamp(
+      1.625rem,
+      1.3383rem + 1.4337vw,
+      1.875rem
+    ); /* 26–30px */
+
+    --line-height-hero-claim: 1.15;
+    --line-height-h1: 1.1;
+    --line-height-h2: 1.15;
+    --line-height-h3: 1.25;
+    --line-height-body: 1.6;
+    --line-height-small: 1.5;
+    --line-height-label: 1;
+
+    --letter-spacing-h1: -0.01em;
+    --letter-spacing-label: 0.12em;
+    --measure: 68ch;
+
+    /* 9.3 Abstände, Basis 8px */
+    --space-4: 0.25rem;
+    --space-8: 0.5rem;
+    --space-12: 0.75rem;
+    --space-16: 1rem;
+    --space-24: 1.5rem;
+    --space-32: 2rem;
+    --space-48: 3rem;
+    --space-64: 4rem;
+    --space-96: 6rem;
+    --space-128: 8rem;
+
+    /* 9.3 Raster und Ränder, Mobile zuerst (< 600px) */
+    --content-max: 80rem; /* 1280px */
+    --page-margin: 1.25rem; /* 20px */
+    --section-padding: 4.5rem; /* 72px */
+    --grid-columns: 4;
+    --grid-gap: var(--space-16);
+
+    --radius: 0;
+    --border-width: 1px;
+
+    /* 9.4 Komponenten */
+    --button-height: 3rem; /* 48px */
+    --tap-min: 3rem; /* 48px */
+    --focus-width: 2px;
+    --focus-offset: 3px;
+    --disabled-opacity: 0.4;
+
+    /* 9.7 Motion */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-drive: cubic-bezier(0.16, 1, 0.3, 1);
+    --dur-hover: 200ms;
+    --dur-reveal: 600ms;
+    --dur-hero-text: 700ms;
+    --dur-drive: 1600ms;
+  }
+
+  @media (min-width: 600px) {
+    :root {
+      --page-margin: 2rem; /* 32px */
+      --section-padding: 6rem; /* 96px */
+      --grid-columns: 8;
+      --grid-gap: var(--space-24);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --page-margin: 3rem; /* 48px */
+      --section-padding: 8rem; /* 128px */
+      --grid-columns: 12;
+      --grid-gap: var(--space-32);
+      --button-height: 3.5rem; /* 56px */
+    }
+  }
+
+  @media (min-width: 1440px) {
+    :root {
+      --page-margin: 4rem; /* 64px */
+    }
+  }
+
+  /*
+   * Farbton einer Fläche. Kästen tragen die Gegenfarbe ihrer Section
+   * (PRD 9.1) und setzen dafür selbst data-tone.
+   */
+  :root,
+  [data-tone="light"] {
+    --tone-bg: var(--color-white);
+    --tone-fg: var(--color-black);
+    --tone-muted: var(--color-muted-on-white);
+  }
+
+  [data-tone="dark"] {
+    --tone-bg: var(--color-black);
+    --tone-fg: var(--color-white);
+    --tone-muted: var(--color-muted-on-black);
+  }
+}

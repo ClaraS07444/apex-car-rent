@@ -1,0 +1,90 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+/**
+ * Button (PRD 9.4). Mit href ein Link, sonst ein <button>.
+ * Farben folgen dem Ton der umgebenden Fläche:
+ * primary = gefüllt in Gegenfarbe, secondary = 1px Rahmen, transparent.
+ */
+type Props = {
+  variant?: "primary" | "secondary";
+} & (
+  | ({ href: string } & Omit<HTMLAttributes<"a">, "href">)
+  | ({ href?: undefined } & HTMLAttributes<"button">)
+);
+
+const { variant = "primary", href, class: className, ...attrs } = Astro.props;
+const classes = ["button", `button--${variant}`, className];
+---
+
+{href ? (
+  <a href={href} class:list={classes} {...(attrs as HTMLAttributes<"a">)}>
+    <slot />
+  </a>
+) : (
+  <button
+    type="button"
+    class:list={classes}
+    {...(attrs as HTMLAttributes<"button">)}
+  >
+    <slot />
+  </button>
+)}
+
+<style>
+  @layer components {
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-12);
+      min-height: var(--button-height);
+      min-width: var(--tap-min);
+      padding: 0 var(--space-32);
+      border: var(--border-width) solid var(--tone-fg);
+      border-radius: var(--radius);
+      font-size: var(--font-size-label);
+      line-height: var(--line-height-label);
+      letter-spacing: var(--letter-spacing-label);
+      text-transform: uppercase;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      transition:
+        background-color var(--dur-hover) var(--ease-out),
+        color var(--dur-hover) var(--ease-out);
+    }
+
+    .button--primary {
+      background: var(--tone-fg);
+      color: var(--tone-bg);
+    }
+
+    .button--secondary {
+      background: transparent;
+      color: var(--tone-fg);
+    }
+
+    /* Hover: Farbumkehr, der 1px Rahmen bleibt sichtbar */
+    .button--primary:hover {
+      background: var(--tone-bg);
+      color: var(--tone-fg);
+    }
+
+    .button--secondary:hover {
+      background: var(--tone-fg);
+      color: var(--tone-bg);
+    }
+
+    .button:hover {
+      text-decoration: none;
+    }
+
+    .button:disabled,
+    .button[aria-disabled="true"] {
+      opacity: var(--disabled-opacity);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+</style>
