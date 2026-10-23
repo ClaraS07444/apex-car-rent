@@ -333,5 +333,27 @@
       "en": "All rental conditions",
       "nl": "Alle huurvoorwaarden"
     }
+  },
+  "notFound": {
+    "title": {
+      "de": "Diese Seite ist von der Strecke abgekommen.",
+      "en": "This page has gone off track.",
+      "nl": "Deze pagina is uit de bocht gevlogen."
+    },
+    "text": {
+      "de": "Die Adresse gibt es nicht oder nicht mehr. Hier geht es zurück auf die Strecke.",
+      "en": "This address does not exist or no longer exists. Here is the way back on track.",
+      "nl": "Dit adres bestaat niet (meer). Hier gaat het terug naar de baan."
+    },
+    "home": {
+      "de": "Zur Startseite",
+      "en": "Back to home",
+      "nl": "Naar de homepage"
+    }
+  },
+  "legalUpdated": {
+    "de": "Stand: {date}",
+    "en": "Last updated: {date}",
+    "nl": "Laatst bijgewerkt: {date}"
   }
 }

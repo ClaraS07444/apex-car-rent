@@ -205,6 +205,12 @@ const ui = defineCollection({
       deposit: localized,
       vatIncluded: localized,
     }),
+    legalUpdated: localized,
+    notFound: z.strictObject({
+      title: localized,
+      text: localized,
+      home: localized,
+    }),
     dialog: z.strictObject({
       close: localized,
       previous: localized,
@@ -256,6 +262,16 @@ const reviewText = z.strictObject({
   de: text.max(280),
   en: text.max(280),
   nl: text.max(280),
+});
+
+// Rechtstexte (PRD S-02): Markdown je Sprache und Seite, z. B. de/impressum.md.
+// Offene Angaben stehen als <mark class="placeholder"> im Text (check:launch).
+const legal = defineCollection({
+  loader: glob({ pattern: "*/*.md", base: "src/content/legal" }),
+  schema: z.strictObject({
+    title: text,
+    updated: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Format JJJJ-MM-TT"),
+  }),
 });
 
 const reviews = defineCollection({
@@ -455,4 +471,5 @@ export const collections = {
   faq,
   vehiclesPage,
   contactPage,
+  legal,
 };

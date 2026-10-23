@@ -1,0 +1,83 @@
+---
+import { getEntry, render } from "astro:content";
+import Section from "../components/Section.astro";
+import type { Locale } from "../i18n/locales";
+import { getUi, t } from "../lib/content";
+
+/**
+ * Rechtsseiten (PRD S-02): Impressum und Datenschutz je Sprache aus
+ * src/content/legal/<sprache>/<seite>.md. Offene Angaben sind als
+ * <mark class="placeholder"> sichtbar markiert (npm run check:launch).
+ */
+interface Props {
+  locale: Locale;
+  document: "impressum" | "datenschutz";
+}
+
+const { locale, document } = Astro.props;
+const entry = await getEntry("legal", `${locale}/${document}`);
+if (!entry) {
+  throw new Error(
+    `Rechtstext fehlt: src/content/legal/${locale}/${document}.md`,
+  );
+}
+const [{ Content }, ui] = await Promise.all([render(entry), getUi()]);
+const updated = new Intl.DateTimeFormat(locale, {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+}).format(new Date(`${entry.data.updated}T00:00:00Z`));
+// "Stand: {date}" am Platzhalter teilen, damit das Datum ein <time> wird
+const [updatedBefore, updatedAfter = ""] = t(ui.legalUpdated, locale).split(
+  "{date}",
+);
+---
+
+<Section tone="light" class="legal" aria-labelledby="page-title">
+  <article class="legal__body">
+    <h1 id="page-title">{entry.data.title}</h1>
+    <Content />
+    <p class="legal__updated">
+      {updatedBefore}
+      <time datetime={entry.data.updated}>{updated}</time>
+      {updatedAfter}
+    </p>
+  </article>
+</Section>
+
+<style>
+  @layer pages {
+    .legal__body {
+      display: grid;
+      gap: var(--space-16);
+      max-width: var(--measure);
+    }
+
+    .legal__body h1 {
+      margin-block-end: var(--space-32);
+    }
+
+    .legal__body :global(h2) {
+      margin-block-start: var(--space-32);
+      font-size: var(--font-size-h3);
+      line-height: var(--line-height-h3);
+    }
+
+    /* Offene Angaben deutlich sichtbar, nicht nur über Farbe (Klammern im Text) */
+    .legal__body :global(mark.placeholder) {
+      padding-inline: var(--space-4);
+      outline: 2px dashed var(--color-red);
+      outline-offset: 1px;
+      background: transparent;
+      color: inherit;
+    }
+
+    .legal__updated {
+      margin-block-start: var(--space-32);
+      color: var(--tone-muted);
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+    }
+  }
+</style>

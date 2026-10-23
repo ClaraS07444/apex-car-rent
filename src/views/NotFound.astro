@@ -1,0 +1,49 @@
+---
+import Button from "../components/Button.astro";
+import Section from "../components/Section.astro";
+import type { Locale } from "../i18n/locales";
+import { pagePath } from "../i18n/routes";
+import { getUi, t } from "../lib/content";
+
+/** 404 (PRD 10.5): weiße Seite in der Sprache der URL, Wege zurück. */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = await getUi();
+---
+
+<Section tone="light" class="not-found" aria-labelledby="page-title">
+  <div class="not-found__body">
+    <h1 id="page-title">{t(ui.notFound.title, locale)}</h1>
+    <p>{t(ui.notFound.text, locale)}</p>
+    <div class="not-found__actions">
+      <Button href={pagePath("home", locale)}>
+        {t(ui.notFound.home, locale)}
+      </Button>
+      <Button variant="secondary" href={pagePath("vehicles", locale)}>
+        {t(ui.cta.viewCars, locale)}
+      </Button>
+    </div>
+  </div>
+</Section>
+
+<style>
+  @layer pages {
+    .not-found__body {
+      display: grid;
+      gap: var(--space-24);
+      justify-items: start;
+      max-width: var(--measure);
+      padding-block: var(--space-48);
+    }
+
+    .not-found__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-16);
+      margin-block-start: var(--space-16);
+    }
+  }
+</style>
