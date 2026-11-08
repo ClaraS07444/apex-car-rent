@@ -155,6 +155,12 @@ const ui = defineCollection({
       phone: localized,
       email: localized,
       instagram: localized,
+      // Urheber-Credit (E-11)
+      credit: z.strictObject({
+        label: localized,
+        name: z.string().min(1),
+        url: z.url(),
+      }),
     }),
     conceptNote: localized,
     cta: z.strictObject({

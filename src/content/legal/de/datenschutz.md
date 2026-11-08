@@ -1,14 +1,14 @@
 ---
 title: Datenschutzerklärung
-updated: "2026-10-23"
+updated: "2026-11-08"
 ---
 
 ## Verantwortlich
 
-Max Mustermann<br>
-Musterweg 44<br>
-52072 Aachen<br>
-E-Mail: apex-rent@carrental.example
+Clara Schumann<br>
+Bendstraße 3<br>
+52066 Aachen<br>
+E-Mail: clara.s@c-agency.cc
 
 ## Konzeptprojekt
 

@@ -26,11 +26,29 @@ test.describe("Rechtsseiten (PRD S-02)", () => {
     });
   }
 
+  for (const [path, note] of [
+    ["/impressum", "Diese Website ist ein Konzeptprojekt von C AGENCY."],
+    ["/en/legal-notice", "This website is a concept project by C AGENCY."],
+    ["/nl/colofon", "Deze website is een conceptproject van C AGENCY."],
+  ] as const) {
+    test(`${path}: Betreiberin und Konzept-Hinweis`, async ({ page }) => {
+      await page.goto(path);
+      const body = page.locator(".legal__body");
+      await expect(body).toContainText("Clara Schumann");
+      await expect(body).toContainText("Bendstraße 3");
+      await expect(body).toContainText("52066 Aachen");
+      await expect(body).toContainText("clara.s@c-agency.cc");
+      await expect(body).toContainText(note);
+    });
+  }
+
   test("Datenschutz beschreibt die tatsächliche Verarbeitung", async ({
     page,
   }) => {
     await page.goto("/datenschutz");
     const body = page.locator(".legal__body");
+    await expect(body).toContainText("Clara Schumann");
+    await expect(body).toContainText("Cloudflare Pages");
     await expect(body).toContainText("keine Cookies");
     await expect(body).toContainText("Anfrageformular ist eine Demonstration");
     await expect(body).toContainText(

@@ -1,21 +1,21 @@
 ---
 title: Legal notice
-updated: "2026-10-23"
+updated: "2026-11-08"
 ---
 
 ## Information pursuant to § 5 DDG (German Digital Services Act)
 
-Max Mustermann<br>
-Musterweg 44<br>
-52072 Aachen
+Clara Schumann<br>
+Bendstraße 3<br>
+52066 Aachen
 
 ## Contact
 
-Email: apex-rent@carrental.example
+Email: clara.s@c-agency.cc
 
 ## About this project
 
-This website is a concept project and serves as a portfolio piece for web design and web development. Apex Rent is a fictional company. No cars are rented out, and no contracts are concluded through this website.
+This website is a concept project by C AGENCY. Apex Rent is a fictional company. No cars are rented out, and no contracts are concluded through this website.
 
 The address, phone number, email address and Instagram name of Apex Rent are fictional. This website is operated by the person named above.
 

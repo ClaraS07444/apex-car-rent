@@ -94,7 +94,7 @@ Hauptnavigation Mobile (< 1024 px):
 •	Das Symbol wird zum Schließen-Kreuz. Schließen per Kreuz, Escape oder Auswahl eines Punkts. Seite dahinter scrollt nicht.
 •	Fokus bleibt im geöffneten Overlay gefangen und kehrt beim Schließen zum Menü-Button zurück.
 Sprachwechsel: Führt immer auf die entsprechende Seite der Zielsprache, inklusive Parameter (z. B. geöffnetes Fahrzeug). Keine automatische Weiterleitung nach Browsersprache, keine Speicherung in Cookies.
-Footer (alle Seiten): Bildmarke, Kurzbeschreibung, Adresse, Telefon, E-Mail, Öffnungszeiten, Instagram-Link, Links Impressum und Datenschutz, Sprachumschalter, Konzept-Hinweis. Kein Urheber-Credit (E-11).
+Footer (alle Seiten): Bildmarke, Kurzbeschreibung, Adresse, Telefon, E-Mail, Öffnungszeiten, Instagram-Link, Links Impressum und Datenschutz, Sprachumschalter, Konzept-Hinweis, Urheber-Credit „Design: C AGENCY“ (E-11).
 7. Nutzerwege und Conversions
 Die primäre Conversion ist eine erfolgreich abgeschickte Mietanfrage. Jeder Weg auf der Seite führt in höchstens zwei Klicks zum Formular.
 Kernwege
@@ -623,7 +623,7 @@ E-07	Schriftschnitt kleiner Texte	Light 300, Mindestgröße 15 px	Empfehlung fre
 E-08	Fahrzeugdetails	Overlay mit Deeplink	Empfehlung freigegeben
 E-09	Ansprache	Du	Empfehlung freigegeben
 E-10	Annahmen aus 18.2	Alle freigegeben	Empfehlung freigegeben
-E-11	Urheber-Credit im Footer	Vorerst kein Credit. Kann später im Footer ergänzt werden	Anders entschieden
+E-11	Urheber-Credit im Footer	„Design: C AGENCY“ mit Link auf https://c-agency.cc (entschieden 08.11.2026; zuvor: vorerst kein Credit)	Anders entschieden
 E-12	Hosting	Cloudflare (statische Auslieferung mit Vorschau-URLs, Security-Header per _headers, 404-Seite je Sprache)	Empfehlung freigegeben
 E-13	Analytics	Kein Analytics, da Konzeptseite ohne echten Traffic. Entfallen: Messung der simulierten Conversion (Abschnitt 2), Event-Liste (Abschnitt 7), Schalter ANALYTICS (T-08), Analytics in 12.3, 13.4, 15.2 und 16 sowie das zugehörige Akzeptanzkriterium	Anders entschieden
 

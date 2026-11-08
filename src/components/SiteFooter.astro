@@ -9,6 +9,7 @@ import LanguageSwitch from "./LanguageSwitch.astro";
 /**
  * Footer (PRD 6). Kontaktdaten kommen aus business.json (NAP, PRD 13.3).
  * Telefon, E-Mail und Instagram sind fiktiv und nur Text (E-03).
+ * Urheber-Credit mit Link zur Agentur (E-11).
  */
 interface Props {
   page: PageKey;
@@ -89,8 +90,12 @@ const { address } = business;
     </div>
   </div>
 
-  <div class="container">
+  <div class="container site-footer__bottom">
     <p class="site-footer__note">{t(ui.conceptNote, locale)}</p>
+    <p class="site-footer__credit">
+      {`${t(ui.footer.credit.label, locale)} `}
+      <a href={ui.footer.credit.url}>{ui.footer.credit.name}</a>
+    </p>
   </div>
 </footer>
 
@@ -166,14 +171,27 @@ const { address } = business;
       min-height: var(--tap-min);
     }
 
-    .site-footer__note {
-      max-width: none;
+    /* Konzept-Hinweis und Credit; bricht auf schmalen Breiten um */
+    .site-footer__bottom {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--space-8) var(--grid-gap);
       margin-block-start: var(--space-48);
       padding-block-start: var(--space-24);
       border-top: var(--border-width) solid var(--color-muted-on-black);
       font-size: var(--font-size-small);
       line-height: var(--line-height-small);
       color: var(--tone-muted);
+    }
+
+    .site-footer__note {
+      max-width: none;
+    }
+
+    .site-footer__credit a {
+      color: var(--tone-fg);
     }
   }
 </style>

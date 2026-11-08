@@ -91,6 +91,15 @@
       "de": "Instagram",
       "en": "Instagram",
       "nl": "Instagram"
+    },
+    "credit": {
+      "label": {
+        "de": "Design:",
+        "en": "Design:",
+        "nl": "Design:"
+      },
+      "name": "C AGENCY",
+      "url": "https://c-agency.cc"
     }
   },
   "conceptNote": {

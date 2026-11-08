@@ -146,11 +146,17 @@ test.describe("Auf jeder Seite (PRD 17, S-11)", () => {
     test.skip(browserName !== "chromium", "einmal genügt");
   });
 
-  test("Konzept-Hinweis im Footer", async ({ page }) => {
+  test("Konzept-Hinweis und Credit im Footer (E-11)", async ({ page }) => {
     for (const path of allPaths) {
       await page.goto(path);
       await expect(page.locator(".site-footer__note"), path).toContainText(
         /Apex Rent (ist ein fiktives Unternehmen|is a fictional company|is een fictief bedrijf)/,
+      );
+      const credit = page.locator(".site-footer__credit");
+      await expect(credit, path).toHaveText("Design: C AGENCY");
+      await expect(credit.locator("a"), path).toHaveAttribute(
+        "href",
+        "https://c-agency.cc",
       );
     }
   });
